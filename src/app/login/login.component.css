@@ -1,0 +1,73 @@
+* {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border-radius: 0;
+}
+
+/*
+
+  Class space
+
+*/
+
+.bord {
+  border: solid;
+}
+
+.full-login {
+  height: 100vh;
+}
+
+.img-container {
+  margin: 0;
+  padding: 0;
+}
+
+.img-container > img {
+  border-top-right-radius: 70%;
+  border-bottom-right-radius: 70%;
+}
+
+.title {
+  text-align: center;
+  font-size: 50px;
+}
+
+.subtitle {
+  text-align: center;
+}
+
+.word-foot {
+  position: absolute;
+  bottom: 0;
+  margin-left: 25rem;
+}
+
+/*
+
+  Id space
+
+*/
+
+#form-container {
+  padding: 4rem;
+}
+
+#form-container > form {
+  padding: 3rem;
+  width: 70%;
+}
+
+#form-container > form > button {
+  width: 100%;
+}
