@@ -51,7 +51,7 @@ in_progress: any;
       console.log(tab);
 
       tab.forEach(element => {
-        if (element.identify === id) {
+        if (element.identify === id && element.progress === this.in_progress) {
           console.log('rrr');
           element.quantity ++;
           localStorage.setItem('cart', JSON.stringify(tab));

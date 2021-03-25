@@ -20,6 +20,7 @@ import { SalesComponent } from './sales/sales.component';
 import { ProfilComponent } from './profil/profil.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { CustomerComponent } from './customer/customer.component';
+import { PaymentComponent } from './payment/payment.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { CustomerComponent } from './customer/customer.component';
     CartComponent,
     SalesComponent,
     ProfilComponent,
-    CustomerComponent
+    CustomerComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

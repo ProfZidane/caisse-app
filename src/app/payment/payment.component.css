@@ -1,0 +1,79 @@
+label,a,h5,small,input,button,p,span {
+    font-family: 'Quicksand', sans-serif;
+  }
+  
+  p {
+    font-weight: 300;
+  }
+  
+  input {
+    border-radius: 0;
+  }
+  
+  button {
+    border-radius: 0;
+  }
+
+.payment-fullcontent {
+    padding: 1rem;
+    /*border: solid;*/
+  }
+
+  .card-title {
+
+  }
+
+  .card-customer {
+      border: solid 1px #cccccc;
+      padding: 1rem;
+  }
+
+  .card-customer h1 {
+      text-transform: capitalize;
+      color: #007bff;
+  }
+
+  .card-detail-customer {
+      margin-left: 2rem;      
+  }
+
+  .card-payment {
+      padding: 1rem;
+  }
+
+  .price {
+      font-size: 27px;
+      color: #007bff;
+
+  }
+
+  .calculator {
+      /*border: solid;*/
+      padding: 1rem;      
+  }
+
+  .plaque {
+      padding: 0;    
+      width: 70%;
+  }
+
+  .plaque div {
+    padding: 0;
+  }
+
+  .plaque div button {
+    padding: 1rem;
+      height: 100%;
+      background-color: white;
+      color: black;
+      border-color: #cccccc;
+  }
+
+  .visa {
+      /*border: solid;      */
+  }
+
+  .visa .card {
+      /*width: 50%;*/
+      
+  }

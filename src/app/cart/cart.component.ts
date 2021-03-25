@@ -52,7 +52,7 @@ SelectedC;
   constructor(private cartService: CartOperateService, private authService: AuthService) {
       setInterval( () => {
         this.Reload();
-      }, 500);
+      }, 100);
       setInterval( () => {
         this.CalCulTotal();
       }, 500);
@@ -60,12 +60,19 @@ SelectedC;
         this.GetCustomerInLoad();
       }, 500);
 
-      //this.LoadOnglet();
+      setTimeout( () => {
+        this.LoadOnglet();
+      }, 500);
    }
 
   ngOnInit(): void {
+    //this.LoadOnglet();
+
   }
 
+  ngAfterViewInit() {
+    //this.LoadOnglet();
+  }
 
   Reload() {
     if (this.Products.length > 0) {
@@ -185,13 +192,13 @@ SelectedC;
   LoadOnglet() {
     const countOnglet = JSON.parse(localStorage.getItem('inProgress')).in;
     console.log(countOnglet);
-    for (let i = countOnglet; i > 0; i--) {
+    for (let i = 2; i <= countOnglet; i++) {
       console.log(i);
       const newOnglet = document.createElement('li');
       newOnglet.classList.add('nav-item');
       const n = document.createElement('a');
       n.classList.add('nav-link');
-      n.classList.add('active');
+      //n.classList.add('active');
       n.setAttribute('id', 'home-tab');
       n.setAttribute('data-toggle', 'tab');
       n.setAttribute('href', '#home');
@@ -210,6 +217,11 @@ SelectedC;
       newOnglet.appendChild(n);
       document.getElementById('myTab').insertBefore(newOnglet, document.getElementById('first').lastElementChild.nextSibling);
     }
+  }
+
+  goToCheckout() {
+    localStorage.setItem('total', this.Total.toString());
+    location.href = '/checkout';
   }
 
 }
