@@ -60,6 +60,7 @@ SelectedC;
         this.GetCustomerInLoad();
       }, 500);
 
+      //this.LoadOnglet();
    }
 
   ngOnInit(): void {
@@ -76,7 +77,7 @@ SelectedC;
   }
 
   LoadDataCart() {
-    let p = this.cartService.GetProductToCart();
+    const p = this.cartService.GetProductToCart();
     p.forEach(element => {
       this.SelectInArticles(element);
     });
@@ -84,18 +85,19 @@ SelectedC;
 
   // tslint:disable-next-line:variable-name
   SelectInArticles(other_element) {
-    let p = JSON.parse(localStorage.getItem('inProgress'));
-    let in_p = p.in;
+    const p = JSON.parse(localStorage.getItem('inProgress'));
+    // tslint:disable-next-line:variable-name
+    const in_p = p.in;
     this.articles.forEach(elt => {
       if (elt.id === other_element.identify && other_element.progress === in_p) {
-        let data = {
+        const data = {
           id : elt.id,
           name : elt.name,
           img : elt.img,
           price : elt.price,
           qte : other_element.quantity
         };
-        //elt.qte = other_element.quantity;
+        // elt.qte = other_element.quantity;
         this.Products.push(data);
       }
     });
@@ -129,11 +131,11 @@ SelectedC;
   }
 
   GetCustomerInLoad() {
-    let scc = this.authService.GetSelectedCustomer();
+    const scc = this.authService.GetSelectedCustomer();
     if (scc !== null) {
       this.SelectedC = scc.name;
     }
-    //this.SelectedC = scc.name;
+    // this.SelectedC = scc.name;
   }
 
   ChangeForFirst(value) {
@@ -141,18 +143,20 @@ SelectedC;
   }
 
   CreateOnglet() {
-    //this.cartService.CreateNewOnglet();
+    // this.cartService.CreateNewAngled();
     /*let data_progress = JSON.parse(localStorage.getItem('inProgress'));
     let new_data_progress = data_progress.in + 1;
     this.cartService.CreateNewOnglet(new_data_progress);*/
-    let lastOnglet = document.getElementById('myTab').lastElementChild;
-    //console.log(lastOnglet.classList);
+    const lastOnglet = document.getElementById('myTab').lastElementChild;
+    // console.log(lastOnglet.classList);
+    // tslint:disable-next-line:variable-name
     const child_of_lastOnglet = lastOnglet.firstElementChild as HTMLElement;
-    //console.log(child_of_lastOnglet);
+    // console.log(child_of_lastOnglet);
     child_of_lastOnglet.classList.remove('active');
 
     console.log(lastOnglet.textContent);
-    let upgrade_number = Number(lastOnglet.textContent) + 1;
+    // tslint:disable-next-line:variable-name
+    const upgrade_number = Number(lastOnglet.textContent) + 1;
     const newOnglet = document.createElement('li');
     newOnglet.classList.add('nav-item');
     const n = document.createElement('a');
@@ -169,13 +173,43 @@ SelectedC;
     n.appendChild(text);
     // add event lister to load data to cart at perfect time
     n.addEventListener('click', () => {
-      let a = n.getAttribute('data-progress');
+      const a = n.getAttribute('data-progress');
       console.log('jai clicquer sur le ' + a +  ' !');
       this.cartService.ChangeOnglet(Number(a));
     });
     newOnglet.appendChild(n);
     this.cartService.ChangeOnglet(Number(upgrade_number));
     document.getElementById('myTab').insertBefore(newOnglet, document.getElementById('first').lastElementChild.nextSibling);
+  }
+
+  LoadOnglet() {
+    const countOnglet = JSON.parse(localStorage.getItem('inProgress')).in;
+    console.log(countOnglet);
+    for (let i = countOnglet; i > 0; i--) {
+      console.log(i);
+      const newOnglet = document.createElement('li');
+      newOnglet.classList.add('nav-item');
+      const n = document.createElement('a');
+      n.classList.add('nav-link');
+      n.classList.add('active');
+      n.setAttribute('id', 'home-tab');
+      n.setAttribute('data-toggle', 'tab');
+      n.setAttribute('href', '#home');
+      n.setAttribute('role', 'tab');
+      n.setAttribute('aria-controls', 'home');
+      n.setAttribute('aria-selected', 'true');
+      n.setAttribute('data-progress', i.toString());
+      const text = document.createTextNode(i.toString());
+      n.appendChild(text);
+      // add event lister to load data to cart at perfect time
+      n.addEventListener('click', () => {
+        const a = n.getAttribute('data-progress');
+        console.log('jai clicquer sur le ' + a +  ' !');
+        this.cartService.ChangeOnglet(Number(a));
+      });
+      newOnglet.appendChild(n);
+      document.getElementById('myTab').insertBefore(newOnglet, document.getElementById('first').lastElementChild.nextSibling);
+    }
   }
 
 }
