@@ -1,3 +1,4 @@
+
 <div class="container-fluid">
 
   <div class="row">
@@ -9,6 +10,7 @@
     </div>
 
     <div class="col-md-8 full-login">
+      <mat-progress-bar *ngIf="success==false"  mode="indeterminate"></mat-progress-bar>
 
         <div id="form-container" align="center">
 
@@ -18,14 +20,16 @@
           <form>
             <div class="form-group">
               <label for="exampleInputEmail1">Adresse E-mail</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrez l'adresse e-mail">
+              <input type="email" class="form-control" name="email" [(ngModel)]="data.email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrez l'adresse e-mail">
+              <small class="text-danger" *ngIf="errors.error_email !== ''" >{{ errors.error_email }}</small>
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Mot de passe</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Entrez le mot de passe">
+              <input type="password" class="form-control" name="password" [(ngModel)]="data.password" id="exampleInputPassword1" placeholder="Entrez le mot de passe">
+              <small class="text-danger" *ngIf="errors.error_password !== ''" >{{ errors.error_password }}</small>
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">Se connecter</button>
+            <button type="submit" (click)="login()" class="btn btn-primary">Se connecter</button>
           </form>
 
         </div>

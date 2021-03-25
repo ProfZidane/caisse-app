@@ -1,0 +1,37 @@
+i {
+  font-size: 35px;
+}
+
+a,h5,small,input,button,p,span {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border-radius: 0;
+}
+
+.bord {
+  border: solid;
+}
+
+.columns {
+  padding: 1rem;
+  border: solid;
+  background-color: #007bff !important;
+  color: white;
+}
+
+
+.sidetitle {
+  position: relative;
+  bottom: 8px;
+  margin-left: 0.5rem;
+}

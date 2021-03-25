@@ -1,0 +1,12 @@
+.bord {
+  border: solid;
+}
+
+
+.full-page {
+  height: calc(100%);
+}
+
+.full-container {
+  height: 95vh;
+}

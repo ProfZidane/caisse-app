@@ -1,0 +1,92 @@
+<div class="container-fluid cart-content ">
+    <!-- onglet part -->
+    <div class="row">
+      <div class="col-md-2">
+        <button class="btn btn-primary btn-sm" (click)="CreateOnglet()">
+          <i class="material-icons">
+            add
+          </i>
+        </button>
+      </div>
+      <div class="col-md-10">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" id="first" >
+            <a class="nav-link active" (click)="ChangeForFirst(1)" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">1</a>
+          </li>
+         <!--<li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">2</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">3</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">4</a>
+          </li> -->
+
+        </ul>
+      </div>
+    </div>
+
+    <!-- content articles part -->
+    <div class="row article-content">
+      <div class="tab-content" id="myTabContent" style="width: 90%;">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <p class="text-info error" *ngIf="Products.length === 0" >
+            Votre panier est vide !
+          </p>
+          <div class="row cart-elt ml-1 mt-2"*ngFor="let product of Products" >
+            <div class="col-md-5">
+              <img src="{{ product.img }}" alt="" width="100px" height="100px">
+            </div>
+            <div class="col-md-6">
+              <h3>{{ product.name }}</h3>
+              <p>Prix : {{ product.price }} Fcfa</p>
+              <i class="material-icons" (click)="Descrease(product.id)">
+                remove_circle_outline
+              </i>
+              <span class="qte">
+                {{ product.qte }}
+              </span>
+              <i class="material-icons" (click)="Inscrease(product.id)">
+                add_circle_outline
+              </i>
+            </div>
+            <div class="col-md-1">
+              <i class="material-icons text-danger" style="position:relative;right:12px" (click)="Clear(product.id)">
+                clear
+              </i>
+            </div>
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          PROFILE
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+          HOME
+        </div>
+      </div>
+    </div>
+
+    <!-- checkout info part -->
+    <div class="row footer ">
+      <div class="col-md-12 " align="center">
+        <h1>
+          Total : <em>{{ Total }} Fcfa</em>
+        </h1>
+      </div>
+      <div class="col-md-6 ">
+        <button class="btn btn-primary" *ngIf="!SelectedC" >
+          Ajoutez Client
+        </button>
+        <button class="btn btn-primary" *ngIf="SelectedC" >
+          {{ SelectedC }}
+        </button>
+      </div>
+      <div class="col-md-6 ">
+        <button class="btn btn-primary">
+          Payer Maintenant
+        </button>
+      </div>
+    </div>
+</div>

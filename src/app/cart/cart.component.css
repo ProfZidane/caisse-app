@@ -1,0 +1,79 @@
+a,h5,small,input,button,p,h3 {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border-radius: 0;
+}
+
+.bord {
+    border: solid;
+}
+
+
+.cart-content {
+  height: 98vh;
+  padding-top: 0.5rem;
+
+}
+
+.onglets {
+  height: 7%;
+}
+
+.onglet {
+  height: 100%;
+  border: solid 1px;
+  border-bottom: none;
+}
+
+.article-content {
+  height: 500px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+
+/*.checkout-info  {
+  border: solid;
+  height: 80px;
+
+  position: fixed;
+  bottom: 0;
+}*/
+
+.footer {
+  padding: 1rem;
+  position: fixed;
+  bottom: 0;
+}
+
+.article {
+  width: 100%;
+}
+
+.qte {
+  position: relative;
+  bottom: 5px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+
+.cart-elt {
+  padding: 0.5px;
+  border-bottom: solid 1px #d1cdcd;
+}
+
+.error {
+  position: absolute;
+  transform: translateY(200%);
+}

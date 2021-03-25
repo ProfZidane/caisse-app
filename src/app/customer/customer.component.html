@@ -1,0 +1,139 @@
+<div class="container-fluid customer-container">
+
+    <div class="row">
+
+        <div class="col-md-5 customer-list">
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">
+                <i class="material-icons">
+                  search
+                </i>
+              </span>
+            </div>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Recherche client par nom">
+          </div>
+
+          <div class="list" >
+            <div class="list-group"  *ngIf="Customers">
+              <a class="list-group-item list-group-item-action" *ngFor="let customer of Customers" (click)='selectCustomer(customer.id)'>
+                <div class="d-flex w-100 justify-content-between">
+                  <h3 class="mb-1">{{ customer.name }}</h3>
+                </div>
+                <p class="mb-1">
+                  <i class="iii material-icons">
+                    call
+                  </i> &nbsp;
+                  {{ customer.tel }}
+                </p>
+                <span>
+                  <i class="iii material-icons">
+                    mail
+                  </i> &nbsp;
+                  {{ customer.email }}
+                </span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-7 customer-detail">
+
+          <div class="container error" *ngIf="!Customer_selected" align="center">
+            Aucun client selectionné !
+          </div>
+
+            <div class="row" *ngIf="Customer_selected" >
+              <div class="container detail" align="center" >
+                <h1>{{ Customer_selected.name }}</h1>
+                <p>
+                  <i class="iii material-icons">
+                    mail
+                  </i>
+                  {{ Customer_selected.email }}
+                </p>
+                <p>
+                  <i class="iii material-icons">
+                    call
+                  </i>
+                  {{ Customer_selected.tel }}
+                </p>
+                <p>
+                  <button class="btn btn-primary" (click)="ChoiceCustomer()">
+                    Choisir Client
+                  </button>
+                </p>
+              </div>
+            </div>
+
+            <div class="row footer">
+              <button class="btn btn-primary" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <i class="material-icons">
+                  add_circle
+                </i>
+                Ajoutez Client
+              </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Modal Part -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)"  >
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Ajout d'un client</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span *ngIf="success==false" >Création en cours ...</span>
+        <mat-progress-bar class="bar" *ngIf="success==false"  mode="indeterminate"></mat-progress-bar>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Nom</label>
+            <input type="text" name="nom" ngModel class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Prénom</label>
+            <input type="text" name="prenom" ngModel class="form-control" id="exampleInputPassword1" >
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Adresse E-mail</label>
+            <input type="email" name="email" ngModel class="form-control" id="exampleInputPassword1" >
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Numéro de téléphone</label>
+            <input type="text" name="tel" ngModel class="form-control" id="exampleInputPassword1" >
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Date de naissance</label>
+            <input type="date" name="date_naissance" ngModel class="form-control" id="exampleInputPassword1" >
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Type de client</label>
+            <select class="form-control" id="exampleFormControlSelect1" name="type_client" ngModel>
+              <option value="Grossiste">Grossiste</option>
+              <option value="Basique">Basique</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
