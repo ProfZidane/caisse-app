@@ -9,6 +9,8 @@ export class CartOperateService {
 state = 0;
 // tslint:disable-next-line:variable-name
 in_progress: any;
+tab = [];
+total = 0;
   constructor(private s: MatSnackBar) { }
 
   VerifyInProgress() {
@@ -29,20 +31,26 @@ in_progress: any;
 }
 
 
-    InsertToLocalCart(id) {
+    InsertToLocalCart(object) {
 
     this.VerifyInProgress();
 
     if (localStorage.getItem('cart') === null) {
 
       const data = {
-        identify : id,
+        identify : object.id,
+        name : object.title,
+        img : object.photo,
+        price : object.price,
+        slug : object.slug,
         quantity : 1,
         progress : this.in_progress
       };
       const tab = [data];
+      console.log(this.tab);
 
-      localStorage.setItem('cart', JSON.stringify(tab));
+      this.tab.push(data);
+      localStorage.setItem('cart', JSON.stringify(this.tab));
 
       this.s.open('Votre produit a bien été ajouter au panier', 'OK');
 
@@ -51,10 +59,11 @@ in_progress: any;
       console.log(tab);
 
       tab.forEach(element => {
-        if (element.identify === id && element.progress === this.in_progress) {
+        if (element.identify === object.id && element.progress === this.in_progress) {
           console.log('rrr');
           element.quantity ++;
-          localStorage.setItem('cart', JSON.stringify(tab));
+          //this.tab.push(element);
+          localStorage.setItem('cart', JSON.stringify(this.tab));
 
           this.state ++;
         }
@@ -62,12 +71,17 @@ in_progress: any;
 
       if (this.state === 0) {
           const data = {
-            identify : id,
+            identify : object.id,
+            name : object.title,
+            img : object.photo,
+            price : object.price,
+            slug : object.slug,
             quantity : 1,
             progress : this.in_progress
           };
-          tab.push(data);
-          localStorage.setItem('cart', JSON.stringify(tab));
+          //tab.push(data);
+          this.tab.push(data);
+          localStorage.setItem('cart', JSON.stringify(this.tab));
           this.s.open('Votre produit a bien été ajouter au panier', 'OK');
           this.state = 0;
       } else {
@@ -83,15 +97,44 @@ in_progress: any;
 
 
   GetProductToCart() {
-    let tab = JSON.parse(localStorage.getItem('cart'));
-    return tab;
+    this.tab = JSON.parse(localStorage.getItem('cart'));
+    return this.tab;
+  }
+
+
+  UpdateCart() {
+    localStorage.setItem('cart', JSON.stringify(this.tab));
+  }
+
+  GetTotal() {
+    //this.total = 0;
+    if (this.tab) {
+      let tt;
+      this.total = 0;
+      this.tab.forEach(element => {
+        tt = element.price * element.quantity;
+        this.total = tt + this.total;
+        console.log(this.total);
+
+      });
+      console.log(tt);
+
+      return this.total;
+    }
   }
 
 
   ClearProduct(id) {
+    console.log(this.tab.indexOf(id));
+    if (this.tab.indexOf(id) !== -1) {
+      this.tab.splice(this.tab.indexOf(id), 1);
+    }
+
+    //console.log(this.tab);
     let tab = JSON.parse(localStorage.getItem('cart'));
-    const filteredCart = tab.filter((item) => item.identify !== id);
+    const filteredCart = this.tab.filter((item) => item.identify !== id.id);
     console.log(filteredCart);
+    // tslint:disable-next-line:no-unused-expression
     localStorage.setItem('cart', JSON.stringify(filteredCart));
 
   }

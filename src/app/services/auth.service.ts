@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -43,12 +46,13 @@ Customer = [
     tel : '+225 45454545455'
   }
 ];
-  constructor(private s: MatSnackBar) { }
+customerURl = 'http://192.168.1.120:8000/api/caisse/getAllClients';
+  constructor(private s: MatSnackBar, private http: HttpClient) { }
 
 
-  GetCustomer() {
-    let customers = this.Customer;
-    return customers;
+  GetCustomer(): Observable<any>{
+    // let customers = this.Customer;
+    return this.http.get(this.customerURl);
   }
 
   SelectCustomer(id) {

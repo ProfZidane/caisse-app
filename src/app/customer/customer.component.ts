@@ -14,8 +14,14 @@ success;
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.Customers = this.authService.GetCustomer().reverse();
-    console.log(this.Customers);
+    this.authService.GetCustomer().subscribe(
+      (data) => {
+        console.log(data);
+        this.Customers = data;
+      }, (err) => {
+        console.log(err);
+      }
+    );
   }
 
 

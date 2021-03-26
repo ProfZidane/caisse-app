@@ -1,10 +1,10 @@
 <div class="row articles-content">
 
-    <div class="col-md-3 article " align="center" *ngFor="let article of articles" (click)="SelectProduct(article.id)">
+    <div class="col-md-3 article " align="center" *ngFor="let article of articles" (click)="SelectProduct(article)">
       <div class="img-content">
-        <img src="{{ article.img }}" alt="" width="100%" height="200px">
+        <img src="{{ article.photo }}" alt="" width="100%" height="200px">
       </div>
-      <h3 class="name-product">{{ article.name }}</h3>
+      <h3 class="name-product">{{ article.title }}</h3>
       <p>{{ article.price }} Fcfa</p>
     </div>
 

@@ -34,7 +34,7 @@
           <p class="text-info error" *ngIf="Products.length === 0" >
             Votre panier est vide !
           </p>
-          <div class="row cart-elt ml-1 mt-2"*ngFor="let product of Products" >
+          <div class="row cart-elt ml-1 mt-2" *ngFor="let product of Products" >
             <div class="col-md-5">
               <img src="{{ product.img }}" alt="" width="100px" height="100px">
             </div>
@@ -52,7 +52,7 @@
               </i>
             </div>
             <div class="col-md-1">
-              <i class="material-icons text-danger" style="position:relative;right:12px" (click)="Clear(product.id)">
+              <i class="material-icons text-danger" style="position:relative;right:12px" (click)="Clear(product)">
                 clear
               </i>
             </div>
@@ -71,7 +71,10 @@
     <!-- checkout info part -->
     <div class="row footer ">
       <div class="col-md-12 " align="center">
-        <h1>
+        <h1 *ngIf="Total === null">
+          Total : <em> 0 Fcfa</em>
+        </h1>
+        <h1 *ngIf="Total">
           Total : <em>{{ Total }} Fcfa</em>
         </h1>
       </div>

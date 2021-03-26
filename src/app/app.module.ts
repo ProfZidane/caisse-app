@@ -22,6 +22,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { CustomerComponent } from './customer/customer.component';
 import { PaymentComponent } from './payment/payment.component';
 
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { PaymentComponent } from './payment/payment.component';
     BrowserAnimationsModule,
     FormsModule,
     MatProgressBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    HttpClientModule
   ],
   providers: [
     AuthService,

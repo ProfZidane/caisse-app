@@ -1,5 +1,6 @@
 import { CartOperateService } from './../services/cart-operate.service';
 import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-articles',
@@ -45,14 +46,21 @@ articles = [
     img : 'https://image.freepik.com/free-photo/jeans_1203-8093.jpg'
   }
 ];
-  constructor(private cartService: CartOperateService) { }
+  constructor(private cartService: CartOperateService, private productService: ProductService) { }
 
   ngOnInit(): void {
+    this.productService.GetProducts().subscribe(
+      (data) => {
+        this.articles = data;
+      }, (err) => {
+        //console.log(err);
+      }
+    );
   }
 
-  SelectProduct(id) {
-    console.log(id);
-    this.cartService.InsertToLocalCart(id);
+  SelectProduct(object) {
+    console.log(object);
+    this.cartService.InsertToLocalCart(object);
   }
 
 }
