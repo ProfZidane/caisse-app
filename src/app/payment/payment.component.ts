@@ -6,15 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit {
-Total = 35000;
+Total;
 SumCustomer;
 tempo = '';
 exchange;
+customer;
   constructor() { }
 
   ngOnInit(): void {
     /*this.Total = Number(localStorage.getItem('total'));
     console.log(this.Total);*/
+    this.getCustomer();
+    this.getTotal();
   }
 
   ngAfterViewInit() {
@@ -104,6 +107,14 @@ exchange;
       }
       
     });
+  }
+
+  getCustomer() {
+    this.customer = JSON.parse(localStorage.getItem('customerChoice'));
+  }
+
+  getTotal() {
+    this.Total = Number(localStorage.getItem('total'));
   }
 
 }

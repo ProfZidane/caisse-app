@@ -4,20 +4,20 @@
         <hr>
     </div>
 
-    <div class="card-customer">
-        <h1>Mohamed zidane</h1>
+    <div class="card-customer" *ngIf="customer">
+        <h1>{{ customer.name }}</h1>
         <div class="card-detail-customer">
             <p class="mb-1">
                 <i class="iii material-icons">
                   call
                 </i> &nbsp;
-                +225 0779261619
+                {{ customer.tel }}
             </p>
             <span>
                 <i class="iii material-icons">
                   mail
                 </i> &nbsp;
-                madazada0@gmail.com
+                {{ customer.email }}
             </span>
         </div>
     </div>
@@ -46,8 +46,8 @@
                             <div class="col-md-6 data-payment">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        <p class="price">35 000 Fcfa</p>
-                                        <!--<p class="price" *ngIf="Total">{{ Total }}</p>-->
+                                        <p class="price" *ngIf="!Total">0 Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total }} Fcfa</p>
                                         <small class="desc">Total</small>
                                     </li>
                                     <li class="list-group-item">
@@ -128,7 +128,8 @@
                                           <p>Total à payer</p>
                                       </div>
                                       <div class="col-md-6">
-                                          <p class="price">25 000 Fcfa</p>
+                                        <p class="price" *ngIf="!Total">0 Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total }} Fcfa</p>
                                       </div>
                                   </div>
                                 </div>                                
@@ -164,7 +165,8 @@
                                           <p>Total à payer</p>
                                       </div>
                                       <div class="col-md-6">
-                                          <p class="price">25 000 Fcfa</p>
+                                        <p class="price" *ngIf="!Total">0 Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total }} Fcfa</p>
                                       </div>
                                   </div>
                                 </div>                                

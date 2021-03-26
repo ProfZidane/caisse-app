@@ -52,7 +52,7 @@ SelectedC;
   constructor(private cartService: CartOperateService, private authService: AuthService) {
       setInterval( () => {
         this.Reload();
-      }, 100);
+      }, 500);
       setInterval( () => {
         this.CalCulTotal();
       }, 500);
