@@ -9,14 +9,14 @@ import { ProductService } from '../services/product.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-Products;
+Products = [];
 articles = [];
 Total;
 SelectedC;
   constructor(private cartService: CartOperateService, private authService: AuthService, private productService: ProductService) {
-      /*setInterval( () => {
+      setInterval( () => {
         this.LoadDataCart();
-      }, 500);*/
+      }, 1000);
 
       /*setInterval( () => {
         this.CalCulTotal();
@@ -30,12 +30,15 @@ SelectedC;
       }, 500);*/
       //this.Reload();
       this.LoadDataCart();
-      this.CalCulTotal();
+      setInterval( () => {
+        this.CalCulTotal();
+      }, 500);
+      // this.CalCulTotal();
 
    }
 
   ngOnInit(): void {
-    //this.LoadOnglet();
+    // this.LoadOnglet();
     /*this.LoadDataCart();
       this.CalCulTotal();*/
 
@@ -49,19 +52,30 @@ SelectedC;
 
 
   LoadDataCart() {
-      this.Products = this.cartService.GetProductToCart();
+      /*this.Products = this.cartService.GetProductToCart();
+      console.log(this.Products);*/
+
+      /*const tableauProduit = [];
+      const pp = this.cartService.GetProductToCart();
+      const inP = JSON.parse(localStorage.getItem('inProgress'));
+      pp.forEach(elt => {
+        if (elt.progress === inP.in) {
+          tableauProduit.push(elt);
+        }
+      });
+
+      console.log(tableauProduit);*/
+
+      this.Products = this.cartService.LoadTrueDataToCart();
 
   }
 
 
 
 
+
+
   Inscrease(id) {
-    /*this.Products.forEach(elt => {
-      if (elt.id === id) {
-        elt.qte ++;
-      }
-    });*/
     this.cartService.InscreaseQuantity(id);
   }
 
@@ -70,15 +84,14 @@ SelectedC;
   }
 
   Clear(id) {
-    console.log(id);
+    //console.log(id);
 
     this.cartService.ClearProduct(id);
-    this.CalCulTotal();
+    // this.CalCulTotal();
   }
 
   CalCulTotal() {
     this.Total = this.cartService.GetTotal();
-    console.log(this.Total);
 
   }
 

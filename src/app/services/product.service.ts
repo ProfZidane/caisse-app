@@ -8,8 +8,9 @@ import { CartOperateService } from './cart-operate.service';
   providedIn: 'root'
 })
 export class ProductService {
-getproductURL = 'http://192.168.1.120:8000/api/caisse/getAllProducts';
-getProductByIdURL = 'http://192.168.1.120:8000/api/caisse/getProduct/';
+// http://accessoire-mode.lce-test.fr/
+getproductURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getAllProducts';
+getProductByIdURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getProduct/';
 Articles;
 Products = [];
   constructor(private http: HttpClient, private cartService: CartOperateService) { }

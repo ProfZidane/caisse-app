@@ -59,7 +59,7 @@ articles = [
   }
 
   SelectProduct(object) {
-    console.log(object);
+    // console.log(object);
     this.cartService.InsertToLocalCart(object);
   }
 

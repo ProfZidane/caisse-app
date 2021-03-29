@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,6 +12,7 @@ state = 0;
 in_progress: any;
 tab = [];
 total = 0;
+renderer = [];
   constructor(private s: MatSnackBar) { }
 
   VerifyInProgress() {
@@ -97,8 +99,33 @@ total = 0;
 
 
   GetProductToCart() {
+    //console.log(this.in_progress);
+    /*const inP = JSON.parse(localStorage.getItem('inProgress'));
+    const pp = JSON.parse(localStorage.getItem('cart'));
+    this.tab.forEach(element => {
+        if (element.progress === inP.in) {
+          this.tab.push(element);
+        }
+    });
+    console.log(this.tab);*/
+
     this.tab = JSON.parse(localStorage.getItem('cart'));
     return this.tab;
+  }
+
+  LoadTrueDataToCart() {
+    const truthData = this.GetProductToCart();
+    const tableau = [];
+    const inP = JSON.parse(localStorage.getItem('inProgress'));
+    truthData.forEach(elt => {
+        if (elt.progress === inP.in) {
+          tableau.push(elt);
+        }
+      });
+    this.renderer = tableau;
+    //console.log(this.renderer);
+    return this.renderer;
+    // console.log(this.renderer);
   }
 
 
@@ -108,16 +135,19 @@ total = 0;
 
   GetTotal() {
     //this.total = 0;
+    const inP = JSON.parse(localStorage.getItem('inProgress'));
     if (this.tab) {
       let tt;
       this.total = 0;
       this.tab.forEach(element => {
-        tt = element.price * element.quantity;
-        this.total = tt + this.total;
-        console.log(this.total);
+        if (element.progress === inP.in) {
+          tt = element.price * element.quantity;
+          this.total = tt + this.total;
+        }
+        //console.log(this.total);
 
       });
-      console.log(tt);
+      //console.log(tt);
 
       return this.total;
     }
@@ -125,7 +155,7 @@ total = 0;
 
 
   ClearProduct(id) {
-    console.log(this.tab.indexOf(id));
+    //console.log(this.tab.indexOf(id));
     if (this.tab.indexOf(id) !== -1) {
       this.tab.splice(this.tab.indexOf(id), 1);
     }
@@ -133,7 +163,7 @@ total = 0;
     //console.log(this.tab);
     let tab = JSON.parse(localStorage.getItem('cart'));
     const filteredCart = this.tab.filter((item) => item.identify !== id.id);
-    console.log(filteredCart);
+    //console.log(filteredCart);
     // tslint:disable-next-line:no-unused-expression
     localStorage.setItem('cart', JSON.stringify(filteredCart));
 
