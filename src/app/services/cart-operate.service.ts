@@ -18,7 +18,8 @@ renderer = [];
   VerifyInProgress() {
     if (localStorage.getItem('inProgress') === null) {
       const inProgress = {
-        in : 1
+        in : 1,
+        tt : 1
       };
       localStorage.setItem('inProgress', JSON.stringify(inProgress));
       this.in_progress = inProgress.in;

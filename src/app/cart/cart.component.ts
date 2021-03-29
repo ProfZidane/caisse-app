@@ -14,6 +14,11 @@ articles = [];
 Total;
 SelectedC;
   constructor(private cartService: CartOperateService, private authService: AuthService, private productService: ProductService) {
+
+      setTimeout( () => {
+      this.LoadOnglet();
+      }, 500);
+
       setInterval( () => {
         this.LoadDataCart();
       }, 1000);
@@ -29,7 +34,8 @@ SelectedC;
         this.LoadOnglet();
       }, 500);*/
       //this.Reload();
-      this.LoadDataCart();
+      // this.LoadDataCart();
+      ///
       setInterval( () => {
         this.CalCulTotal();
       }, 500);
@@ -76,6 +82,8 @@ SelectedC;
 
 
   Inscrease(id) {
+    console.log(id);
+
     this.cartService.InscreaseQuantity(id);
   }
 
