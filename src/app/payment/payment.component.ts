@@ -11,7 +11,24 @@ SumCustomer;
 tempo = '';
 exchange;
 customer;
-  constructor() { }
+typePayement;
+visibility = {
+  typeReduction : '',
+  valueReduction : '',
+  sommeDelivery : ''
+};
+reduction = {
+  type : '',
+  value : 0,
+};
+delivery = {
+  value : 0,
+  adresse : ''
+};
+
+  constructor() {
+    this.typePayement = 'cash';
+   }
 
   ngOnInit(): void {
     /*this.Total = Number(localStorage.getItem('total'));
@@ -34,28 +51,28 @@ customer;
         //console.log(value);
         if (value === 'eff') {
           //console.log(this.SumCustomer);
-          
+
           if (this.SumCustomer === '0' || this.SumCustomer === undefined || this.SumCustomer === '') {
             this.SumCustomer = '0';
             alert('ATTENTION : Opération arithmétique non correcte ! ');
-            
-            
+
+
 
           } else {
 
             const newVal = this.tempo.slice(0,-1);
             this.tempo = newVal;
             this.SumCustomer = newVal
-            
-            
+
+
             this.exchange = Number(this.Total) - Number(this.SumCustomer);
             //console.log(this.exchange);
-            
+
             this.exchange = this.exchange.toString();
           }
           //console.log(newVal);
-          
-          
+
+
         } else {
 
           this.tempo += value.toString();
@@ -83,7 +100,7 @@ customer;
           alert('ATTENTION : Opération arithmétique non correcte ! ');
 
         } else {
-          
+
           const newVal = this.tempo.slice(0,-1);
           this.tempo = newVal;
           this.SumCustomer = newVal
@@ -101,11 +118,11 @@ customer;
         this.SumCustomer = this.tempo;
         this.exchange = Number(this.Total) - Number(this.SumCustomer);
         //console.log(this.exchange);
-        
+
         this.exchange = this.exchange.toString();
 
       }
-      
+
     });
   }
 
@@ -115,6 +132,58 @@ customer;
 
   getTotal() {
     this.Total = Number(localStorage.getItem('total'));
+  }
+
+  setTypePayement(value) {
+    console.log(value);
+    this.typePayement = value;
+  }
+
+
+  checkout() {
+    console.log(this.typePayement);
+
+    console.log(this.SumCustomer);
+    console.log(this.exchange);
+    // format de donnée pour commander
+    let data = {
+      typePaiement : this.typePayement,
+      exchange : this.exchange,
+      total : this.Total,
+      livraison : [
+
+      ]
+
+    };
+  }
+
+  applyReduction() {
+    this.visibility.typeReduction = 'true';
+    this.visibility.valueReduction = 'true';
+  }
+
+  setSumDelivery() {
+    this.visibility.sommeDelivery = 'true';
+    const newValue = prompt('Entrez la somme : ');
+    const placeValue = prompt('Entrer l\'adresse de la livraison');
+    this.delivery.value = Number(newValue);
+    this.Total += this.delivery.value;
+    this.delivery.adresse = placeValue;
+  }
+
+  setValueReduction(event) {
+    console.log('jai changé' + event.target.value);
+    const newValue = prompt('Entrez la valeur de la réduction : ');
+    console.log(newValue);
+    if (event.target.value === 'percent') {
+      // this.Total = (this.Total * Number(newValue)) / 100;
+      const reduc = (this.Total * Number(newValue)) / 100;
+      this.Total = this.Total - reduc;
+    } else if (event.target.value === 'fixed') {
+      this.Total = this.Total - Number(newValue);
+    }
+    this.reduction.value = Number(newValue);
+
   }
 
 }

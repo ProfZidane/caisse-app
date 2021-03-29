@@ -18,8 +18,7 @@ renderer = [];
   VerifyInProgress() {
     if (localStorage.getItem('inProgress') === null) {
       const inProgress = {
-        in : 1,
-        tt : 1
+        in : 1
       };
       localStorage.setItem('inProgress', JSON.stringify(inProgress));
       this.in_progress = inProgress.in;
@@ -208,4 +207,25 @@ renderer = [];
     }
   }
 
+
+  Checkout(object) {
+    const customer = JSON.parse(localStorage.getItem('customerChoice'));
+    const inProg = JSON.parse(localStorage.getItem('inProgress'));
+    const cart = [];
+    this.tab.forEach(element => {
+      if (element.progress === inProg.in) {
+        cart.push(element);
+      }
+    });
+    const total = JSON.parse(localStorage.getItem('total'));
+    const type_payement = object.type;
+    const exchange = object.exchange;
+    const doneCustomer = object.doneCustomer;
+    // const caissier = JSON.parse(localStorage.getItem('userData'));
+    // const caissier = caissier.id;
+    console.log(customer);
+    console.log(cart);
+    console.log(total);
+    console.log(type_payement);
+  }
 }
