@@ -42,7 +42,7 @@ mobileMoney = {
 };
 success;
   constructor(private cartService: CartOperateService) {
-    this.typePayement = 'cash';
+    this.typePayement = 'especes';
    }
 
   ngOnInit(): void {
@@ -181,9 +181,16 @@ success;
           type : this.reduction.type
         }
       };
-      this.cartService.Checkout(data);
+      this.cartService.Checkout(data).subscribe(
+        (success) => {
+          console.log(success);
+          this.loadingControl();
+        }, (err) => {
+          console.log(err);
+          this.loadingControl();
+        }
+      );
     }
-    this.loadingControl();
   }
 
   checkoutCreditCard() {
@@ -209,13 +216,20 @@ success;
           }
         };
 
-        this.cartService.Checkout(data);
+        this.cartService.Checkout(data).subscribe(
+          (success) => {
+            console.log(success);
+            this.loadingControl();
+          }, (err) => {
+            console.log(err);
+            this.loadingControl();
+          }
+        );
       }
     } else {
       alert('Veuillez renseigner votre option de paiement !');
     }
 
-    this.loadingControl();
   }
 
   checkoutMobileMoney() {
@@ -238,9 +252,17 @@ success;
         }
       };
       // console.log(data);
-      this.cartService.Checkout(data);
+      this.cartService.Checkout(data).subscribe(
+        (success) => {
+          console.log(success);
+          this.loadingControl();
+        }, (err) => {
+          console.log(err);
+          this.loadingControl();
+        }
+      );
     }
-    this.loadingControl();
+
   }
 
   applyReduction() {

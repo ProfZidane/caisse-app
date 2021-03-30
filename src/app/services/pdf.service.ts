@@ -84,7 +84,7 @@ export class PdfService {
           ]
         },
         {
-          alignement : 'justify',
+          alignement : 'center',
           margin : 5,
           columns : [
             {

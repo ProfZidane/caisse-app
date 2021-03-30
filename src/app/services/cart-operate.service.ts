@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 import { PdfService } from './pdf.service';
 
 @Injectable({
@@ -13,8 +14,9 @@ in_progress: any;
 tab = [];
 total = 0;
 renderer = [];
-// register
-  constructor(private s: MatSnackBar, private pdfService: PdfService) { }
+registerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/storeOrder';
+register;
+  constructor(private s: MatSnackBar, private pdfService: PdfService, private http: HttpClient) { }
 
   VerifyInProgress() {
     if (localStorage.getItem('inProgress') === null) {
@@ -209,7 +211,7 @@ renderer = [];
   }
 
 
-  Checkout(object) {
+  Checkout(object): Observable<any> {
     // console.log(object);
     const panier = JSON.parse(localStorage.getItem('cart'));
     const customer = JSON.parse(localStorage.getItem('customerChoice'));
@@ -233,7 +235,7 @@ renderer = [];
 
     console.log(cart);
 
-    if (object.typePaiement === 'cash') {
+    if (object.typePaiement === 'especes') {
       const register = {
         typePaiement : object.typePaiement,
         caissier : '',
@@ -275,12 +277,12 @@ renderer = [];
         produit : cart
       };
       console.log(register);
-
     }
      // const caissier = JSON.parse(localStorage.getItem('userData'));
     // const caissier = caissier.id;
     // console.log(customer);
     // console.log(cart);
     // console.log(total);
+    return this.http.post(this.registerURL, this.register);
   }
 }
