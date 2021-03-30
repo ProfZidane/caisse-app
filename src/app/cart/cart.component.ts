@@ -2,7 +2,7 @@ import { AuthService } from './../services/auth.service';
 import { CartOperateService } from './../services/cart-operate.service';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../services/product.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -13,7 +13,13 @@ Products = [];
 articles = [];
 Total;
 SelectedC;
-  constructor(private cartService: CartOperateService, private authService: AuthService, private productService: ProductService) {
+  constructor(private cartService: CartOperateService, private authService: AuthService, private productService: ProductService,
+              private route: Router) {
+
+      setTimeout( () => {
+      this.LoadOnglet();
+      }, 500);
+
       setInterval( () => {
         this.LoadDataCart();
       }, 1000);
@@ -29,7 +35,11 @@ SelectedC;
         this.LoadOnglet();
       }, 500);*/
       //this.Reload();
-      this.LoadDataCart();
+      // this.LoadDataCart();
+      ///
+      setInterval(() => {
+        this.GetCustomerInLoad();
+      }, 1000);
       setInterval( () => {
         this.CalCulTotal();
       }, 500);
@@ -76,6 +86,8 @@ SelectedC;
 
 
   Inscrease(id) {
+    console.log(id);
+
     this.cartService.InscreaseQuantity(id);
   }
 
@@ -96,10 +108,11 @@ SelectedC;
   }
 
   GetCustomerInLoad() {
-    const scc = this.authService.GetSelectedCustomer();
+    /*const scc = this.authService.GetSelectedCustomer();
     if (scc !== null) {
       this.SelectedC = scc.name;
-    }
+    }*/
+    this.SelectedC = this.authService.GetSelectedCustomer().name;
     // this.SelectedC = scc.name;
   }
 
@@ -178,8 +191,18 @@ SelectedC;
   }
 
   goToCheckout() {
-    localStorage.setItem('total', this.Total.toString());
-    location.href = '/checkout';
+    if (localStorage.getItem('customerChoice') !== null) {
+      localStorage.setItem('total', this.Total.toString());
+      location.href = '/checkout';
+    } else {
+      alert('Veuillez sélectionner un client !');
+      this.route.navigateByUrl('/home/(child1:customer;open=true');
+    }
+  }
+
+
+  goToCustomer() {
+    this.route.navigateByUrl('/home/(child1:customer;open=true');
   }
 
 }

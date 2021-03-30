@@ -46,23 +46,15 @@ Customer = [
     tel : '+225 45454545455'
   }
 ];
-customerURl = 'http://192.168.1.120:8000/api/caisse/getAllClients';
+customerURl = 'https://accessoire-mode.lce-test.fr/api/caisse/getAllClients';
+createCustomerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/createUser';
+CustomerChoice;
   constructor(private s: MatSnackBar, private http: HttpClient) { }
 
 
-  GetCustomer(): Observable<any>{
+  GetCustomer(): Observable<any> {
     // let customers = this.Customer;
     return this.http.get(this.customerURl);
-  }
-
-  SelectCustomer(id) {
-    let customer_select;
-    this.Customer.forEach(element => {
-      if (element.id === id) {
-        customer_select = element;
-      }
-    });
-    return customer_select;
   }
 
   ChoicingCustomer(object) {
@@ -71,12 +63,15 @@ customerURl = 'http://192.168.1.120:8000/api/caisse/getAllClients';
   }
 
   GetSelectedCustomer() {
-    let cc = JSON.parse(localStorage.getItem('customerChoice'));
-    return cc;
+    this.CustomerChoice = JSON.parse(localStorage.getItem('customerChoice'));
+    //console.log(this.CustomerChoice);
+
+    return this.CustomerChoice;
   }
 
-  AddNewCustomer(object) {
-    this.Customer.push(object);
-    this.Customer.reverse();
+  AddNewCustomer(object): Observable<any> {
+    /*this.Customer.push(object);
+    this.Customer.reverse();*/
+    return this.http.post(this.createCustomerURL, object);
   }
 }

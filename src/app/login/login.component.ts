@@ -52,7 +52,7 @@ errors = {
 
     if (this.VerifyAuth(this.data) === true) {
 
-      setInterval( () => {
+      setTimeout( () => {
         this.success = true;
         location.href = '/home';
       }, 3000);
@@ -61,7 +61,7 @@ errors = {
 
       this.errors.error_email = 'Votre adresse e-mail n\'existe pas dans notre base de donnée !';
 
-      setInterval( () => {
+      setTimeout( () => {
         this.success = true;
         this.data.email = '';
         this.data.password = '';
@@ -71,7 +71,7 @@ errors = {
 
       this.errors.error_password = 'Votre mot de passe est pas correcte !';
 
-      setInterval( () => {
+      setTimeout( () => {
         this.success = true;
         this.data.email = '';
         this.data.password = '';

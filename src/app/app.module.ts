@@ -23,7 +23,7 @@ import { CustomerComponent } from './customer/customer.component';
 import { PaymentComponent } from './payment/payment.component';
 
 import { HttpClientModule } from '@angular/common/http';
-
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +46,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     MatProgressBarModule,
     MatSnackBarModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ],
   providers: [
     AuthService,

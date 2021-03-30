@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CartOperateService } from '../services/cart-operate.service';
 
 @Component({
   selector: 'app-payment',
@@ -11,7 +12,37 @@ SumCustomer;
 tempo = '';
 exchange;
 customer;
-  constructor() { }
+typePayement;
+visibility = {
+  typeReduction : '',
+  valueReduction : '',
+  sommeDelivery : ''
+};
+reduction = {
+  state : false,
+  type : '',
+  value : 0,
+};
+delivery = {
+  state : false,
+  value : 0,
+  adresse : ''
+};
+check = {
+  state : false,
+  numAccount : '',
+};
+creditCard = {
+  state : false
+};
+
+mobileMoney = {
+  network : '',
+  num : ''
+};
+  constructor(private cartService: CartOperateService) {
+    this.typePayement = 'cash';
+   }
 
   ngOnInit(): void {
     /*this.Total = Number(localStorage.getItem('total'));
@@ -34,33 +65,33 @@ customer;
         //console.log(value);
         if (value === 'eff') {
           //console.log(this.SumCustomer);
-          
+
           if (this.SumCustomer === '0' || this.SumCustomer === undefined || this.SumCustomer === '') {
             this.SumCustomer = '0';
             alert('ATTENTION : Opération arithmétique non correcte ! ');
-            
-            
+
+
 
           } else {
 
             const newVal = this.tempo.slice(0,-1);
             this.tempo = newVal;
             this.SumCustomer = newVal
-            
-            
-            this.exchange = Number(this.Total) - Number(this.SumCustomer);
+
+
+            this.exchange = Number(this.SumCustomer) - Number(this.Total);
             //console.log(this.exchange);
-            
+
             this.exchange = this.exchange.toString();
           }
           //console.log(newVal);
-          
-          
+
+
         } else {
 
           this.tempo += value.toString();
           this.SumCustomer = this.tempo;
-          this.exchange = Number(this.Total) - Number(this.SumCustomer);
+          this.exchange = Number(this.SumCustomer) - Number(this.Total);
           //console.log(this.exchange);
 
           this.exchange = this.exchange.toString();
@@ -83,11 +114,11 @@ customer;
           alert('ATTENTION : Opération arithmétique non correcte ! ');
 
         } else {
-          
+
           const newVal = this.tempo.slice(0,-1);
           this.tempo = newVal;
           this.SumCustomer = newVal
-          this.exchange = Number(this.Total) - Number(this.SumCustomer);
+          this.exchange = Number(this.SumCustomer) - Number(this.Total);
           //console.log(this.exchange);
 
           this.exchange = this.exchange.toString();
@@ -99,13 +130,13 @@ customer;
 
         this.tempo += nomOfTouch;
         this.SumCustomer = this.tempo;
-        this.exchange = Number(this.Total) - Number(this.SumCustomer);
+        this.exchange = Number(this.SumCustomer) - Number(this.Total);
         //console.log(this.exchange);
-        
+
         this.exchange = this.exchange.toString();
 
       }
-      
+
     });
   }
 
@@ -115,6 +146,138 @@ customer;
 
   getTotal() {
     this.Total = Number(localStorage.getItem('total'));
+  }
+
+  setTypePayement(value) {
+    console.log(value);
+    this.typePayement = value;
+  }
+
+
+  checkout() {
+    const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
+    console.log(confirm);
+
+    if (confirm === true) {
+      // console.log(this.typePayement);
+
+      // console.log(this.SumCustomer);
+      // console.log(this.exchange);
+      // format de donnée pour commander
+      let data = {
+        typePaiement : this.typePayement,
+        exchange : this.exchange,
+        total : this.Total,
+        livraison : {
+          state : this.delivery.state,
+          price : this.delivery.value,
+          adresse : this.delivery.adresse
+        },
+        reduction : {
+          state : this.reduction.state,
+          valeur : this.reduction.value,
+          type : this.reduction.type
+        }
+      };
+      this.cartService.Checkout(data);
+
+    }
+  }
+
+  checkoutCreditCard() {
+    const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
+    if (confirm === true) {
+      let data = {
+        typePaiement : this.typePayement,
+        check : this.check,
+        total : this.Total,
+        livraison : {
+          state : this.delivery.state,
+          price : this.delivery.value,
+          adresse : this.delivery.adresse
+        },
+        reduction : {
+          state : this.reduction.state,
+          valeur : this.reduction.value,
+          type : this.reduction.type
+        }
+      };
+
+      this.cartService.Checkout(data);
+    }
+  }
+
+  checkoutMobileMoney() {
+    const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
+    if (confirm === true) {
+      let data = {
+        typePaiement : this.typePayement,
+        mobile : this.mobileMoney,
+        total : this.Total,
+        livraison : {
+          state : this.delivery.state,
+          price : this.delivery.value,
+          adresse : this.delivery.adresse
+        },
+        reduction : {
+          state : this.reduction.state,
+          valeur : this.reduction.value,
+          type : this.reduction.type
+        }
+      };
+      // console.log(data);
+      this.cartService.Checkout(data);
+
+    }
+  }
+
+  applyReduction() {
+    this.visibility.typeReduction = 'true';
+    this.visibility.valueReduction = 'true';
+  }
+
+  setSumDelivery() {
+    this.visibility.sommeDelivery = 'true';
+    const newValue = prompt('Entrez la somme : ');
+    const placeValue = prompt('Entrer l\'adresse de la livraison');
+    this.delivery.value = Number(newValue);
+    this.Total += this.delivery.value;
+    this.exchange = Number(this.SumCustomer) - Number(this.Total);
+    this.delivery.adresse = placeValue;
+    this.delivery.state = true;
+  }
+
+  setValueReduction(event) {
+    console.log('jai changé' + event.target.value);
+    const newValue = prompt('Entrez la valeur de la réduction : ');
+    console.log(newValue);
+    if (event.target.value === 'percent') {
+      // this.Total = (this.Total * Number(newValue)) / 100;
+      const reduc = (this.Total * Number(newValue)) / 100;
+      this.Total = this.Total - reduc;
+      this.exchange = Number(this.SumCustomer) - Number(this.Total);
+    } else if (event.target.value === 'fixed') {
+      this.Total = this.Total - Number(newValue);
+      this.exchange = Number(this.SumCustomer) - Number(this.Total);
+    }
+    this.reduction.value = Number(newValue);
+    this.reduction.state = true;
+
+  }
+
+  CardOrCheque(event) {
+    console.log(event.target.value);
+    if (event.target.value === 'carte') {
+      this.typePayement = 'carte';
+      this.creditCard.state = true;
+      this.check.state = false;
+    } else if (event.target.value === 'cheque') {
+      this.typePayement = 'cheque';
+      this.creditCard.state = false;
+      this.check.state = true;
+      const numAccount = prompt('Veuillez entrez le numéro du compte : ');
+      this.check.numAccount = numAccount
+    }
   }
 
 }

@@ -46,14 +46,17 @@ articles = [
     img : 'https://image.freepik.com/free-photo/jeans_1203-8093.jpg'
   }
 ];
+search;
+articlesBases;
   constructor(private cartService: CartOperateService, private productService: ProductService) { }
 
   ngOnInit(): void {
     this.productService.GetProducts().subscribe(
       (data) => {
         this.articles = data;
+        this.articlesBases = data;
       }, (err) => {
-        //console.log(err);
+        // console.log(err);
       }
     );
   }
@@ -61,6 +64,23 @@ articles = [
   SelectProduct(object) {
     // console.log(object);
     this.cartService.InsertToLocalCart(object);
+  }
+
+  FilterString(array, text) {
+    const filteredCart = array.filter((item) => item.title.toLowerCase().includes(text.toLowerCase()));
+    // console.log(filteredCart);
+    return filteredCart;
+
+  }
+
+
+  OnResearch(event) {
+    // console.log(event.target.value);
+    if (event === '') {
+      this.articles = this.articlesBases;
+    } else {
+      this.articles = this.FilterString(this.articlesBases, event.target.value);
+    }
   }
 
 }

@@ -1,15 +1,15 @@
 label,a,h5,small,input,button,p,span {
     font-family: 'Quicksand', sans-serif;
   }
-  
+
   p {
     font-weight: 300;
   }
-  
+
   input {
     border-radius: 0;
   }
-  
+
   button {
     border-radius: 0;
   }
@@ -34,7 +34,7 @@ label,a,h5,small,input,button,p,span {
   }
 
   .card-detail-customer {
-      margin-left: 2rem;      
+      margin-left: 2rem;
   }
 
   .card-payment {
@@ -49,11 +49,11 @@ label,a,h5,small,input,button,p,span {
 
   .calculator {
       /*border: solid;*/
-      padding: 1rem;      
+      padding: 1rem;
   }
 
   .plaque {
-      padding: 0;    
+      padding: 0;
       width: 70%;
   }
 
@@ -75,5 +75,10 @@ label,a,h5,small,input,button,p,span {
 
   .visa .card {
       /*width: 50%;*/
-      
+
+  }
+
+  .supp {
+    margin-top: 2rem;
+
   }

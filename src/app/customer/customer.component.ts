@@ -9,8 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomerComponent implements OnInit {
 Customers;
+CustomersBase;
 Customer_selected;
 success;
+error = {
+  errorInsertion: ''
+};
+validationMessage;
+search;
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -18,6 +24,8 @@ success;
       (data) => {
         console.log(data);
         this.Customers = data;
+        this.Customers.reverse();
+        this.CustomersBase = data;
       }, (err) => {
         console.log(err);
       }
@@ -25,9 +33,22 @@ success;
   }
 
 
-  selectCustomer(id) {
-    let customer_selected = this.authService.SelectCustomer(id);
-    this.Customer_selected = customer_selected;
+  getNewCustomer() {
+    this.authService.GetCustomer().subscribe(
+      (data) => {
+        console.log(data);
+        this.Customers = data;
+        this.Customers.reverse();
+        this.CustomersBase = data;
+      }, (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  selectCustomer(object) {
+    // console.log(object);
+    this.Customer_selected = object;
   }
 
   ChoiceCustomer() {
@@ -36,19 +57,57 @@ success;
 
   onSubmit(f: NgForm) {
     this.success = false;
+    this.error.errorInsertion = '';
+    this.validationMessage = '';
     console.log(f.value);
-    let last_id = this.Customers[this.Customers.length - 1].id;
-    console.log(last_id);
-    let data = {
-      id : Number(last_id + 1),
+    const data = {
       name : f.value.nom + ' ' + f.value.prenom,
       email : f.value.email,
-      tel : f.value.tel
+      telephone : f.value.tel,
+      type : f.value.type_client,
+      birthday : f.value.date_naissance
     };
-    this.authService.AddNewCustomer(data);
-    setInterval( () => {
-      this.success = true;
-    }, 2000);
+    console.log(data);
+
+    this.authService.AddNewCustomer(data).subscribe(
+      (data) => {
+        setTimeout( () => {
+          this.success = true;
+          if (data.state === false && data.message === 'Ce client existe dans la base !') {
+            this.error.errorInsertion = '400';
+          } else if (data.state === false && data.message === 'Erreur !') {
+            this.error.errorInsertion = '500';
+          } else if (data.state === true) {
+            this.validationMessage = 'Client bien enregistré dans notre boutique !';
+            this.getNewCustomer();
+          }
+        }, 2000);
+        console.log(data);
+
+      }, (err) => {
+        setTimeout( () => {
+          this.success = true;
+          this.error.errorInsertion = '500';
+        }, 2000);
+      }
+    );
+  }
+
+
+  FilterString(array, text) {
+    const filteredCart = array.filter((item) => item.name.toLowerCase().includes(text.toLowerCase()));
+    // console.log(filteredCart);
+    return filteredCart;
+
+  }
+
+
+  OnResearch(event) {
+    if (event === '') {
+      this.Customers = this.CustomersBase;
+    } else {
+      this.Customers = this.FilterString(this.CustomersBase, event.target.value);
+    }
   }
 
 }
