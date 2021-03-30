@@ -33,7 +33,7 @@
                 <div class="list-group" id="myList" role="tablist">
                     <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" (click)="setTypePayement('cash')" role="tab">Paiement Cash</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" (click)="setTypePayement('soutra')" role="tab">Paiement Soutrali</a>
-                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" (click)="setTypePayement('visa')" role="tab">Paiement Par Carte / Chèque</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" (click)="setTypePayement('')" role="tab">Paiement Par Carte / Chèque</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" (click)="setTypePayement('mobile')" role="tab">Paiement Mobile Money</a>
                 </div>
 
@@ -172,7 +172,6 @@
 
                     </div>
                     <div class="tab-pane" id="messages" role="tabpanel">
-
                         <div class="visa">
                             <div class="card" align="center">
                                 <div class="card-body">
@@ -236,9 +235,8 @@
                                   </button>
                                 </div>
                             </div>
-                              <button class="btn btn-primary btn-lg mt-5" style="width: 100%;" (click)="checkoutCreditCard()">Confirmer</button>
+                              <button class="btn btn-primary btn-lg mt-5" type="submit" style="width: 100%;" (click)="checkoutCreditCard()">Confirmer</button>
                         </div>
-
                     </div>
                     <div class="tab-pane" id="settings" role="tabpanel">
 

@@ -13,6 +13,7 @@ in_progress: any;
 tab = [];
 total = 0;
 renderer = [];
+// register
   constructor(private s: MatSnackBar, private pdfService: PdfService) { }
 
   VerifyInProgress() {

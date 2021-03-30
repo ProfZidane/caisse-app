@@ -188,26 +188,33 @@ success;
 
   checkoutCreditCard() {
     this.success = false;
-    const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
-    if (confirm === true) {
-      let data = {
-        typePaiement : this.typePayement,
-        check : this.check,
-        total : this.Total,
-        livraison : {
-          state : this.delivery.state,
-          price : this.delivery.value,
-          adresse : this.delivery.adresse
-        },
-        reduction : {
-          state : this.reduction.state,
-          valeur : this.reduction.value,
-          type : this.reduction.type
-        }
-      };
+    //
+    console.log(this.typePayement);
+    if (this.typePayement !== '') {
+      const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
+      if (confirm === true) {
+        let data = {
+          typePaiement : this.typePayement,
+          check : this.check,
+          total : this.Total,
+          livraison : {
+            state : this.delivery.state,
+            price : this.delivery.value,
+            adresse : this.delivery.adresse
+          },
+          reduction : {
+            state : this.reduction.state,
+            valeur : this.reduction.value,
+            type : this.reduction.type
+          }
+        };
 
-      this.cartService.Checkout(data);
+        this.cartService.Checkout(data);
+      }
+    } else {
+      alert('Veuillez renseigner votre option de paiement !');
     }
+
     this.loadingControl();
   }
 
