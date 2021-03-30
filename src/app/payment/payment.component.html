@@ -1,3 +1,5 @@
+<mat-progress-bar *ngIf="success===false"  mode="indeterminate"></mat-progress-bar>
+
 <div class="container-fluid payment-fullcontent">
     <div class="card-title">
         <h1>Paiement</h1>
@@ -29,10 +31,10 @@
             <div class="col-md-2">
                 <!-- List group -->
                 <div class="list-group" id="myList" role="tablist">
-                    <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" (click)="setTypePayement('cash')" role="tab">Paiement Cash</a>
+                    <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" (click)="setTypePayement('especes')" role="tab">Paiement Cash</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" (click)="setTypePayement('soutra')" role="tab">Paiement Soutrali</a>
-                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" (click)="setTypePayement('visa')" role="tab">Paiement Par Carte / Chèque</a>
-                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" (click)="setTypePayement('mobile')" role="tab">Paiement Mobile Money</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" (click)="setTypePayement('')" role="tab">Paiement Par Carte / Chèque</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" (click)="setTypePayement('mobile-money')" role="tab">Paiement Mobile Money</a>
                 </div>
 
             </div>
@@ -148,12 +150,28 @@
                     </div>
                     <div class="tab-pane" id="profile" role="tabpanel">
 
-                      Soutralo
+                      <div class="row soutrali">
+                        <div class="col-md-6">
+                          <div id="info-soutra">
+                            <h1>Mon compte</h1>
+                            <p>
+                              Numéro de compte : {{ customer.noCompte }}
+                            </p>
+                            <p>
+                              Solde : {{ customer.solde }} Fcfa
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <button class="btn btn-primary btn-lg btn-soutra">
+                            Déclancher
+                          </button>
+                        </div>
+                      </div>
 
 
                     </div>
                     <div class="tab-pane" id="messages" role="tabpanel">
-
                         <div class="visa">
                             <div class="card" align="center">
                                 <div class="card-body">
@@ -172,7 +190,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Choisir l'option</label>
-                                        <select class="form-control" id="exampleFormControlSelect1" name="optionPayment" (change)="CardOrCheque($event)">
+                                        <select class="form-control" id="exampleFormControlSelect1" name="optionPayment" (change)="CardOrCheque($event)" required>
                                           <option value="">Choisir une option</option>
                                           <option value="carte">Carte Bancaire</option>
                                           <option value="cheque">Chèque</option>
@@ -182,7 +200,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group" *ngIf="check.state === true">
                                         <label for="exampleInputEmail1">Le numéro du chèque</label>
-                                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" name="numAccount" [(ngModel)]="check.numAccount">
+                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" name="numAccount" [(ngModel)]="check.numAccount">
                                     </div>
                                   </div>
                               </div>
@@ -217,9 +235,8 @@
                                   </button>
                                 </div>
                             </div>
-                              <button class="btn btn-primary btn-lg mt-5" style="width: 100%;" (click)="checkoutCreditCard()">Confirmer</button>
+                              <button class="btn btn-primary btn-lg mt-5" type="submit" style="width: 100%;" (click)="checkoutCreditCard()">Confirmer</button>
                         </div>
-
                     </div>
                     <div class="tab-pane" id="settings" role="tabpanel">
 
