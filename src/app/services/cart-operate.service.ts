@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { PdfService } from './pdf.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ in_progress: any;
 tab = [];
 total = 0;
 renderer = [];
-  constructor(private s: MatSnackBar) { }
+  constructor(private s: MatSnackBar, private pdfService: PdfService) { }
 
   VerifyInProgress() {
     if (localStorage.getItem('inProgress') === null) {
@@ -245,6 +245,7 @@ renderer = [];
         produit : cart
       };
       console.log(register);
+      this.pdfService.generatePdf();
 
     } else if (object.typePaiement === 'carte' || object.typePaiement === 'cheque') {
       const register = {

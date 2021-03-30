@@ -40,6 +40,7 @@ mobileMoney = {
   network : '',
   num : ''
 };
+success;
   constructor(private cartService: CartOperateService) {
     this.typePayement = 'cash';
    }
@@ -155,6 +156,7 @@ mobileMoney = {
 
 
   checkout() {
+    this.success = false;
     const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
     console.log(confirm);
 
@@ -180,11 +182,12 @@ mobileMoney = {
         }
       };
       this.cartService.Checkout(data);
-
     }
+    this.loadingControl();
   }
 
   checkoutCreditCard() {
+    this.success = false;
     const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
     if (confirm === true) {
       let data = {
@@ -205,9 +208,11 @@ mobileMoney = {
 
       this.cartService.Checkout(data);
     }
+    this.loadingControl();
   }
 
   checkoutMobileMoney() {
+    this.success = false;
     const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
     if (confirm === true) {
       let data = {
@@ -227,8 +232,8 @@ mobileMoney = {
       };
       // console.log(data);
       this.cartService.Checkout(data);
-
     }
+    this.loadingControl();
   }
 
   applyReduction() {
@@ -276,8 +281,14 @@ mobileMoney = {
       this.creditCard.state = false;
       this.check.state = true;
       const numAccount = prompt('Veuillez entrez le numéro du compte : ');
-      this.check.numAccount = numAccount
+      this.check.numAccount = numAccount;
     }
+  }
+
+  loadingControl() {
+    setTimeout( () => {
+      this.success = true;
+    }, 1000);
   }
 
 }

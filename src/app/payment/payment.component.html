@@ -1,3 +1,5 @@
+<mat-progress-bar *ngIf="success===false"  mode="indeterminate"></mat-progress-bar>
+
 <div class="container-fluid payment-fullcontent">
     <div class="card-title">
         <h1>Paiement</h1>
@@ -148,7 +150,24 @@
                     </div>
                     <div class="tab-pane" id="profile" role="tabpanel">
 
-                      Soutralo
+                      <div class="row soutrali">
+                        <div class="col-md-6">
+                          <div id="info-soutra">
+                            <h1>Mon compte</h1>
+                            <p>
+                              Numéro de compte : {{ customer.noCompte }}
+                            </p>
+                            <p>
+                              Solde : {{ customer.solde }} Fcfa
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <button class="btn btn-primary btn-lg btn-soutra">
+                            Déclancher
+                          </button>
+                        </div>
+                      </div>
 
 
                     </div>
@@ -172,7 +191,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Choisir l'option</label>
-                                        <select class="form-control" id="exampleFormControlSelect1" name="optionPayment" (change)="CardOrCheque($event)">
+                                        <select class="form-control" id="exampleFormControlSelect1" name="optionPayment" (change)="CardOrCheque($event)" required>
                                           <option value="">Choisir une option</option>
                                           <option value="carte">Carte Bancaire</option>
                                           <option value="cheque">Chèque</option>
@@ -182,7 +201,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group" *ngIf="check.state === true">
                                         <label for="exampleInputEmail1">Le numéro du chèque</label>
-                                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" name="numAccount" [(ngModel)]="check.numAccount">
+                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" name="numAccount" [(ngModel)]="check.numAccount">
                                     </div>
                                   </div>
                               </div>
