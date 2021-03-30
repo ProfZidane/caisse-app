@@ -209,23 +209,76 @@ renderer = [];
 
 
   Checkout(object) {
+    // console.log(object);
+    const panier = JSON.parse(localStorage.getItem('cart'));
     const customer = JSON.parse(localStorage.getItem('customerChoice'));
     const inProg = JSON.parse(localStorage.getItem('inProgress'));
+    const subtotal = JSON.parse(localStorage.getItem('total'));
     const cart = [];
-    this.tab.forEach(element => {
+
+    panier.forEach(element => {
       if (element.progress === inProg.in) {
-        cart.push(element);
+        let newProduct = {
+          id : element.identify,
+          price : element.price,
+          quantity : element.quantity,
+          amout : Number(element.price) * Number(element.quantity),
+          slug : element.slug
+        };
+        cart.push(newProduct);
       }
     });
-    const total = JSON.parse(localStorage.getItem('total'));
-    const type_payement = object.type;
-    const exchange = object.exchange;
-    const doneCustomer = object.doneCustomer;
-    // const caissier = JSON.parse(localStorage.getItem('userData'));
-    // const caissier = caissier.id;
-    console.log(customer);
+
+
     console.log(cart);
-    console.log(total);
-    console.log(type_payement);
+
+    if (object.typePaiement === 'cash') {
+      const register = {
+        typePaiement : object.typePaiement,
+        caissier : '',
+        subtotal : subtotal,
+        total : object.total,
+        exchange : object.exchange,
+        client : customer,
+        livraison : object.livraison,
+        reduction : object.reduction,
+        produit : cart
+      };
+      console.log(register);
+
+    } else if (object.typePaiement === 'carte' || object.typePaiement === 'cheque') {
+      const register = {
+        typePaiement : object.typePaiement,
+        check : object.check,
+        caissier : '',
+        subtotal : subtotal,
+        total : object.total,
+        client : customer,
+        livraison : object.livraison,
+        reduction : object.reduction,
+        produit : cart
+      };
+      console.log(register);
+
+    } else if (object.typePaiement === 'mobile') {
+      const register = {
+        typePaiement : object.typePaiement,
+        mobile : object.mobile,
+        caissier : '',
+        subtotal : subtotal,
+        total : object.total,
+        client : customer,
+        livraison : object.livraison,
+        reduction : object.reduction,
+        produit : cart
+      };
+      console.log(register);
+
+    }
+     // const caissier = JSON.parse(localStorage.getItem('userData'));
+    // const caissier = caissier.id;
+    // console.log(customer);
+    // console.log(cart);
+    // console.log(total);
   }
 }
