@@ -66,7 +66,33 @@ export class PdfService {
             alignment : 'center',
             body : object.produit,
             border: [false, false, false, false],
-          }
+          },
+          layout : {
+            hLineWidth: function (i, node) {
+              return (i === 0 || i === node.table.body.length) ? 2 : 1;
+            },
+            vLineWidth: function (i, node) {
+              return (i === 0 || i === node.table.widths.length) ? 2 : 1;
+            },
+            hLineColor: function (i, node) {
+              return 'black';
+            },
+            vLineColor: function (i, node) {
+              return 'black';
+            },
+            hLineStyle: function (i, node) {
+              if (i === 0 || i === node.table.body.length) {
+                return null;
+              }
+              return {dash: {length: 10, space: 4}};
+            },
+            vLineStyle: function (i, node) {
+              if (i === 0 || i === node.table.widths.length) {
+                return null;
+              }
+              return {dash: {length: 4}};
+            },
+            }
         },
         {
           alignment : 'center',

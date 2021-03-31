@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ArticlesComponent } from './articles/articles.component';
 import { CustomerComponent } from './customer/customer.component';
+import { ScannerComponent } from './scanner/scanner.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,11 @@ const routes: Routes = [
         path : 'customer',
         component : CustomerComponent,
         outlet: 'child1'
+      },
+      {
+        path : 'scanner',
+        component : ScannerComponent,
+        outlet : 'child1'
       }
     ]
   },

@@ -22,7 +22,7 @@ SelectedC;
 
       setInterval( () => {
         this.LoadDataCart();
-      }, 1000);
+      }, 800);
 
       /*setInterval( () => {
         this.CalCulTotal();

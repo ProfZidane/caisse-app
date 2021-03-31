@@ -24,6 +24,7 @@ import { PaymentComponent } from './payment/payment.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { ScannerComponent } from './scanner/scanner.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +38,8 @@ import { RouterModule } from '@angular/router';
     SalesComponent,
     ProfilComponent,
     CustomerComponent,
-    PaymentComponent
+    PaymentComponent,
+    ScannerComponent
   ],
   imports: [
     BrowserModule,

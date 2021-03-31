@@ -1,6 +1,7 @@
 import { CartOperateService } from './../services/cart-operate.service';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../services/product.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-articles',
@@ -48,7 +49,7 @@ articles = [
 ];
 search;
 articlesBases;
-  constructor(private cartService: CartOperateService, private productService: ProductService) { }
+  constructor(private cartService: CartOperateService, private productService: ProductService, private route: Router) { }
 
   ngOnInit(): void {
     this.productService.GetProducts().subscribe(
@@ -81,6 +82,10 @@ articlesBases;
     } else {
       this.articles = this.FilterString(this.articlesBases, event.target.value);
     }
+  }
+
+  goToScanner() {
+    this.route.navigateByUrl('/home/(child1:scanner;open=true');
   }
 
 }

@@ -50,6 +50,7 @@ dataToPdf;
         price : object.price,
         slug : object.slug,
         quantity : 1,
+        stock : object.stock,
         progress : this.in_progress
       };
       const tab = [data];
@@ -62,16 +63,22 @@ dataToPdf;
 
     } else {
       let tab = JSON.parse(localStorage.getItem('cart'));
-      console.log(tab);
+      console.log(this.tab);
 
-      tab.forEach(element => {
+      this.tab.forEach(element => {
         if (element.identify === object.id && element.progress === this.in_progress) {
-          console.log('rrr');
-          element.quantity ++;
-          //this.tab.push(element);
-          localStorage.setItem('cart', JSON.stringify(this.tab));
+          if (element.quantity < element.stock) {
+            console.log('rrr');
+            element.quantity ++;
+            //this.tab.push(element);
+            console.log(element);
 
-          this.state ++;
+            localStorage.setItem('cart', JSON.stringify(this.tab));
+
+            this.state ++;
+          } else {
+            this.state = -1;
+          }
         }
       });
 
@@ -83,6 +90,7 @@ dataToPdf;
             price : object.price,
             slug : object.slug,
             quantity : 1,
+            stock : object.stock,
             progress : this.in_progress
           };
           //tab.push(data);
@@ -90,13 +98,17 @@ dataToPdf;
           localStorage.setItem('cart', JSON.stringify(this.tab));
           this.s.open('Votre produit a bien été ajouter au panier', 'OK');
           this.state = 0;
-      } else {
+      } else if (this.state > 0) {
 
         //alert('Votre produit est déjà dans le panier !');
 
         this.s.open('Quantité augmentée !', 'OK');
         this.state = 0;
+      } else if (this.state < 0) {
+        this.s.open('Cet produit ne peut être choisie. Son stock est limité !', 'OK');
       }
+      console.log(this.state);
+
     }
 
   }
@@ -116,6 +128,7 @@ dataToPdf;
     this.tab = JSON.parse(localStorage.getItem('cart'));
     return this.tab;
   }
+
 
   LoadTrueDataToCart() {
     const truthData = this.GetProductToCart();
@@ -177,7 +190,11 @@ dataToPdf;
     let tab = JSON.parse(localStorage.getItem('cart'));
     tab.forEach(element => {
       if (element.identify === id) {
-        element.quantity ++;
+        if (element.quantity < element.stock) {
+          element.quantity ++;
+        } else {
+          this.s.open('Cet produit ne peut être choisie. Son stock est limité !', 'OK');
+        }
       }
     });
     localStorage.setItem('cart', JSON.stringify(tab));
@@ -266,7 +283,7 @@ dataToPdf;
       this.register = register;
 
 
-    } else if (object.typePaiement === 'mobile') {
+    } else if (object.typePaiement === 'mobile-money') {
       const register = {
         typePaiement : object.typePaiement,
         mobile : object.mobile,
