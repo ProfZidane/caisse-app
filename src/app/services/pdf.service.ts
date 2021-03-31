@@ -16,7 +16,7 @@ export class PdfService {
     }
   }
 
-  generateContent() {
+  generateContent(object) {
     var definition = {
       content : [
         {
@@ -40,65 +40,45 @@ export class PdfService {
           alignment : 'center'
         },
         {
-          text : 'Client : Mohamed Zidane',
+          text : 'Client : ' + object.customer.name + ' / ' + object.customer.telephone,
           style : 'subContent',
           margin : [0, 20, 0, 0],
-          alignment: 'center'
+          alignment: 'center',
+          fontSize : 8
         },
         {
-          text : 'Vendeur : Mohamed Zidane',
+          text : 'Vendeur : ' + object.vendeur,
           style : 'subContent',
           margin : [0, 5, 0, 0],
-          alignment: 'center'
+          alignment: 'center',
+          fontSize : 8
         },
         {
-          text : '16-02-2016',
+          text : object.date,
           style : 'detail',
-          margin : [100, 10, 0, 5]
+          margin : [150, 10, 0, 5]
         },
         {
-          text : 'Ticket 2016-02-1-256',
-          style : 'detail',
-          margin : [100, 5, 0, 5]
+          style : 'account',
+          margin : [174, 10, 0, 10],
+          alignment : 'center',
+          table : {
+            alignment : 'center',
+            body : object.produit,
+            border: [false, false, false, false],
+          }
         },
         {
-          alignement : 'justify',
-          margin : 45,
-          columns : [
-            {
-              text : '1',
-              alignment: 'center'
-            },
-            {
-              text : 'Sac Louis Vuiton',
-              alignment: 'center'
-            },
-            {
-              text : '15 000',
-              alignment: 'center'
-            },
-            {
-              text : '15 000',
-              alignment: 'center'
-            }
-          ]
+          alignment : 'center',
+          text : 'Remise : ' + object.remise,
+          fontSize : 11,
+          margin : [0, 15, 0, 0]
         },
         {
-          alignement : 'center',
-          margin : 5,
-          columns : [
-            {
-              text : 'TOTAL',
-            },
-            {
-              text : 'EUR',
-              alignment: 'center'
-            },
-            {
-              text : '15 000',
-              alignment: 'center'
-            }
-          ]
+          alignment : 'center',
+          text : 'Merci et à bientôt !',
+          fontSize : 10,
+          margin : [0, 30, 0, 0]
         }
       ],
       styles : {
@@ -121,6 +101,14 @@ export class PdfService {
         detail : {
           fontSize : 8,
           bold : false
+        },
+        productStyle : {
+          fontSize : 10,
+          bold : false,
+          color : 'gray',
+          width : '20px'
+        },
+        account : {
         }
       }
     };
@@ -128,11 +116,36 @@ export class PdfService {
     return definition;
   }
 
-  async generatePdf() {
+  async generatePdf(object) {
+    console.log(object);
 
     await this.loadPdfMaker();
 
-    const def = this.generateContent();
+    const p = [
+      {
+        border : [false, false, false, false],
+        text : 'TOTAL',
+        alignment : 'center',
+      },
+      {
+        border : [false, false, false, false],
+        text : '',
+        alignment : 'center',
+      },
+      {
+        border : [false, false, false, false],
+        text : 'FCFA',
+        alignment : 'center',
+      },
+      {
+        border : [false, false, false, false],
+        text : object.total,
+        alignment : 'center',
+      }
+    ];
+    object.produit.push(p);
+
+    const def = this.generateContent(object);
     // { content: 'A sample PDF document generated using Angular and PDFMake' };
     this.pdfMake.createPdf(def).open();
   }

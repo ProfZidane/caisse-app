@@ -1,6 +1,12 @@
 <mat-progress-bar *ngIf="success===false"  mode="indeterminate"></mat-progress-bar>
 
 <div class="container-fluid payment-fullcontent">
+  <div class="alert alert-success" *ngIf="response_checkout.success === true" style="font-weight: 300; font-size: small;">
+    Votre commande a bien été prise en compte ! <br> Vous serez rédirigé sur votre ticket et l'accueil dans quelques secondes...
+  </div>
+  <div class="alert alert-danger" *ngIf="response_checkout.error === true" style="font-weight: 300; font-size: small;">
+    Une erreur est survenue, veuillez réessayez plus tard !
+  </div>
     <div class="card-title">
         <h1>Paiement</h1>
         <hr>
@@ -154,11 +160,17 @@
                         <div class="col-md-6">
                           <div id="info-soutra">
                             <h1>Mon compte</h1>
-                            <p>
+                            <p *ngIf="customer.noCompte !== null">
                               Numéro de compte : {{ customer.noCompte }}
                             </p>
-                            <p>
+                            <p *ngIf="customer.noCompte === null">
+                              Numéro de compte : NEANT
+                            </p>
+                            <p *ngIf="customer.solde !== null">
                               Solde : {{ customer.solde }} Fcfa
+                            </p>
+                            <p *ngIf="customer.solde === null">
+                              Solde : 0 Fcfa
                             </p>
                           </div>
                         </div>

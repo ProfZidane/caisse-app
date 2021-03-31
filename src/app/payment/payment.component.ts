@@ -41,6 +41,10 @@ mobileMoney = {
   num : ''
 };
 success;
+response_checkout = {
+  success : false,
+  error : false
+};
   constructor(private cartService: CartOperateService) {
     this.typePayement = 'especes';
    }
@@ -185,11 +189,18 @@ success;
         (success) => {
           console.log(success);
           this.loadingControl();
+          this.cartService.starterGenerateTicket();
+          this.response_checkout.success = true;
+          this.response_checkout.error = false;
         }, (err) => {
           console.log(err);
           this.loadingControl();
+          this.response_checkout.success = false;
+          this.response_checkout.error = true;
         }
       );
+    } else {
+      this.success = true;
     }
   }
 
@@ -220,47 +231,68 @@ success;
           (success) => {
             console.log(success);
             this.loadingControl();
+            this.cartService.starterGenerateTicket();
+            this.response_checkout.success = true;
+            this.response_checkout.error = false;
           }, (err) => {
             console.log(err);
             this.loadingControl();
+            this.response_checkout.success = false;
+            this.response_checkout.error = true;
           }
         );
       }
     } else {
       alert('Veuillez renseigner votre option de paiement !');
+      this.success = true;
     }
 
   }
 
   checkoutMobileMoney() {
     this.success = false;
-    const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
-    if (confirm === true) {
-      let data = {
-        typePaiement : this.typePayement,
-        mobile : this.mobileMoney,
-        total : this.Total,
-        livraison : {
-          state : this.delivery.state,
-          price : this.delivery.value,
-          adresse : this.delivery.adresse
-        },
-        reduction : {
-          state : this.reduction.state,
-          valeur : this.reduction.value,
-          type : this.reduction.type
-        }
-      };
-      // console.log(data);
-      this.cartService.Checkout(data).subscribe(
-        (success) => {
-          console.log(success);
-          this.loadingControl();
-        }, (err) => {
-          console.log(err);
-          this.loadingControl();
-        }
-      );
+    if (this.mobileMoney.num !== '' && this.mobileMoney.network !== '') {
+
+      const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
+      if (confirm === true) {
+        let data = {
+          typePaiement : this.typePayement,
+          mobile : this.mobileMoney,
+          total : this.Total,
+          livraison : {
+            state : this.delivery.state,
+            price : this.delivery.value,
+            adresse : this.delivery.adresse
+          },
+          reduction : {
+            state : this.reduction.state,
+            valeur : this.reduction.value,
+            type : this.reduction.type
+          }
+        };
+        console.log(data);
+        this.cartService.Checkout(data).subscribe(
+          (success) => {
+            console.log(success);
+            this.loadingControl();
+            this.cartService.starterGenerateTicket();
+            this.response_checkout.success = true;
+            this.response_checkout.error = false;
+          }, (err) => {
+            console.log(err);
+            this.loadingControl();
+            this.response_checkout.success = false;
+            this.response_checkout.error = true;
+          }
+        );
+      } else {
+        this.success = true;
+      }
+
+    } else {
+
+      alert('Veuillez à ce que le numéro de téléphone du client et le réseau de transaction soit spécifier !');
+      this.success = true;
     }
 
   }

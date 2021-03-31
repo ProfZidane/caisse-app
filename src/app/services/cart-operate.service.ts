@@ -16,6 +16,7 @@ total = 0;
 renderer = [];
 registerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/storeOrder';
 register;
+dataToPdf;
   constructor(private s: MatSnackBar, private pdfService: PdfService, private http: HttpClient) { }
 
   VerifyInProgress() {
@@ -248,8 +249,7 @@ register;
         produit : cart
       };
       console.log(register);
-      this.pdfService.generatePdf();
-
+      this.register = register;
     } else if (object.typePaiement === 'carte' || object.typePaiement === 'cheque') {
       const register = {
         typePaiement : object.typePaiement,
@@ -263,6 +263,8 @@ register;
         produit : cart
       };
       console.log(register);
+      this.register = register;
+
 
     } else if (object.typePaiement === 'mobile') {
       const register = {
@@ -277,6 +279,8 @@ register;
         produit : cart
       };
       console.log(register);
+      this.register = register;
+
     }
      // const caissier = JSON.parse(localStorage.getItem('userData'));
     // const caissier = caissier.id;
@@ -285,4 +289,60 @@ register;
     // console.log(total);
     return this.http.post(this.registerURL, this.register);
   }
+
+  starterGenerateTicket() {
+    const objectProductPdf = [];
+    let remise = '';
+    this.register.produit.forEach(elt => {
+      let newObject = [
+        {
+          border : [false, false, false, false],
+          text : elt.quantity.toString(),
+          fontSize : 8,
+          alignment : 'center',
+        },
+        {
+          border : [false, false, false, false],
+          text : elt.slug,
+          fontSize : 8,
+          alignment : 'center',
+        },
+        {
+          border : [false, false, false, false],
+          text : elt.price.toString(),
+          fontSize : 8,
+          alignment : 'center',
+        },
+        {
+          border : [false, false, false, false],
+          text : elt.amout.toString(),
+          fontSize : 8,
+          alignment : 'center',
+        }
+      ];
+      objectProductPdf.push(newObject);
+    });
+    console.log(objectProductPdf);
+    if (this.register.reduction.state === true) {
+      if (this.register.reduction.type === 'percent') {
+        remise = this.register.reduction.value.toString() + '%';
+      } else if (this.register.reduction.type === 'fixed') {
+        remise = this.register.reduction.value.toString() + ' Fcfa';
+      }
+    } else {
+      remise = 'aucune';
+    }
+    this.dataToPdf = {
+      customer : this.register.client,
+      vendeur : this.register.caissier,
+      date : new Date().toLocaleDateString(),
+      produit : objectProductPdf,
+      total : this.register.total,
+      remise : remise
+    };
+
+    this.pdfService.generatePdf(this.dataToPdf);
+  }
+
+
 }
