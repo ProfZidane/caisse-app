@@ -55,7 +55,7 @@ errors = {
 
       setTimeout( () => {
         this.success = true;
-        location.href = '/home';
+        // location.href = '/home';
         this.route.navigateByUrl('/home');
       }, 3000);
 
