@@ -193,7 +193,8 @@ SelectedC;
   goToCheckout() {
     if (localStorage.getItem('customerChoice') !== null) {
       localStorage.setItem('total', this.Total.toString());
-      location.href = '/checkout';
+      // location.href = '/checkout';
+      this.route.navigateByUrl('/checkout');
     } else {
       alert('Veuillez sélectionner un client !');
       this.route.navigateByUrl('/home/(child1:customer;open=true');

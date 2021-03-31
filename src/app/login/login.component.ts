@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ errors = {
   error_email : '',
   error_password : ''
 };
-  constructor() { }
+  constructor(private route: Router) { }
 
 
   ngOnInit(): void {
@@ -55,6 +56,7 @@ errors = {
       setTimeout( () => {
         this.success = true;
         location.href = '/home';
+        this.route.navigateByUrl('/home');
       }, 3000);
 
     } else if (this.VerifyAuth(this.data) === 0) {
