@@ -1,7 +1,8 @@
 import { AuthService } from './../services/auth.service';
 import { CartOperateService } from './../services/cart-operate.service';
 import { Component, OnInit } from '@angular/core';
-
+import { ProductService } from '../services/product.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -9,51 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartComponent implements OnInit {
 Products = [];
-articles = [
-  {
-    id : 1,
-    name : 'Sac à main',
-    price : 35000,
-    img : 'https://image.freepik.com/free-photo/pink-handbags_1203-7710.jpg'
-  },
-  {
-    id : 2,
-    name : 'Montre de luxe',
-    price : 55000,
-    img : 'https://image.freepik.com/free-photo/elegant-watch-with-silver-golden-chain-isolated_181624-27080.jpg'
-  },
-  {
-    id : 3,
-    name : 'Ordinateur Apple',
-    price : 10000000,
-    img : 'https://image.freepik.com/free-photo/desk-gadgets_181624-23300.jpg'
-  },
-  {
-    id : 4,
-    name : 'Tee-shirt',
-    price : 5200,
-    img : 'https://image.freepik.com/free-psd/simple-black-men-s-tee-mockup_53876-57893.jpg'
-  },
-  {
-    id : 5,
-    name : 'Culotte',
-    price : 2500,
-    img : 'https://image.freepik.com/free-photo/casual-men-short-pants_1203-8186.jpg'
-  },
-  {
-    id : 6,
-    name : 'Pantalon',
-    price : 3500,
-    img : 'https://image.freepik.com/free-photo/jeans_1203-8093.jpg'
-  }
-];
+articles = [];
 Total;
 SelectedC;
-  constructor(private cartService: CartOperateService, private authService: AuthService) {
+  constructor(private cartService: CartOperateService, private authService: AuthService, private productService: ProductService,
+              private route: Router) {
+
+      setTimeout( () => {
+      this.LoadOnglet();
+      }, 500);
+
       setInterval( () => {
-        this.Reload();
-      }, 100);
-      setInterval( () => {
+        this.LoadDataCart();
+      }, 800);
+
+      /*setInterval( () => {
         this.CalCulTotal();
       }, 500);
       setInterval( () => {
@@ -62,61 +33,61 @@ SelectedC;
 
       setTimeout( () => {
         this.LoadOnglet();
+      }, 500);*/
+      //this.Reload();
+      // this.LoadDataCart();
+      ///
+      setInterval(() => {
+        this.GetCustomerInLoad();
+      }, 1000);
+      setInterval( () => {
+        this.CalCulTotal();
       }, 500);
+      // this.CalCulTotal();
+
    }
 
   ngOnInit(): void {
-    //this.LoadOnglet();
+    // this.LoadOnglet();
+    /*this.LoadDataCart();
+      this.CalCulTotal();*/
 
   }
 
+  // tslint:disable-next-line:use-lifecycle-interface
   ngAfterViewInit() {
-    //this.LoadOnglet();
+
   }
 
-  Reload() {
-    if (this.Products.length > 0) {
-      this.Products = [];
-      this.LoadDataCart();
-    } else {
-      this.LoadDataCart();
-    }
-  }
+
 
   LoadDataCart() {
-    const p = this.cartService.GetProductToCart();
-    p.forEach(element => {
-      this.SelectInArticles(element);
-    });
+      /*this.Products = this.cartService.GetProductToCart();
+      console.log(this.Products);*/
+
+      /*const tableauProduit = [];
+      const pp = this.cartService.GetProductToCart();
+      const inP = JSON.parse(localStorage.getItem('inProgress'));
+      pp.forEach(elt => {
+        if (elt.progress === inP.in) {
+          tableauProduit.push(elt);
+        }
+      });
+
+      console.log(tableauProduit);*/
+
+      this.Products = this.cartService.LoadTrueDataToCart();
+
   }
 
-  // tslint:disable-next-line:variable-name
-  SelectInArticles(other_element) {
-    const p = JSON.parse(localStorage.getItem('inProgress'));
-    // tslint:disable-next-line:variable-name
-    const in_p = p.in;
-    this.articles.forEach(elt => {
-      if (elt.id === other_element.identify && other_element.progress === in_p) {
-        const data = {
-          id : elt.id,
-          name : elt.name,
-          img : elt.img,
-          price : elt.price,
-          qte : other_element.quantity
-        };
-        // elt.qte = other_element.quantity;
-        this.Products.push(data);
-      }
-    });
-  }
+
+
+
 
 
   Inscrease(id) {
-    /*this.Products.forEach(elt => {
-      if (elt.id === id) {
-        elt.qte ++;
-      }
-    });*/
+    console.log(id);
+
     this.cartService.InscreaseQuantity(id);
   }
 
@@ -125,23 +96,23 @@ SelectedC;
   }
 
   Clear(id) {
-    console.log(id);
+    //console.log(id);
 
     this.cartService.ClearProduct(id);
+    // this.CalCulTotal();
   }
 
   CalCulTotal() {
-    this.Total = 0;
-    this.Products.forEach(element => {
-      this.Total += Number(element.price) * Number(element.qte);
-    });
+    this.Total = this.cartService.GetTotal();
+
   }
 
   GetCustomerInLoad() {
-    const scc = this.authService.GetSelectedCustomer();
+    /*const scc = this.authService.GetSelectedCustomer();
     if (scc !== null) {
       this.SelectedC = scc.name;
-    }
+    }*/
+    this.SelectedC = this.authService.GetSelectedCustomer().name;
     // this.SelectedC = scc.name;
   }
 
@@ -220,8 +191,18 @@ SelectedC;
   }
 
   goToCheckout() {
-    localStorage.setItem('total', this.Total.toString());
-    location.href = '/checkout';
+    if (localStorage.getItem('customerChoice') !== null) {
+      localStorage.setItem('total', this.Total.toString());
+      location.href = '/checkout';
+    } else {
+      alert('Veuillez sélectionner un client !');
+      this.route.navigateByUrl('/home/(child1:customer;open=true');
+    }
+  }
+
+
+  goToCustomer() {
+    this.route.navigateByUrl('/home/(child1:customer;open=true');
   }
 
 }

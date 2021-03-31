@@ -12,12 +12,12 @@
                 </i>
               </span>
             </div>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Recherche client par nom">
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Recherche client par nom" name="search" [(ngModel)]="search" (keyup)="OnResearch($event)">
           </div>
 
           <div class="list" >
             <div class="list-group"  *ngIf="Customers">
-              <a class="list-group-item list-group-item-action" *ngFor="let customer of Customers" (click)='selectCustomer(customer.id)'>
+              <a class="list-group-item list-group-item-action" *ngFor="let customer of Customers" (click)='selectCustomer(customer)'>
                 <div class="d-flex w-100 justify-content-between">
                   <h3 class="mb-1">{{ customer.name }}</h3>
                 </div>
@@ -25,7 +25,7 @@
                   <i class="iii material-icons">
                     call
                   </i> &nbsp;
-                  {{ customer.tel }}
+                  {{ customer.telephone }}
                 </p>
                 <span>
                   <i class="iii material-icons">
@@ -58,7 +58,7 @@
                   <i class="iii material-icons">
                     call
                   </i>
-                  {{ Customer_selected.tel }}
+                  {{ Customer_selected.telephone }}
                 </p>
                 <p>
                   <button class="btn btn-primary" (click)="ChoiceCustomer()">
@@ -98,21 +98,24 @@
       <div class="modal-body">
         <span *ngIf="success==false" >Création en cours ...</span>
         <mat-progress-bar class="bar" *ngIf="success==false"  mode="indeterminate"></mat-progress-bar>
+        <span class="text-danger" *ngIf="error.errorInsertion === '500'">Une erreur est survenue. Veuillez réessayez plus tard ou contactez le service technique !</span>
+        <span class="text-warning" *ngIf="error.errorInsertion === '400'">Ce client existe déjà dans notre base de donnée !</span>
+        <span class="text-success" *ngIf="validationMessage">{{ validationMessage }}</span>
           <div class="form-group">
             <label for="exampleInputEmail1">Nom</label>
-            <input type="text" name="nom" ngModel class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
+            <input type="text" name="nom" ngModel class="form-control" id="exampleInputName" required>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Prénom</label>
-            <input type="text" name="prenom" ngModel class="form-control" id="exampleInputPassword1" >
+            <input type="text" name="prenom" ngModel class="form-control" id="exampleInputFirstName" required>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Adresse E-mail</label>
-            <input type="email" name="email" ngModel class="form-control" id="exampleInputPassword1" >
+            <input type="email" name="email" ngModel class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" required>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Numéro de téléphone</label>
-            <input type="text" name="tel" ngModel class="form-control" id="exampleInputPassword1" >
+            <input type="text" name="tel" ngModel class="form-control" id="exampleInputTel" >
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Date de naissance</label>
@@ -120,12 +123,11 @@
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Type de client</label>
-            <select class="form-control" id="exampleFormControlSelect1" name="type_client" ngModel>
-              <option value="Grossiste">Grossiste</option>
-              <option value="Basique">Basique</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control" id="exampleFormControlSelect1" name="type_client" ngModel required>
+              <option value="client regulier">Client régulier</option>
+              <option value="client occasionnel">Client occasionnel</option>
+              <option value="demi-grossiste">Demi-grossiste</option>
+              <option value="grossiste">Grossiste</option>
             </select>
           </div>
       </div>

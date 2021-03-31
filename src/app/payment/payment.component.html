@@ -1,40 +1,48 @@
+<mat-progress-bar *ngIf="success===false"  mode="indeterminate"></mat-progress-bar>
+
 <div class="container-fluid payment-fullcontent">
+  <div class="alert alert-success" *ngIf="response_checkout.success === true" style="font-weight: 300; font-size: small;">
+    Votre commande a bien été prise en compte ! <br> Vous serez rédirigé sur votre ticket et l'accueil dans quelques secondes...
+  </div>
+  <div class="alert alert-danger" *ngIf="response_checkout.error === true" style="font-weight: 300; font-size: small;">
+    Une erreur est survenue, veuillez réessayez plus tard !
+  </div>
     <div class="card-title">
         <h1>Paiement</h1>
         <hr>
     </div>
 
-    <div class="card-customer">
-        <h1>Mohamed zidane</h1>
+    <div class="card-customer" *ngIf="customer">
+        <h1>{{ customer.name }}</h1>
         <div class="card-detail-customer">
             <p class="mb-1">
                 <i class="iii material-icons">
                   call
                 </i> &nbsp;
-                +225 0779261619
+                {{ customer.telephone }}
             </p>
             <span>
                 <i class="iii material-icons">
                   mail
                 </i> &nbsp;
-                madazada0@gmail.com
+                {{ customer.email }}
             </span>
         </div>
     </div>
 
     <div class="card-payment">
-        
+
         <div class="row">
 
             <div class="col-md-2">
                 <!-- List group -->
                 <div class="list-group" id="myList" role="tablist">
-                    <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">Paiement Cash</a>
-                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Paiement Soutrali</a>
-                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" role="tab">Paiement Visa</a>
-                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" role="tab">Paiement Mobile Money</a>
+                    <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" (click)="setTypePayement('especes')" role="tab">Paiement Cash</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" (click)="setTypePayement('soutra')" role="tab">Paiement Soutrali</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" (click)="setTypePayement('')" role="tab">Paiement Par Carte / Chèque</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" (click)="setTypePayement('mobile-money')" role="tab">Paiement Mobile Money</a>
                 </div>
-  
+
             </div>
 
             <div class="col-md-10">
@@ -46,21 +54,52 @@
                             <div class="col-md-6 data-payment">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        <p class="price">35 000 Fcfa</p>
-                                        <!--<p class="price" *ngIf="Total">{{ Total }}</p>-->
+                                        <p class="price" *ngIf="!Total">0 Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total | number }} Fcfa</p>
                                         <small class="desc">Total</small>
                                     </li>
                                     <li class="list-group-item">
-                                        <p class="price" *ngIf="SumCustomer">{{ SumCustomer }} Fcfa</p>
+                                        <p class="price" *ngIf="SumCustomer">{{ SumCustomer | number }} Fcfa</p>
                                         <p class="price" *ngIf="!SumCustomer">0 Fcfa</p>
                                         <small class="desc">Reçu du client</small>
                                     </li>
                                     <li class="list-group-item">
-                                        <p class="price" *ngIf="exchange">{{ exchange}} Fcfa</p>
+                                        <p class="price" *ngIf="exchange">{{ exchange | number}} Fcfa</p>
                                         <p class="price" *ngIf="!exchange">0 Fcfa</p>
                                         <small class="desc">Echange (monnaie)</small>
-                                    </li>                                    
+                                    </li>
                                   </ul>
+                                  <div class="row supp bord" align="center">
+                                      <div class="col-md-6">
+                                        <div class="form-group" *ngIf="visibility.typeReduction === 'true'">
+                                          <label for="exampleFormControlSelect1">Choisir le type de réduction</label>
+                                          <select class="form-control" id="exampleFormControlSelect1" name="typeReduction" [(ngModel)]="reduction.type" (change)="setValueReduction($event)">
+                                            <option value="percent">Par pourcentage</option>
+                                            <option value="fixed">Par prix fixe</option>
+                                          </select>
+                                        </div>
+                                        <div class="form-group" *ngIf="visibility.valueReduction === 'true'">
+                                          <label for="exampleFormControlSelect1">Entrez la valeur</label>
+                                          <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
+                                        </div>
+                                        <button class="btn btn-primary" (click)="applyReduction()">
+                                          Appliquer réduction
+                                        </button>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="form-group" *ngIf="visibility.sommeDelivery === 'true'">
+                                          <label for="exampleFormControlSelect1">Entrez la somme</label>
+                                          <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPrice" [(ngModel)]="delivery.value">
+                                        </div>
+                                        <div class="form-group" *ngIf="visibility.sommeDelivery === 'true'">
+                                          <label for="exampleFormControlSelect1">Entrez l'adresse de livraison</label>
+                                          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPlace" [(ngModel)]="delivery.adresse">
+                                        </div>
+                                        <button class="btn btn-primary" (click)="setSumDelivery()">
+                                          Coût de livraison
+                                        </button>
+                                      </div>
+                                  </div>
                             </div>
                             <div class="col-md-6 calculator" align="center">
 
@@ -109,17 +148,42 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-primary btn-lg mt-5" style="width: 60%;">Confirmer</button>
+                                <button class="btn btn-primary btn-lg mt-5" style="width: 60%;" (click)="checkout()">Confirmer</button>
 
                             </div>
                         </div>
 
                     </div>
                     <div class="tab-pane" id="profile" role="tabpanel">
-                        2
+
+                      <div class="row soutrali">
+                        <div class="col-md-6">
+                          <div id="info-soutra">
+                            <h1>Mon compte</h1>
+                            <p *ngIf="customer.noCompte !== null">
+                              Numéro de compte : {{ customer.noCompte }}
+                            </p>
+                            <p *ngIf="customer.noCompte === null">
+                              Numéro de compte : NEANT
+                            </p>
+                            <p *ngIf="customer.solde !== null">
+                              Solde : {{ customer.solde }} Fcfa
+                            </p>
+                            <p *ngIf="customer.solde === null">
+                              Solde : 0 Fcfa
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <button class="btn btn-primary btn-lg btn-soutra">
+                            Déclancher
+                          </button>
+                        </div>
+                      </div>
+
+
                     </div>
                     <div class="tab-pane" id="messages" role="tabpanel">
-
                         <div class="visa">
                             <div class="card" align="center">
                                 <div class="card-body">
@@ -128,31 +192,63 @@
                                           <p>Total à payer</p>
                                       </div>
                                       <div class="col-md-6">
-                                          <p class="price">25 000 Fcfa</p>
+                                        <p class="price" *ngIf="!Total">0 Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total | number }} Fcfa</p>
                                       </div>
                                   </div>
-                                </div>                                
+                                </div>
                               </div>
                               <div class="row mt-3">
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Choisir la banque</label>
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                          <option>SGBCI</option>
-                                          <option>Ecobank</option>                                          
+                                        <label for="exampleFormControlSelect1">Choisir l'option</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="optionPayment" (change)="CardOrCheque($event)" required>
+                                          <option value="">Choisir une option</option>
+                                          <option value="carte">Carte Bancaire</option>
+                                          <option value="cheque">Chèque</option>
                                         </select>
-                                      </div>                                    
+                                      </div>
                                   </div>
                                   <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Somme Reçu du client</label>
-                                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer la somme reçue">
+                                    <div class="form-group" *ngIf="check.state === true">
+                                        <label for="exampleInputEmail1">Le numéro du chèque</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" name="numAccount" [(ngModel)]="check.numAccount">
                                     </div>
                                   </div>
                               </div>
-                              <button class="btn btn-primary btn-lg mt-5" style="width: 100%;">Confirmer</button>
+                              <div class="row supp bord" align="center">
+                                <div class="col-md-6">
+                                  <div class="form-group" *ngIf="visibility.typeReduction === 'true'">
+                                    <label for="exampleFormControlSelect1">Choisir le type de réduction</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" name="typeReduction" [(ngModel)]="reduction.type" (change)="setValueReduction($event)">
+                                      <option value="percent">Par pourcentage</option>
+                                      <option value="fixed">Par prix fixe</option>
+                                    </select>
+                                  </div>
+                                  <div class="form-group" *ngIf="visibility.valueReduction === 'true'">
+                                    <label for="exampleFormControlSelect1">Entrez la valeur</label>
+                                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
+                                  </div>
+                                  <button class="btn btn-primary" (click)="applyReduction()">
+                                    Appliquer réduction
+                                  </button>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group" *ngIf="visibility.sommeDelivery === 'true'">
+                                    <label for="exampleFormControlSelect1">Entrez la somme</label>
+                                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPrice" [(ngModel)]="delivery.value">
+                                  </div>
+                                  <div class="form-group" *ngIf="visibility.sommeDelivery === 'true'">
+                                    <label for="exampleFormControlSelect1">Entrez l'adresse de livraison</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPlace" [(ngModel)]="delivery.adresse">
+                                  </div>
+                                  <button class="btn btn-primary" (click)="setSumDelivery()">
+                                    Coût de livraison
+                                  </button>
+                                </div>
+                            </div>
+                              <button class="btn btn-primary btn-lg mt-5" type="submit" style="width: 100%;" (click)="checkoutCreditCard()">Confirmer</button>
                         </div>
-
                     </div>
                     <div class="tab-pane" id="settings" role="tabpanel">
 
@@ -164,36 +260,69 @@
                                           <p>Total à payer</p>
                                       </div>
                                       <div class="col-md-6">
-                                          <p class="price">25 000 Fcfa</p>
+                                        <p class="price" *ngIf="!Total">0 Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total | number }} Fcfa</p>
                                       </div>
                                   </div>
-                                </div>                                
+                                </div>
                               </div>
                               <div class="row mt-3">
-                                  <div class="col-md-4">
+                                  <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Choisir le service de mobile money</label>
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                          <option>MTN Money</option>
-                                          <option>Orange Money</option>
-                                          <option>Moov Money</option>                                          
+                                        <select class="form-control" id="exampleFormControlSelect1" name="network" [(ngModel)]="mobileMoney.network">
+                                          <option value="">Choisissez votre réseau</option>
+                                          <option value="mtn">MTN Money</option>
+                                          <option value="orange">Orange Money</option>
+                                          <option value="moov">Moov Money</option>
                                         </select>
-                                      </div>                                    
+                                      </div>
                                   </div>
-                                  <div class="col-md-4">
+                                  <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Numéro du client</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer le numéro du client" value="+225 ">
+                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer le numéro du client" value="+225 " name="num" [(ngModel)]="mobileMoney.num">
                                     </div>
                                   </div>
-                                  <div class="col-md-4">
+                                  <!--<div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Somme Reçu du client</label>
                                         <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer la somme reçue">
                                     </div>
-                                  </div>
+                                  </div>-->
                               </div>
-                              <button class="btn btn-primary btn-lg mt-5" style="width: 100%;">Confirmer</button>
+                              <div class="row supp bord" align="center">
+                                <div class="col-md-6">
+                                  <div class="form-group" *ngIf="visibility.typeReduction === 'true'">
+                                    <label for="exampleFormControlSelect1">Choisir le type de réduction</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" name="typeReduction" [(ngModel)]="reduction.type" (change)="setValueReduction($event)">
+                                      <option value="percent">Par pourcentage</option>
+                                      <option value="fixed">Par prix fixe</option>
+                                    </select>
+                                  </div>
+                                  <div class="form-group" *ngIf="visibility.valueReduction === 'true'">
+                                    <label for="exampleFormControlSelect1">Entrez la valeur</label>
+                                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
+                                  </div>
+                                  <button class="btn btn-primary" (click)="applyReduction()">
+                                    Appliquer réduction
+                                  </button>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group" *ngIf="visibility.sommeDelivery === 'true'">
+                                    <label for="exampleFormControlSelect1">Entrez la somme</label>
+                                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPrice" [(ngModel)]="delivery.value">
+                                  </div>
+                                  <div class="form-group" *ngIf="visibility.sommeDelivery === 'true'">
+                                    <label for="exampleFormControlSelect1">Entrez l'adresse de livraison</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPlace" [(ngModel)]="delivery.adresse">
+                                  </div>
+                                  <button class="btn btn-primary" (click)="setSumDelivery()">
+                                    Coût de livraison
+                                  </button>
+                                </div>
+                            </div>
+                              <button class="btn btn-primary btn-lg mt-5" style="width: 100%;" (click)="checkoutMobileMoney()">Confirmer</button>
                         </div>
 
                     </div>

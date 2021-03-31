@@ -5,6 +5,9 @@ import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { ArticlesComponent } from './articles/articles.component';
+import { CustomerComponent } from './customer/customer.component';
+import { ScannerComponent } from './scanner/scanner.component';
 
 
 const routes: Routes = [
@@ -14,7 +17,24 @@ const routes: Routes = [
   },
   {
     path : 'home',
-    component : HomeComponent
+    component : HomeComponent,
+    children : [
+      {
+        path : '',
+        component: ArticlesComponent,
+        outlet: 'child1'
+      },
+      {
+        path : 'customer',
+        component : CustomerComponent,
+        outlet: 'child1'
+      },
+      {
+        path : 'scanner',
+        component : ScannerComponent,
+        outlet : 'child1'
+      }
+    ]
   },
   {
     path: 'sidebar',

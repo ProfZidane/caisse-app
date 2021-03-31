@@ -46,7 +46,7 @@ button {
 }
 
 .list {
-  height: 85%;
+  height: 400px;
   overflow: scroll;
   overflow-x: hidden;
 }

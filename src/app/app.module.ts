@@ -22,7 +22,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { CustomerComponent } from './customer/customer.component';
 import { PaymentComponent } from './payment/payment.component';
 
-
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { ScannerComponent } from './scanner/scanner.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +38,8 @@ import { PaymentComponent } from './payment/payment.component';
     SalesComponent,
     ProfilComponent,
     CustomerComponent,
-    PaymentComponent
+    PaymentComponent,
+    ScannerComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,9 @@ import { PaymentComponent } from './payment/payment.component';
     BrowserAnimationsModule,
     FormsModule,
     MatProgressBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    HttpClientModule,
+    RouterModule
   ],
   providers: [
     AuthService,

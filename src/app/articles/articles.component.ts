@@ -1,5 +1,7 @@
 import { CartOperateService } from './../services/cart-operate.service';
 import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../services/product.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-articles',
@@ -45,14 +47,45 @@ articles = [
     img : 'https://image.freepik.com/free-photo/jeans_1203-8093.jpg'
   }
 ];
-  constructor(private cartService: CartOperateService) { }
+search;
+articlesBases;
+  constructor(private cartService: CartOperateService, private productService: ProductService, private route: Router) { }
 
   ngOnInit(): void {
+    this.productService.GetProducts().subscribe(
+      (data) => {
+        this.articles = data;
+        this.articlesBases = data;
+      }, (err) => {
+        // console.log(err);
+      }
+    );
   }
 
-  SelectProduct(id) {
-    console.log(id);
-    this.cartService.InsertToLocalCart(id);
+  SelectProduct(object) {
+    // console.log(object);
+    this.cartService.InsertToLocalCart(object);
+  }
+
+  FilterString(array, text) {
+    const filteredCart = array.filter((item) => item.title.toLowerCase().includes(text.toLowerCase()));
+    // console.log(filteredCart);
+    return filteredCart;
+
+  }
+
+
+  OnResearch(event) {
+    // console.log(event.target.value);
+    if (event === '') {
+      this.articles = this.articlesBases;
+    } else {
+      this.articles = this.FilterString(this.articlesBases, event.target.value);
+    }
+  }
+
+  goToScanner() {
+    this.route.navigateByUrl('/home/(child1:scanner;open=true');
   }
 
 }

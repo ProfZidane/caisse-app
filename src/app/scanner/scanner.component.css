@@ -1,0 +1,21 @@
+a,h5,small,input,button,p {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border-radius: 0;
+}
+
+
+.douch-style {
+  display: absolute;
+  transform: translateY(300%);
+}

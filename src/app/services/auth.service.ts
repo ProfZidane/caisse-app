@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -43,22 +46,15 @@ Customer = [
     tel : '+225 45454545455'
   }
 ];
-  constructor(private s: MatSnackBar) { }
+customerURl = 'https://accessoire-mode.lce-test.fr/api/caisse/getAllClients';
+createCustomerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/createUser';
+CustomerChoice;
+  constructor(private s: MatSnackBar, private http: HttpClient) { }
 
 
-  GetCustomer() {
-    let customers = this.Customer;
-    return customers;
-  }
-
-  SelectCustomer(id) {
-    let customer_select;
-    this.Customer.forEach(element => {
-      if (element.id === id) {
-        customer_select = element;
-      }
-    });
-    return customer_select;
+  GetCustomer(): Observable<any> {
+    // let customers = this.Customer;
+    return this.http.get(this.customerURl);
   }
 
   ChoicingCustomer(object) {
@@ -67,12 +63,15 @@ Customer = [
   }
 
   GetSelectedCustomer() {
-    let cc = JSON.parse(localStorage.getItem('customerChoice'));
-    return cc;
+    this.CustomerChoice = JSON.parse(localStorage.getItem('customerChoice'));
+    //console.log(this.CustomerChoice);
+
+    return this.CustomerChoice;
   }
 
-  AddNewCustomer(object) {
-    this.Customer.push(object);
-    this.Customer.reverse();
+  AddNewCustomer(object): Observable<any> {
+    /*this.Customer.push(object);
+    this.Customer.reverse();*/
+    return this.http.post(this.createCustomerURL, object);
   }
 }
