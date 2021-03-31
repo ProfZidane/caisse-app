@@ -17,4 +17,8 @@ export class SidemenuComponent implements OnInit {
     this.route.navigateByUrl('/home/(child1:customer;open=true');
   }
 
+  goToHome() {
+    this.route.navigateByUrl('/home');
+  }
+
 }
