@@ -16,6 +16,7 @@
 
           <h1 class="title">Bienvenue à la caisse</h1>
           <p class="subtitle">Ouvrir ma caisse</p>
+          <small class="text-danger" *ngIf="errors.error_global !== ''" >{{ errors.error_global }}</small>
 
           <form>
             <div class="form-group">

@@ -1,0 +1,53 @@
+a,h5,small,input,button,p, span {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border-radius: 0;
+}
+
+.bord {
+  border: solid;
+}
+
+.sales-full {
+
+  margin: 0;
+  border: solid;
+  height: 90vh;
+}
+
+.columns {
+  /* height: 100px; */
+}
+
+.list {
+  height: 90vh;
+  overflow: scroll;
+}
+
+.onglet {
+  border: solid;
+}
+
+
+.active {
+  background-color: #ff817a;
+}
+
+.nav-link {
+  color: black;
+}
+
+#active {
+  background-color: #ff817a;
+  color: white;
+}

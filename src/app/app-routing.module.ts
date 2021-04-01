@@ -8,6 +8,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { ArticlesComponent } from './articles/articles.component';
 import { CustomerComponent } from './customer/customer.component';
 import { ScannerComponent } from './scanner/scanner.component';
+import { SalesComponent } from './sales/sales.component';
+import { SalesDetailComponent } from './sales-detail/sales-detail.component';
 
 
 const routes: Routes = [
@@ -47,7 +49,18 @@ const routes: Routes = [
   {
     path : 'checkout',
     component : CheckoutComponent
-  }
+  },
+  {
+    path : 'sales',
+    component : SalesComponent,
+    children : [
+      {
+        path : '',
+        component : SalesDetailComponent,
+        outlet : 'child2'
+      }
+    ]
+  },
 ];
 
 @NgModule({

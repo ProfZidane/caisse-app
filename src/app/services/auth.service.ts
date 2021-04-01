@@ -3,6 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { CryptoService } from './crypto.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -50,7 +52,7 @@ customerURl = 'https://accessoire-mode.lce-test.fr/api/caisse/getAllClients';
 createCustomerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/createUser';
 authURL = 'https://accessoire-mode.lce-test.fr/api/connexion';
 CustomerChoice;
-  constructor(private s: MatSnackBar, private http: HttpClient) { }
+  constructor(private s: MatSnackBar, private http: HttpClient, private cryptoService: CryptoService) { }
 
   AuthentificationByEmail(data): Observable<any> {
     return this.http.post(this.authURL, data);

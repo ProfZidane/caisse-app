@@ -13,12 +13,14 @@ loadingFinish = true;
 success;
 data = {
   email : '',
-  password : ''
+  password : '',
+  device : 'caisse'
 };
 
 errors = {
   error_email : '',
-  error_password : ''
+  error_password : '',
+  error_global : ''
 };
   constructor(private route: Router, private authService: AuthService) { }
 
@@ -49,20 +51,31 @@ errors = {
   VerificationAuth(data) {
     this.errors.error_email = '';
     this.errors.error_password = '';
+    this.errors.error_global = '';
     this.success = false;
     this.authService.AuthentificationByEmail(data).subscribe(
       (success) => {
         console.log(success);
-        // save in localstorage
-        localStorage.setItem('caissier', JSON.stringify(success));
-        setTimeout( () => {
-          this.success = true;
-          // location.href = '/home';
-          this.route.navigateByUrl('/home');
-        }, 3000);
+        if (success.status_code === 401 && success.state === false) {
+          this.errors.error_global = 'Votre adresse e-mail ou votre mot de passe est incorrecte !';
+
+          setTimeout( () => {
+              this.success = true;
+              this.data.email = '';
+              this.data.password = '';
+            }, 1000);
+        } else if (success.status_code === 200) {
+          // save in localstorage
+          localStorage.setItem('caissier', JSON.stringify(success.data));
+          setTimeout( () => {
+            this.success = true;
+            // location.href = '/home';
+            this.route.navigateByUrl('/home');
+          }, 3000);
+        }
       }, (err) => {
         console.log(err);
-        this.errors.error_email = 'Votre adresse e-mail ou votre mot de passe est incorrecte !';
+        this.errors.error_global = 'Votre adresse e-mail ou votre mot de passe est incorrecte !';
 
         setTimeout( () => {
             this.success = true;
@@ -70,44 +83,12 @@ errors = {
             this.data.password = '';
           }, 1000);
         }
-    )
+    );
   }
 
   login() {
-    this.errors.error_email = '';
-    this.errors.error_password = '';
-    this.success = false;
     console.log(this.data);
-
-    if (this.VerifyAuth(this.data) === true) {
-
-      setTimeout( () => {
-        this.success = true;
-        // location.href = '/home';
-        this.route.navigateByUrl('/home');
-      }, 3000);
-
-    } else if (this.VerifyAuth(this.data) === 0) {
-
-      this.errors.error_email = 'Votre adresse e-mail n\'existe pas dans notre base de donnée !';
-
-      setTimeout( () => {
-        this.success = true;
-        this.data.email = '';
-        this.data.password = '';
-      }, 1000);
-
-    } else if (this.VerifyAuth(this.data) === 1) {
-
-      this.errors.error_password = 'Votre mot de passe est pas correcte !';
-
-      setTimeout( () => {
-        this.success = true;
-        this.data.email = '';
-        this.data.password = '';
-      }, 1000);
-    }
-
+    this.VerificationAuth(this.data);
   }
   /*onSumitted(f: NgForm) {
     if (f) {
