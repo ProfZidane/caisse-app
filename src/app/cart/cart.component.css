@@ -14,6 +14,14 @@ button {
   border-radius: 0;
 }
 
+.primary-am {
+  border-color: white;
+  background-color: #ff817a;
+}
+
+
+
+
 .bord {
     border: solid;
 }

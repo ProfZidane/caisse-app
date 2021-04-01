@@ -48,9 +48,13 @@ Customer = [
 ];
 customerURl = 'https://accessoire-mode.lce-test.fr/api/caisse/getAllClients';
 createCustomerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/createUser';
+authURL = 'https://accessoire-mode.lce-test.fr/api/connexion';
 CustomerChoice;
   constructor(private s: MatSnackBar, private http: HttpClient) { }
 
+  AuthentificationByEmail(data): Observable<any> {
+    return this.http.post(this.authURL, data);
+  }
 
   GetCustomer(): Observable<any> {
     // let customers = this.Customer;

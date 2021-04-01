@@ -25,8 +25,9 @@ button {
 .columns {
   padding: 1rem;
   border: solid;
-  background-color: #007bff !important;
-  color: white;
+  background-color: #FF817A !important;
+  color: black;
+  border-color: white;
 }
 
 

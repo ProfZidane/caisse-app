@@ -12,6 +12,9 @@ input {
 
 button {
   border-radius: 0;
+  border-color: white;
+  background-color: #ff817a;
+  color: black;
 }
 
 ::ng-deep .mat-progress-bar-fill::after {

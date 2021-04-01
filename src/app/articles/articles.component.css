@@ -12,6 +12,9 @@ input {
 
 button {
   border-radius: 0;
+  color: #FF817A;
+  background-color: transparent;
+  border-color: #FF817A;
 }
 
 .bord {
