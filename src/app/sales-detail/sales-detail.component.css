@@ -6,22 +6,33 @@ p {
   font-weight: 300;
 }
 
-input {
+input, select {
   border-radius: 0;
 }
 
+
+
 button {
   border-radius: 0;
+  background-color: #ff817a;
+  border-color: white;
+}
+
+h5 {
+  font-weight: 700;
 }
 
 .bord {
   border: solid;
 }
 
+.no-bord {
+  border: none;
+}
+
 .sales-full {
 
   margin: 0;
-  border: solid;
   height: 90vh;
 }
 
@@ -32,10 +43,12 @@ button {
 .list {
   height: 90vh;
   overflow: scroll;
+  padding: 1.5rem;
 }
 
 .onglet {
-  border: solid;
+  border-bottom: solid 1px #aaaa;
+  margin-bottom: 1rem;
 }
 
 
@@ -50,4 +63,28 @@ button {
 #active {
   background-color: #ff817a;
   color: white;
+}
+
+.onglet {
+  padding: 0.5rem;
+}
+
+.click {
+  background-color: #fcf2f1;
+}
+
+
+.card-detail {
+  margin-top: 2rem;
+}
+
+.card-all-detail {
+  height: 90vh;
+  overflow: scroll;
+  padding: 1rem;
+}
+
+.line:active {
+  background-color: #fcf2f1;
+  animation: 12;
 }

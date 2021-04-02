@@ -307,6 +307,7 @@ dataToPdf;
     return this.http.post(this.registerURL, this.register);
   }
 
+  // Générer pdf pour ticket de caisse
   starterGenerateTicket() {
     const objectProductPdf = [];
     let remise = '';

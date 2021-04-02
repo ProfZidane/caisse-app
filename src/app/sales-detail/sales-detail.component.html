@@ -1,4 +1,4 @@
-<div class="container-fluid onglet">
+<!--<div class="container-fluid onglet">
   <ul class="nav nav-pills nav-fill">
     <li class="nav-item">
       <a class="nav-link" id="active" >Active</a>
@@ -13,23 +13,77 @@
       <a class="nav-link disabled" tabindex="-1" aria-disabled="true">Disabled</a>
     </li>
   </ul>
-</div>
+</div>-->
 <div class="container-fluid sales-full">
 
   <div class="row">
 
-    <div class="col-md-4 columns list bord">
+    <div class="col-md-4 columns list">
       <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="inputGroupSelect01">Options de recherche</label>
+        <div class="input-group-prepend" >
+          <label class="input-group-text" style="border-radius: 0;" for="inputGroupSelect01">Options de recherche</label>
         </div>
-        <select class="custom-select" id="inputGroupSelect01">
+        <select class="custom-select" id="inputGroupSelect01" name="option" [(ngModel)]="option" (change)="OnChangeOption($event)">
           <option selected>Choisir ...</option>
           <option value="year">Par année</option>
           <option value="month">Par mois</option>
           <option value="between">Entre 2 dates</option>
         </select>
       </div>
+      <div class="input-group mb-3" *ngIf="option && option === 'year'">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">
+            <i class="material-icons">
+              date_range
+            </i>
+          </span>
+        </div>
+        <input type="number" min="0" class="form-control" placeholder="Entrez une année" aria-label="Username" aria-describedby="basic-addon1" name="year" [(ngModel)]="year">
+        <button class="btn text-light" style="background-color: black;" (click)="SearchWithYear()">
+          Valider
+        </button>
+      </div>
+      <div class="input-group mb-3" *ngIf="option && option === 'month'">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">
+            <i class="material-icons">
+              date_range
+            </i>
+          </span>
+        </div>
+        <select class="custom-select" id="inputGroupSelect01" name="month" [(ngModel)]="month">
+          <option selected>Choisir ...</option>
+          <option value="1">Janvier</option>
+          <option value="2">Février</option>
+          <option value="3">Mars</option>
+          <option value="4">Avril</option>
+          <option value="5">Mai</option>
+          <option value="6">Juin</option>
+          <option value="7">Juillet</option>
+          <option value="8">Août</option>
+          <option value="9">Septembre</option>
+          <option value="10">Octobre</option>
+          <option value="11">Novembre</option>
+          <option value="12">Décembre</option>
+        </select>
+        <button class="btn text-light" style="background-color: black;" (click)="SearchWithMonth()">
+          Valider
+        </button>
+      </div>
+      <div class="form-row mt-1 mb-3 mr-4" *ngIf="option && option === 'between'">
+        <div class="col-5">
+          <input type="date" class="form-control" name="start_date" [(ngModel)]="start_date">
+        </div>
+        <div class="col-5">
+          <input type="date" class="form-control" name="end_date" [(ngModel)]="end_date">
+        </div>
+        <div class="col-2">
+          <button class="btn text-light" style="background-color: black;" (click)="SearchBetweenDate()">
+            Valider
+          </button>
+        </div>
+      </div>
+
       <!--<div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">
@@ -40,21 +94,167 @@
         </div>
         <input type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Recherche " name="search">
       </div>-->
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
+
+      <ul class="list-group list-group-flush" id="container-list" *ngIf="sales !== null">
+
+        <div class="alert-alert-danger" *ngIf="error.loadingSale === true">
+          Une erreur est survenue. Veuillez réessayez plus tard !
+        </div>
+
+        <div class="d-flex justify-content-center m-5" *ngIf="loadingIndicator === false">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
+        <li class="list-group-item line" *ngFor="let sale of sales" (click)="SelectedSale(sale)">
+          <div class="row">
+            <div class="col-md-4">
+              <p style="font-weight: 900; color: #ff817a;">{{ sale.order.order_number }}</p>
+            </div>
+            <div class="col-md-4">
+              <p>{{ sale.order.created_at | date:'short' }}</p>
+            </div>
+            <div class="col-md-4">
+              <p style="font-weight: 900;">{{ sale.order.total_amount | number }} FCFA</p>
+            </div>
+          </div>
+        </li>
+        <!--<li class="list-group-item">
+          <div class="row">
+            <div class="col-md-4">
+              <p style="font-weight: 900; color: #ff817a;">#33</p>
+            </div>
+            <div class="col-md-4">
+              <p>02/04/2021 13:34</p>
+            </div>
+            <div class="col-md-4">
+              <p style="font-weight: 900;">35 000 FCFA</p>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-4">
+              <p style="font-weight: 900; color: #ff817a;">#33</p>
+            </div>
+            <div class="col-md-4">
+              <p>02/04/2021 13:34</p>
+            </div>
+            <div class="col-md-4">
+              <p style="font-weight: 900;">35 000 FCFA</p>
+            </div>
+          </div>
+        </li>-->
       </ul>
     </div>
 
-    <div class="col-md-4 columns bord">
-
+    <div class="col-md-3 columns card-detail" align="center">
+      <div class="card" style="width: 18rem;" *ngIf="saleSelected">
+        <div class="card-body">
+          <h5 class="card-title">ID Vente {{ saleSelected.order.order_number }}</h5>
+          <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <h5>Date de vente</h5>
+            <p>
+              <i class="material-icons">
+                perm_contact_calendar
+              </i>
+              {{ saleSelected.order.created_at }}
+            </p>
+          </li>
+          <li class="list-group-item">
+            <h5>Détail du client</h5>
+            <p style="color: #ff817a;">{{ saleSelected.client.name }}</p>
+            <span>
+              <i class="material-icons">
+                mail
+              </i>
+              {{ saleSelected.client.email }}
+            </span>
+          </li>
+        </ul>
+        <div class="card-body">
+         <button class="btn">
+           Impression
+         </button>
+        </div>
+      </div>
     </div>
 
-    <div class="col-md-4 columns bord">
-
+    <div class="col-md-5 card-all-detail columns">
+      <div class="card" style="width: 100%;" *ngIf="saleSelected">
+        <div class="card-body">
+          <h5 class="card-title">Récapitulatif de la vente</h5>
+          <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <ul class="list-group" *ngFor="let product of saleSelected.order.cart_info">
+              <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
+                <strong>{{ product.title }}</strong>
+                <span>{{ product.price | number }} x {{ product.quantity }}</span>
+                <span class="badge badge-pill" style="background-color: #ff817a;">{{ product.amount | number }} FCFA</span>
+              </li>
+              <!--<li class="list-group-item d-flex justify-content-between align-items-center no-bord">
+                <strong>Sac à main</strong>
+                <span>40.000x2</span>
+                <span class="badge badge-pill" style="background-color: #ff817a;">80.000 FCFA</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
+                <strong>Sac à main</strong>
+                <span>40.000x2</span>
+                <span class="badge badge-pill" style="background-color: #ff817a;">80.000 FCFA</span>
+              </li>-->
+            </ul>
+          </li>
+          <li class="list-group-item">
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
+                <strong>Sous-total</strong>
+                <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.sub_total">{{ saleSelected.order.sub_total | number }} FCFA</span>
+              </li>
+            </ul>
+          </li>
+          <li class="list-group-item">
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
+                <strong>Remise</strong>
+                <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.coupon === null">0 FCFA</span>
+                <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.coupon !== null">{{ saleSelected.coupon }} FCFA</span>
+              </li>
+            </ul>
+          </li>
+          <li class="list-group-item">
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
+                <strong>Total</strong>
+                <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.total_amount">{{ saleSelected.order.total_amount | number }} FCFA</span>
+              </li>
+            </ul>
+          </li>
+          <li class="list-group-item">
+              <ul class="list-group" *ngIf="saleSelected.order.payment_method">
+                <li class="list-group-item d-flex justify-content-between align-items-center no-bord" *ngIf="saleSelected.order.payment_method === 'espece'">
+                  Paiement en espèce
+                  <span class="badge badge-pill" style="background-color: #ff817a;">{{ saleSelected.order.total_amount | number }} FCFA</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center no-bord" *ngIf="saleSelected.order.payment_method === 'mobile-money'">
+                  Paiement par mobile money
+                  <span>NEANT</span>
+                  <span class="badge badge-pill" style="background-color: #ff817a;" >{{ saleSelected.order.total_amount | number }} FCFA</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center no-bord" *ngIf="saleSelected.order.payment_method === 'carte' || saleSelected.order.payment_method === 'cheque'">
+                  Paiement par carte/chèque
+                  <span>Carte</span>
+                  <span class="badge badge-pill" style="background-color: #ff817a;">{{ saleSelected.order.total_amount | number }} FCFA</span>
+                </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
 
   </div>
