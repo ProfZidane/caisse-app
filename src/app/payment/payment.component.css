@@ -14,6 +14,12 @@ label,a,h5,small,input,button,p,span {
     border-radius: 0;
   }
 
+a.active {
+  background-color: #ff817a;
+  border-color: white;
+  color: black;
+}
+
 .payment-fullcontent {
     padding: 1rem;
     /*border: solid;*/
@@ -43,8 +49,13 @@ label,a,h5,small,input,button,p,span {
 
   .price {
       font-size: 27px;
-      color: #007bff;
+      color: #000;
 
+  }
+
+  .primary-am {
+    border-color: white;
+    background-color: #ff817a;
   }
 
   .calculator {
@@ -93,7 +104,7 @@ label,a,h5,small,input,button,p,span {
 
 
   ::ng-deep .mat-progress-bar-fill::after {
-    background-color: #007bff !important;
+    background-color: #ff817a !important;
   }
 
   ::ng-deep .mat-progress-bar-buffer {

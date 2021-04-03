@@ -2,7 +2,7 @@
     <!-- onglet part -->
     <div class="row">
       <div class="col-md-2">
-        <button class="btn btn-primary btn-sm" (click)="CreateOnglet()">
+        <button class="btn primary-am btn-sm" (click)="CreateOnglet()">
           <i class="material-icons">
             add
           </i>
@@ -31,7 +31,7 @@
     <div class="row article-content">
       <div class="tab-content" id="myTabContent" style="width: 90%;">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-          <p class="text-info error" *ngIf="Products.length === 0" >
+          <p class="text-info error text-dark" *ngIf="Products.length === 0" >
             Votre panier est vide !
           </p>
           <div class="row cart-elt ml-1 mt-2" *ngFor="let product of Products" >
@@ -52,7 +52,7 @@
               </i>
             </div>
             <div class="col-md-1">
-              <i class="material-icons text-danger" style="position:relative;right:12px" (click)="Clear(product)">
+              <i class="material-icons" style="position:relative;right:12px;color: #FF086C;" (click)="Clear(product)">
                 clear
               </i>
             </div>
@@ -79,15 +79,15 @@
         </h1>
       </div>
       <div class="col-md-6 ">
-        <button class="btn btn-primary" *ngIf="!SelectedC" (click)="goToCustomer()">
+        <button class="btn primary-am" style="color: white; background-color: black;" *ngIf="!SelectedC" (click)="goToCustomer()">
           Ajoutez Client
         </button>
-        <button class="btn btn-primary" *ngIf="SelectedC" (click)="goToCustomer()">
+        <button class="btn" style="color: white; background-color: black;" *ngIf="SelectedC" (click)="goToCustomer()">
           {{ SelectedC }}
         </button>
       </div>
       <div class="col-md-6 ">
-        <button class="btn btn-primary" (click)="goToCheckout()">
+        <button class="btn" style="color: white; background-color: black;" (click)="goToCheckout()">
           Payer Maintenant
         </button>
       </div>

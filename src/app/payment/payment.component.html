@@ -13,7 +13,7 @@
     </div>
 
     <div class="card-customer" *ngIf="customer">
-        <h1>{{ customer.name }}</h1>
+        <h1 style="color: #ff817a;">{{ customer.name }}</h1>
         <div class="card-detail-customer">
             <p class="mb-1">
                 <i class="iii material-icons">
@@ -82,7 +82,7 @@
                                           <label for="exampleFormControlSelect1">Entrez la valeur</label>
                                           <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
                                         </div>
-                                        <button class="btn btn-primary" (click)="applyReduction()">
+                                        <button class="btn primary-am" (click)="applyReduction()">
                                           Appliquer réduction
                                         </button>
                                       </div>
@@ -95,7 +95,7 @@
                                           <label for="exampleFormControlSelect1">Entrez l'adresse de livraison</label>
                                           <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPlace" [(ngModel)]="delivery.adresse">
                                         </div>
-                                        <button class="btn btn-primary" (click)="setSumDelivery()">
+                                        <button class="btn primary-am" (click)="setSumDelivery()">
                                           Coût de livraison
                                         </button>
                                       </div>
@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-primary btn-lg mt-5" style="width: 60%;" (click)="checkout()">Confirmer</button>
+                                <button class="btn btn-lg text-light mt-5" style="width: 60%;background-color: black;" (click)="checkout()">Confirmer</button>
 
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                           </div>
                         </div>
                         <div class="col-md-6">
-                          <button class="btn btn-primary btn-lg btn-soutra">
+                          <button class="btn primary-am btn-lg btn-soutra">
                             Déclancher
                           </button>
                         </div>
@@ -229,7 +229,7 @@
                                     <label for="exampleFormControlSelect1">Entrez la valeur</label>
                                     <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
                                   </div>
-                                  <button class="btn btn-primary" (click)="applyReduction()">
+                                  <button class="btn primary-am" (click)="applyReduction()">
                                     Appliquer réduction
                                   </button>
                                 </div>
@@ -242,12 +242,12 @@
                                     <label for="exampleFormControlSelect1">Entrez l'adresse de livraison</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPlace" [(ngModel)]="delivery.adresse">
                                   </div>
-                                  <button class="btn btn-primary" (click)="setSumDelivery()">
+                                  <button class="btn primary-am" (click)="setSumDelivery()">
                                     Coût de livraison
                                   </button>
                                 </div>
                             </div>
-                              <button class="btn btn-primary btn-lg mt-5" type="submit" style="width: 100%;" (click)="checkoutCreditCard()">Confirmer</button>
+                              <button class="btn btn-lg mt-5" type="submit" style="width: 100%;color: white;background-color: black;" (click)="checkoutCreditCard()">Confirmer</button>
                         </div>
                     </div>
                     <div class="tab-pane" id="settings" role="tabpanel">
@@ -304,7 +304,7 @@
                                     <label for="exampleFormControlSelect1">Entrez la valeur</label>
                                     <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
                                   </div>
-                                  <button class="btn btn-primary" (click)="applyReduction()">
+                                  <button class="btn primary-am" (click)="applyReduction()">
                                     Appliquer réduction
                                   </button>
                                 </div>
@@ -317,12 +317,12 @@
                                     <label for="exampleFormControlSelect1">Entrez l'adresse de livraison</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPlace" [(ngModel)]="delivery.adresse">
                                   </div>
-                                  <button class="btn btn-primary" (click)="setSumDelivery()">
+                                  <button class="btn primary-am" (click)="setSumDelivery()">
                                     Coût de livraison
                                   </button>
                                 </div>
                             </div>
-                              <button class="btn btn-primary btn-lg mt-5" style="width: 100%;" (click)="checkoutMobileMoney()">Confirmer</button>
+                              <button class="btn text-light btn-lg mt-5" style="width: 100%;background-color: black;" (click)="checkoutMobileMoney()">Confirmer</button>
                         </div>
 
                     </div>

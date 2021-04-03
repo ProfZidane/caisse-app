@@ -19,3 +19,8 @@ button {
   display: absolute;
   transform: translateY(300%);
 }
+
+.primary-am {
+  border-color: white;
+  background-color: #ff817a;
+}

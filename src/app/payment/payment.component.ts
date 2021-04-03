@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CartOperateService } from '../services/cart-operate.service';
 
 @Component({
@@ -45,7 +46,7 @@ response_checkout = {
   success : false,
   error : false
 };
-  constructor(private cartService: CartOperateService) {
+  constructor(private cartService: CartOperateService, private router: Router) {
     this.typePayement = 'especes';
    }
 
@@ -192,6 +193,7 @@ response_checkout = {
           this.cartService.starterGenerateTicket();
           this.response_checkout.success = true;
           this.response_checkout.error = false;
+          this.successPayment();
         }, (err) => {
           console.log(err);
           this.loadingControl();
@@ -234,6 +236,7 @@ response_checkout = {
             this.cartService.starterGenerateTicket();
             this.response_checkout.success = true;
             this.response_checkout.error = false;
+            this.successPayment();
           }, (err) => {
             console.log(err);
             this.loadingControl();
@@ -278,6 +281,7 @@ response_checkout = {
             this.cartService.starterGenerateTicket();
             this.response_checkout.success = true;
             this.response_checkout.error = false;
+            this.successPayment();
           }, (err) => {
             console.log(err);
             this.loadingControl();
@@ -352,4 +356,13 @@ response_checkout = {
     }, 1000);
   }
 
+  successPayment() {
+    // localStorage.removeItem('')
+    setTimeout( () => {
+      localStorage.setItem('cart', '[]');
+      localStorage.removeItem('total');
+      localStorage.removeItem('customerChoice');
+      this.router.navigateByUrl('/home');
+    }, 2000);
+  }
 }

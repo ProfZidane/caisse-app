@@ -60,7 +60,7 @@ export class PdfService {
         },
         {
           style : 'account',
-          margin : [174, 10, 0, 10],
+          margin : [169, 10, 0, 10],
           alignment : 'center',
           table : {
             alignment : 'center',
@@ -173,6 +173,10 @@ export class PdfService {
 
     const def = this.generateContent(object);
     // { content: 'A sample PDF document generated using Angular and PDFMake' };
-    this.pdfMake.createPdf(def).open();
+    try {
+      this.pdfMake.createPdf(def).open();
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
