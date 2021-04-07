@@ -33,7 +33,7 @@ dataToPdf;
 
   GeneratePDFForSales(object) {
     console.log(object);
-    /* const objectProductPdf = [];
+    const objectProductPdf = [];
     let remise = '';
     object.produit.forEach(elt => {
       let newObject = [
@@ -45,7 +45,7 @@ dataToPdf;
         },
         {
           border : [false, false, false, false],
-          text : elt.slug,
+          text : elt.title,
           fontSize : 8,
           alignment : 'center',
         },
@@ -57,7 +57,7 @@ dataToPdf;
         },
         {
           border : [false, false, false, false],
-          text : elt.amout.toString(),
+          text : elt.amount.toString(),
           fontSize : 8,
           alignment : 'center',
         }
@@ -65,12 +65,8 @@ dataToPdf;
       objectProductPdf.push(newObject);
     });
     console.log(objectProductPdf);
-    if (object.reduction.state === true) {
-      if (object.reduction.type === 'percent') {
-        remise = object.reduction.value.toString() + '%';
-      } else if (object.reduction.type === 'fixed') {
+    if (object.reduction !== null) {
         remise = object.reduction.value.toString() + ' Fcfa';
-      }
     } else {
       remise = 'aucune';
     }
@@ -83,7 +79,9 @@ dataToPdf;
       remise : remise
     };
 
-    this.pdfService.generatePdf(this.dataToPdf);*/
+    console.log(this.dataToPdf);
+
+     this.pdfService.generatePdf(this.dataToPdf);
   }
 
 

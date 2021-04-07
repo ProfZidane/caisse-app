@@ -22,7 +22,7 @@ export class SidemenuComponent implements OnInit {
   }
 
   goToSales() {
-    this.route.navigateByUrl('/sales');
+    this.route.navigateByUrl('/sales/(child2:sales-group;open=true)');
   }
 
 }

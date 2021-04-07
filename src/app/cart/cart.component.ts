@@ -112,7 +112,9 @@ SelectedC;
     if (scc !== null) {
       this.SelectedC = scc.name;
     }*/
-    this.SelectedC = this.authService.GetSelectedCustomer().name;
+    if (this.authService.GetSelectedCustomer() !== null) {
+      this.SelectedC = this.authService.GetSelectedCustomer().name;
+    }
     // this.SelectedC = scc.name;
   }
 

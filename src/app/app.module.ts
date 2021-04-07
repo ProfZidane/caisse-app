@@ -26,6 +26,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ScannerComponent } from './scanner/scanner.component';
 import { SalesDetailComponent } from './sales-detail/sales-detail.component';
+import { SalesContentComponent } from './sales-content/sales-content.component';
+import { SalesGeneralComponent } from './sales-general/sales-general.component';
+import { SalesDailyComponent } from './sales-daily/sales-daily.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +44,10 @@ import { SalesDetailComponent } from './sales-detail/sales-detail.component';
     CustomerComponent,
     PaymentComponent,
     ScannerComponent,
-    SalesDetailComponent
+    SalesDetailComponent,
+    SalesContentComponent,
+    SalesGeneralComponent,
+    SalesDailyComponent
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,9 @@ import { CustomerComponent } from './customer/customer.component';
 import { ScannerComponent } from './scanner/scanner.component';
 import { SalesComponent } from './sales/sales.component';
 import { SalesDetailComponent } from './sales-detail/sales-detail.component';
+import { SalesContentComponent } from './sales-content/sales-content.component';
+import { SalesGeneralComponent } from './sales-general/sales-general.component';
+import { SalesDailyComponent } from './sales-daily/sales-daily.component';
 
 
 const routes: Routes = [
@@ -55,9 +58,26 @@ const routes: Routes = [
     component : SalesComponent,
     children : [
       {
-        path : '',
+        path : 'sales-group',
         component : SalesDetailComponent,
-        outlet : 'child2'
+        outlet : 'child2',
+        children: [
+          {
+            path: '',
+            component: SalesGeneralComponent,
+            outlet: 'child21'
+          },
+          {
+            path: 'sales-detail',
+            component: SalesContentComponent,
+            outlet: 'child21'
+          },
+          {
+            path: 'sales-daily',
+            component: SalesDailyComponent,
+            outlet: 'child21'
+          }
+        ]
       }
     ]
   },
