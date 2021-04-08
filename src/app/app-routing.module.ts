@@ -63,12 +63,12 @@ const routes: Routes = [
         outlet : 'child2',
         children: [
           {
-            path: '',
+            path: 'pp',
             component: SalesGeneralComponent,
             outlet: 'child21'
           },
           {
-            path: 'sales-detail',
+            path: '',
             component: SalesContentComponent,
             outlet: 'child21'
           },

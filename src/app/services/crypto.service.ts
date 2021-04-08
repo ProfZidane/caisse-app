@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 /*import * as Crypto from 'crypto';
 import * as CryptoJs from 'crypto-js';*/
-import CryptoES from 'crypto-es';
-import { SECRET_KEY } from '../../environments/environment';
+/*import CryptoES from 'crypto-es';
+ import { SECRET_KEY } from '../../environments/environment';
 const encryptionType = 'aes-256-cbc';
 const encryptionEncoding = 'base64';
 const bufferEncryption = 'utf-8';
-declare const Buffer;
+declare const Buffer;*/
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +15,7 @@ newValueEncoded;
 
   constructor() { }
 
-
+/*
   TextEncodingToAES256(data) {
     if (data !== null && data !== '') {
 
@@ -46,7 +46,7 @@ newValueEncoded;
       return this.newValueEncoded;
     }
   }
-
+*/
   /*TextDecodingToAES256(data) {
     if (data !== null && data !== '') {
       const decrypted = {

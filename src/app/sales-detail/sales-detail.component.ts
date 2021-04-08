@@ -28,7 +28,7 @@ elementClicked;
 
   GoToDailyBook(classes) {
     this.ChangeRoute(classes);
-    this.router.navigateByUrl('/sales/sales-group/(child21:/sales-daily;open=true)');
+    this.router.navigateByUrl('/sales(child2:sales-group;child21:sales-daily;open=true)');
   }
 
   GoToGeneralBook(classes) {
