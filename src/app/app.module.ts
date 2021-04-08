@@ -29,6 +29,9 @@ import { SalesDetailComponent } from './sales-detail/sales-detail.component';
 import { SalesContentComponent } from './sales-content/sales-content.component';
 import { SalesGeneralComponent } from './sales-general/sales-general.component';
 import { SalesDailyComponent } from './sales-daily/sales-daily.component';
+
+import { DataTablesModule } from 'angular-datatables';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +60,8 @@ import { SalesDailyComponent } from './sales-daily/sales-daily.component';
     MatProgressBarModule,
     MatSnackBarModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    DataTablesModule
   ],
   providers: [
     AuthService,

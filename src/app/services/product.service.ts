@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { CartOperateService } from './cart-operate.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,9 @@ getproductURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getAllProducts';
 getProductByIdURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getProduct/';
 Articles;
 Products = [];
-  constructor(private http: HttpClient, private cartService: CartOperateService) { }
+productCart;
+emptyCart = [];
+  constructor(private http: HttpClient, private s: MatSnackBar) { }
 
 
   GetProducts(): Observable<any> {
@@ -24,49 +26,70 @@ Products = [];
     return this.http.get(this.getProductByIdURL + slug);
   }
 
-
-  /*LoadDataCart(arrayToSelect) {
-    const p = this.cartService.GetProductToCart();
-    p.forEach(element => {
-       this.GetProductsToCart(element,   arrayToSelect);
-    });
-
+  GetProductInCart(numCart: string): Array<any> {
+    if (Number(numCart) <= 3 && Number(numCart) > 0) {
+      this.productCart = JSON.parse(localStorage.getItem('cart-' + numCart));
+    }
+    return this.productCart;
   }
 
-  GetProductsToCart(other_elt, arrayToSelect) {
-    const p = JSON.parse(localStorage.getItem('inProgress'));
-    const in_p = p.in;
+  GetEmptyCart(): Array<any> {
+    const tabKeyCart = ['1', '2', '3'];
+    const cartEmpty = [];
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < tabKeyCart.length; i++) {
+      const stateCart = JSON.parse(localStorage.getItem('cart'));
+      console.log(stateCart[0][tabKeyCart[i.toString()]]);
 
-    this.GetProducts().subscribe(
-      (data) => {
-        arrayToSelect = data;
-        //console.log(this.Articles);
+      if (stateCart[0][tabKeyCart[i.toString()]] === true) {
+        console.log(tabKeyCart[i]);
 
-        arrayToSelect.forEach(element => {
-          if (element.id === other_elt.identify && other_elt.progress === in_p) {
-            console.log('jai eu un produit');
-
-            const data = {
-              id : element.id,
-              name : element.title,
-              img : element.photo,
-              price : element.price,
-              qte : other_elt.quantity
-            };
-            //console.log(data);
-
-            // elt.qte = other_element.quantity;
-            this.Products.push(data);
-           }
-        });
-
-
-      }, (err) => {
-        console.log(err);
+        const cart = JSON.parse(localStorage.getItem('cart-' + tabKeyCart[i]));
+        if (cart.length === 0) {
+          this.emptyCart.push(tabKeyCart[i]);
+        }
+      } else {
+        console.log('panier no activé !');
       }
-    );
-    return this.Products;
-    //console.log(arrayToSelect);
 
-  }*/
+    }
+
+    console.log(this.emptyCart);
+
+    return this.emptyCart;
+  }
+
+
+  SetQuantityProductToCart(numCart: string, object): void {
+    console.log('fonction daugmentation de la quantite !');
+
+    if (Number(numCart) <= 3 && Number(numCart) > 0) {
+      this.productCart = JSON.parse(localStorage.getItem('cart-' + numCart));
+      this.productCart.forEach(element => {
+        if (element.identify === object.identify && element.quantity < element.stock) {
+          element.quantity ++;
+          console.log(element);
+          localStorage.setItem('cart-' + numCart, JSON.stringify(this.productCart));
+          this.s.open('Quantité augmentée !', 'OK');
+        } else {
+          console.log('stock atteind');
+          this.s.open('Cet produit ne peut être choisie. Son stock est limité !', 'OK');
+        }
+      });
+    }
+  }
+
+  SetProductToCart(numCart: string, object): void {
+    this.productCart = JSON.parse(localStorage.getItem('cart-' + numCart));
+    this.productCart.push(object);
+    localStorage.setItem('cart-' + numCart, JSON.stringify(this.productCart));
+  }
+
+  VerifyIfStockRest(object) {
+    const tabKeyCart = ['1', '2', '3'];
+    // tslint:disable-next-line:prefer-for-of
+    for (let j = 0; j < tabKeyCart.length; j++) {
+
+    }
+  }
 }

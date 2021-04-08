@@ -11,7 +11,7 @@
     Aucun résultat correspond à votre recherche !
   </small>
 
-    <div class="col-md-3 article " align="center" *ngFor="let article of articles" (click)="SelectProduct(article)">
+    <div class="col-md-3 article " style="cursor: pointer;" align="center" *ngFor="let article of articles" (click)="SelectProduct(article)">
       <div class="img-content">
         <img src="{{ article.photo }}" alt="" width="100%" height="200px">
       </div>

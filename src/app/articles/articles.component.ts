@@ -62,11 +62,13 @@ articlesBases;
     );
   }
 
+  // ajouter au panier
   SelectProduct(object) {
-    // console.log(object);
+    console.log(object);
     this.cartService.InsertToLocalCart(object);
   }
 
+  // creation de liste contenant le mot chercher
   FilterString(array, text) {
     const filteredCart = array.filter((item) => item.title.toLowerCase().includes(text.toLowerCase()));
     // console.log(filteredCart);
@@ -75,6 +77,7 @@ articlesBases;
   }
 
 
+  // fonction generale de recherche integrant la creation de liste du mot cle
   OnResearch(event) {
     // console.log(event.target.value);
     if (event === '') {

@@ -10,19 +10,23 @@ import { Router } from '@angular/router';
 })
 export class CartComponent implements OnInit {
 Products = [];
+Products2 = [];
+Products3 = [];
 articles = [];
 Total;
 SelectedC;
+existingCart;
+countGetDataInSpecificCart = 0;
   constructor(private cartService: CartOperateService, private authService: AuthService, private productService: ProductService,
               private route: Router) {
 
-      setTimeout( () => {
+      /*setTimeout( () => {
       this.LoadOnglet();
-      }, 500);
+      }, 500);*/
 
-      setInterval( () => {
+      /*setInterval( () => {
         this.LoadDataCart();
-      }, 800);
+      }, 800);*/
 
       /*setInterval( () => {
         this.CalCulTotal();
@@ -45,20 +49,65 @@ SelectedC;
       }, 500);
       // this.CalCulTotal();
 
+      this.LoadProductToCart();
+
+      setInterval( () => {
+        this.RealTimeLoadProductToCart();
+      }, 1000);
+
    }
 
   ngOnInit(): void {
     // this.LoadOnglet();
     /*this.LoadDataCart();
       this.CalCulTotal();*/
+      this.VerifyExistingCart();
+
+
 
   }
 
-  // tslint:disable-next-line:use-lifecycle-interface
-  ngAfterViewInit() {
 
+  // Verifier les paniers presents !
+  VerifyExistingCart() {
+    console.log('chargement ...');
+
+    this.existingCart = this.cartService.CountingExistingCart();
+    console.log(this.existingCart);
   }
 
+
+  // charger les données des differents paniers
+  LoadProductToCart() {
+    this.Products = this.cartService.GetProductToCart1();
+    this.Products2 = this.cartService.GetProductToCart2();
+    this.Products3 = this.cartService.GetProductToCart3();
+  }
+
+
+  // charger en temps réel les données en fonction des paniers
+  RealTimeLoadProductToCart() {
+    const inP = JSON.parse(localStorage.getItem('inProgress'));
+    // console.log(inP);
+    if (inP.in === 1) {
+      this.countGetDataInSpecificCart ++;
+      //  console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 1');
+      this.Products = this.cartService.GetProductToCart1();
+    } else if (inP === 2) {
+      //  console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 1');
+      this.Products2 = this.cartService.GetProductToCart2();
+    } else if (inP === 3) {
+      //  console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 1');
+      this.Products3 = this.cartService.GetProductToCart3();
+    }
+    /*if (this.existingCart['1']) {
+      this.Products = this.cartService.GetProductToCart1();
+    } else if (this.existingCart['2']) {
+      this.Products = this.cartService.GetProductToCart2();
+    } else if (this.existingCart['3']) {
+      this.Products = this.cartService.GetProductToCart3();
+    }*/
+  }
 
 
   LoadDataCart() {
@@ -118,49 +167,18 @@ SelectedC;
     // this.SelectedC = scc.name;
   }
 
+  // changement d'onglet (de panier)
   ChangeForFirst(value) {
     this.cartService.ChangeOnglet(value);
   }
 
-  CreateOnglet() {
-    // this.cartService.CreateNewAngled();
-    /*let data_progress = JSON.parse(localStorage.getItem('inProgress'));
-    let new_data_progress = data_progress.in + 1;
-    this.cartService.CreateNewOnglet(new_data_progress);*/
-    const lastOnglet = document.getElementById('myTab').lastElementChild;
-    // console.log(lastOnglet.classList);
-    // tslint:disable-next-line:variable-name
-    const child_of_lastOnglet = lastOnglet.firstElementChild as HTMLElement;
-    // console.log(child_of_lastOnglet);
-    child_of_lastOnglet.classList.remove('active');
-
-    console.log(lastOnglet.textContent);
-    // tslint:disable-next-line:variable-name
-    const upgrade_number = Number(lastOnglet.textContent) + 1;
-    const newOnglet = document.createElement('li');
-    newOnglet.classList.add('nav-item');
-    const n = document.createElement('a');
-    n.classList.add('nav-link');
-    n.classList.add('active')
-    n.setAttribute('id','home-tab');
-    n.setAttribute('data-toggle','tab');
-    n.setAttribute('href', '#home');
-    n.setAttribute('role', 'tab');
-    n.setAttribute('aria-controls', 'home');
-    n.setAttribute('aria-selected', 'true');
-    n.setAttribute('data-progress', upgrade_number.toString());
-    const text = document.createTextNode(upgrade_number.toString());
-    n.appendChild(text);
-    // add event lister to load data to cart at perfect time
-    n.addEventListener('click', () => {
-      const a = n.getAttribute('data-progress');
-      console.log('jai clicquer sur le ' + a +  ' !');
-      this.cartService.ChangeOnglet(Number(a));
-    });
-    newOnglet.appendChild(n);
-    this.cartService.ChangeOnglet(Number(upgrade_number));
-    document.getElementById('myTab').insertBefore(newOnglet, document.getElementById('first').lastElementChild.nextSibling);
+  // creation de panier utilisateur
+  CreateOnglet(): void {
+    if (this.existingCart) {
+        this.cartService.CreatingTab();
+    }
   }
+
 
   LoadOnglet() {
     const countOnglet = JSON.parse(localStorage.getItem('inProgress')).in;

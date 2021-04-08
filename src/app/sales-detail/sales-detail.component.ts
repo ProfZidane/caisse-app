@@ -9,6 +9,11 @@ import { Router } from '@angular/router';
 })
 export class SalesDetailComponent implements OnInit {
 elementClicked;
+visibility = {
+  daily : false,
+  general : true,
+  detail : false
+};
   constructor(private router: Router) {
 
    }
@@ -28,15 +33,24 @@ elementClicked;
 
   GoToDailyBook(classes) {
     this.ChangeRoute(classes);
-    this.router.navigateByUrl('/sales(child2:sales-group;child21:sales-daily;open=true)');
+    this.visibility.daily = true;
+    this.visibility.detail = false;
+    this.visibility.general = false;
+    // this.router.navigateByUrl('/sales(child2:sales-group;child21:sales-daily;open=true)');
   }
 
   GoToGeneralBook(classes) {
     this.ChangeRoute(classes);
+    this.visibility.daily = false;
+    this.visibility.detail = false;
+    this.visibility.general = true;
   }
 
   GoToSpecificBook(classes) {
     this.ChangeRoute(classes);
+    this.visibility.daily = false;
+    this.visibility.detail = true;
+    this.visibility.general = false;
   }
 
 }
