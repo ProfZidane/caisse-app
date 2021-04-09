@@ -79,17 +79,37 @@ emptyCart = [];
     }
   }
 
-  SetProductToCart(numCart: string, object): void {
+  // ajouter au panier (dans le localStorage)
+  SetProductToCart(numCart: string, object) {
     this.productCart = JSON.parse(localStorage.getItem('cart-' + numCart));
     this.productCart.push(object);
     localStorage.setItem('cart-' + numCart, JSON.stringify(this.productCart));
   }
 
+
+  // vérifier si le produit existe dans les autres paniers et si le stock est atteint
   VerifyIfStockRest(object) {
     const tabKeyCart = ['1', '2', '3'];
+    let i = 0;
+    let qte = 0;
+    console.log('Boucle de vérification de stocks inter panier');
+
     // tslint:disable-next-line:prefer-for-of
     for (let j = 0; j < tabKeyCart.length; j++) {
-
+      const cartSpecific = JSON.parse(localStorage.getItem('cart-' + tabKeyCart[j]));
+      cartSpecific.forEach(element => {
+        if (Number(element.identify) === Number(object.identify)) {
+          qte  += Number(element.quantity);
+          // console.log(qte);
+          if (Number(qte) === Number(object.stock)) {
+            console.log('produit hors stock');
+            i += 1;
+          }
+        }
+      });
     }
+    console.log('Quantité : ' + qte);
+    console.log('Etat numerique du stock : ' + i);
+    return i;
   }
 }

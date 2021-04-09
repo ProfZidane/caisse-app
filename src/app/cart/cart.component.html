@@ -13,10 +13,10 @@
           <li class="nav-item" id="first" >
             <a class="nav-link active" (click)="ChangeForFirst(1)" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">1</a>
           </li>
-         <li class="nav-item" *ngIf="existingCart['2'] === true">
+         <li class="nav-item" id="second" *ngIf="existingCart['2'] === true">
             <a class="nav-link" (click)="ChangeForFirst(2)"  id="cart2-tab" data-toggle="tab" href="#cart2" role="tab" aria-controls="cart2" aria-selected="false">2</a>
           </li>
-          <li class="nav-item" *ngIf="existingCart['3'] === true">
+          <li class="nav-item" id="third" *ngIf="existingCart['3'] === true">
             <a class="nav-link" (click)="ChangeForFirst(3)" id="cart3-tab" data-toggle="tab" href="#cart3" role="tab" aria-controls="cart3" aria-selected="false">3</a>
           </li>
 
@@ -27,7 +27,7 @@
         </ul>
       </div>
       <div class="col-md-2" *ngIf="existingCart['2'] === true || existingCart['3'] === true">
-        <button class="btn primary-am btn-sm" id="removeCartBtn" (click)="CreateOnglet()">
+        <button class="btn primary-am btn-sm" id="removeCartBtn" (click)="RemoveOnglet()">
           <i class="material-icons">
             remove
           </i>
@@ -38,7 +38,7 @@
     <!-- content articles part -->
     <div class="row article-content">
       <div class="tab-content" id="myTabContent" style="width: 90%;">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab" *ngIf="p.nv1 === true">
           <p class="text-info error text-dark" *ngIf="Products.length === 0" >
             Votre panier est vide !
           </p>
@@ -67,7 +67,7 @@
           </div>
 
         </div>
-        <div class="tab-pane fade" id="cart2" role="tabpanel" aria-labelledby="cart2-tab">
+        <div class="tab-pane fade" id="cart2" role="tabpanel" aria-labelledby="cart2-tab"  *ngIf="p.nv2 === true">
           <!--
             <p class="text-info error text-dark" *ngIf="Products.length === 0" >
             Votre panier est vide !
@@ -97,7 +97,7 @@
           </div>
           -->
         </div>
-        <div class="tab-pane fade" id="cart3" role="tabpanel" aria-labelledby="cart3-tab">
+        <div class="tab-pane fade" id="cart3" role="tabpanel" aria-labelledby="cart3-tab"  *ngIf="p.nv3 === true">
           <!--
             <p class="text-info error text-dark" *ngIf="Products.length === 0" >
             Votre panier est vide !

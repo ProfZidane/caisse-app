@@ -53,6 +53,61 @@ CountingExistingCart() {
 }
 
 
+// Attribuer classe après génération
+AttributeActiveToLink() {
+  const first = document.getElementById('first');
+  const second = document.getElementById('second');
+  const third = document.getElementById('third');
+  const inP = JSON.parse(localStorage.getItem('inProgress'));
+  console.log('eee');
+
+  if (Number(inP.in) === 1) {
+    console.log('1');
+    if (first) {
+      first.classList.add('active');
+      first.setAttribute('aria-selected', 'true');
+    }
+    if (second) {
+      second.classList.remove('active');
+      second.setAttribute('aria-selected', 'false');
+    }
+    if (third) {
+      third.classList.remove('active');
+      third.setAttribute('aria-selected', 'false');
+    }
+  } else if (Number(inP.in) === 2) {
+    console.log('2');
+
+    if (first) {
+      first.classList.remove('active');
+      first.setAttribute('aria-selected', 'false');
+    }
+    if (second) {
+      second.classList.add('active');
+      second.setAttribute('aria-selected', 'true');
+    }
+    if (third) {
+      third.classList.remove('active');
+      third.setAttribute('aria-selected', 'false');
+    }
+  } else if (Number(inP.in) === 3) {
+    console.log('3');
+
+    if (first) {
+      first.classList.remove('active');
+      first.setAttribute('aria-selected', 'false');
+    }
+    if (second) {
+      second.classList.remove('active');
+      second.setAttribute('aria-selected', 'false');
+    }
+    if (third) {
+      third.classList.add('active');
+      third.setAttribute('aria-selected', 'true');
+    }
+  }
+}
+
 // Creation d'onglet (panier)
 CreatingTab(): void {
   this.VerifyInProgress();
@@ -64,22 +119,99 @@ CreatingTab(): void {
     if (this.existingCart['2'] === false) {
       this.existingCart['2'] = true;
       localStorage.setItem('cart', JSON.stringify([this.existingCart]));
+      // tslint:disable-next-line:variable-name
+      const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
+      in_progress_value.in = 2;
+      localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
+    //  this.AttributeActiveToLink();
     } else if (this.existingCart['3'] === false) {
       this.existingCart['3'] = true;
       localStorage.setItem('cart', JSON.stringify([this.existingCart]));
+      // tslint:disable-next-line:variable-name
+      const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
+      in_progress_value.in = 3;
+      localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
+    //  this.AttributeActiveToLink();
     }
   } else {
     if (verifyEmptyCart.includes('1')) {
-      alert('Veuillez utiliser le panier 1 qui est toujours vide !');
+      // alert('Veuillez utiliser le panier 1 qui est toujours vide !');
+      this.s.open('Veuillez utiliser le panier 1 qui est toujours vide !', 'OK');
+
+      // if (document.getElementById('first')) {
+      //   document.getElementById('first').classList.add('active');
+      //   document.getElementById('first').setAttribute('aria-selected', 'true');
+      // }
+      // if (document.getElementById('second')) {
+      //   document.getElementById('second').classList.remove('active');
+      //   document.getElementById('second').setAttribute('aria-selected', 'false');
+      // }
+      // if (document.getElementById('third')) {
+      //   document.getElementById('third').classList.remove('active');
+      //   document.getElementById('third').setAttribute('aria-selected', 'false');
+      // }
+      const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
+      in_progress_value.in = 1;
+      localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
     } else if (verifyEmptyCart.includes('2')) {
-      alert('Veuillez utiliser le panier 2 qui est toujours vide !');
+      // alert('Veuillez utiliser le panier 2 qui est toujours vide !');
+      this.s.open('Veuillez utiliser le panier 2 qui est toujours vide !', 'OK');
+
+      // if (document.getElementById('first')) {
+      //   document.getElementById('first').classList.remove('active');
+      //   document.getElementById('first').setAttribute('aria-selected', 'false');
+      // }
+      // if (document.getElementById('second')) {
+      //   document.getElementById('second').classList.add('active');
+      //   document.getElementById('second').setAttribute('aria-selected', 'true');
+      // }
+      // if (document.getElementById('third')) {
+      //   document.getElementById('third').classList.remove('active');
+      //   document.getElementById('third').setAttribute('aria-selected', 'false');
+      // }
+      const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
+      in_progress_value.in = 2;
+      localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
     } else if (verifyEmptyCart.includes('3')) {
-      alert('Veuillez utiliser le panier 3 qui est toujours vide !');
-    } else {
-      this.existingCart[(Number(this.in_progress) + 1).toString()] = true;
-      localStorage.setItem('cart', JSON.stringify([this.existingCart]));
+      // alert('Veuillez utiliser le panier 3 qui est toujours vide !');
+      this.s.open('Veuillez utiliser le panier 3 qui est toujours vide !', 'OK');
+
+      // if (document.getElementById('first')) {
+      //   document.getElementById('first').classList.remove('active');
+      //   document.getElementById('first').setAttribute('aria-selected', 'false');
+      // }
+      // if (document.getElementById('second')) {
+      //   document.getElementById('second').classList.remove('active');
+      //   document.getElementById('second').setAttribute('aria-selected', 'false');
+      // }
+      // if (document.getElementById('third')) {
+      //   document.getElementById('third').classList.add('active');
+      //   document.getElementById('third').setAttribute('aria-selected', 'true');
+      // }
+      const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
+      in_progress_value.in = 3;
+      localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
     }
   }
+}
+
+
+// Réduire les onglets (panier)
+DesactiveCart() {
+  const existing = this.existingCart;
+  if (existing['3'] === true) {
+    existing['3'] == false;
+    const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
+    in_progress_value.in = 2;
+    localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
+  } else if (existing['2'] === true) {
+    existing['2'] = false;
+    const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
+    in_progress_value.in = 1;
+    localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
+  }
+  console.log(existing);
+  localStorage.setItem('cart', JSON.stringify([existing]));
 }
 
 
@@ -123,31 +255,55 @@ VerifyExistingInCart(num, object) {
         console.log('il sagit du panier 1');
         if (this.VerifyExistingInCart('1', data)) {
           console.log('mise a jour de la quantite + ' + data.quantity);
-          this.productService.SetQuantityProductToCart('1', data);
+          if (this.productService.VerifyIfStockRest(data) <= 0) {
+            this.productService.SetQuantityProductToCart('1', data);
+          } else {
+            this.s.open('Votre produit n\'est plus disponible', 'OK');
+          }
         } else {
           console.log('insertion de produit dans le panier');
-          this.productService.SetProductToCart('1', data);
-          this.s.open('Votre produit a bien été ajouter au panier', 'OK');
+          if (this.productService.VerifyIfStockRest(data) <= 0) {
+            this.productService.SetProductToCart('1', data);
+            this.s.open('Votre produit a bien été ajouter au panier', 'OK');
+          } else {
+            this.s.open('Votre produit n\'est plus disponible', 'OK');
+          }
         }
       } else if (this.in_progress === 2) {
         console.log('il sagit du panier 2');
         if (this.VerifyExistingInCart('2', data)) {
           console.log('mise a jour de la quantite + ' + data.quantity);
-          this.productService.SetQuantityProductToCart('2', data);
+          if (this.productService.VerifyIfStockRest(data) <= 0) {
+            this.productService.SetQuantityProductToCart('2', data);
+          } else {
+            this.s.open('Votre produit n\'est plus disponible', 'OK');
+          }
         } else {
           console.log('insertion de produit dans le panier');
-          this.productService.SetProductToCart('2', data);
-          this.s.open('Votre produit a bien été ajouter au panier', 'OK');
+          if (this.productService.VerifyIfStockRest(data) <= 0) {
+            this.productService.SetProductToCart('2', data);
+            this.s.open('Votre produit a bien été ajouter au panier', 'OK');
+          } else {
+            this.s.open('Votre produit n\'est plus disponible', 'OK');
+          }
         }
       } else if (this.in_progress === 3) {
         console.log('il sagit du panier 3');
         if (this.VerifyExistingInCart('3', data)) {
           console.log('mise a jour de la quantite + ' + data.quantity);
-          this.productService.SetQuantityProductToCart('3', data);
+          if (this.productService.VerifyIfStockRest(data) <= 0) {
+            this.productService.SetQuantityProductToCart('3', data);
+          } else {
+            this.s.open('Votre produit n\'est plus disponible', 'OK');
+          }
         } else {
           console.log('insertion de produit dans le panier');
-          this.productService.SetProductToCart('3', data);
-          this.s.open('Votre produit a bien été ajouter au panier', 'OK');
+          if (this.productService.VerifyIfStockRest(data) <= 0) {
+            this.productService.SetProductToCart('3', data);
+            this.s.open('Votre produit a bien été ajouter au panier', 'OK');
+          } else {
+            this.s.open('Votre produit n\'est plus disponible', 'OK');
+          }
         }
       }
 

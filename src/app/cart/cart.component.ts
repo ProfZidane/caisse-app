@@ -17,6 +17,11 @@ Total;
 SelectedC;
 existingCart;
 countGetDataInSpecificCart = 0;
+p = {
+  nv1 : true,
+  nv2 : false,
+  nv3 : false
+};
   constructor(private cartService: CartOperateService, private authService: AuthService, private productService: ProductService,
               private route: Router) {
 
@@ -61,6 +66,8 @@ countGetDataInSpecificCart = 0;
     // this.LoadOnglet();
     /*this.LoadDataCart();
       this.CalCulTotal();*/
+      console.log(this.existingCart);
+
       this.VerifyExistingCart();
 
 
@@ -91,12 +98,21 @@ countGetDataInSpecificCart = 0;
     // console.log(inP);
     if (inP.in === 1) {
       this.countGetDataInSpecificCart ++;
+      this.p.nv1 = true;
+      this.p.nv3 = false;
+      this.p.nv2 = false;
       //  console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 1');
       this.Products = this.cartService.GetProductToCart1();
     } else if (inP === 2) {
+      this.p.nv2 = true;
+      this.p.nv3 = false;
+      this.p.nv1 = false;
       //  console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 1');
       this.Products2 = this.cartService.GetProductToCart2();
     } else if (inP === 3) {
+      this.p.nv3 = true;
+      this.p.nv2 = false;
+      this.p.nv1 = false;
       //  console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 1');
       this.Products3 = this.cartService.GetProductToCart3();
     }
@@ -170,14 +186,114 @@ countGetDataInSpecificCart = 0;
   // changement d'onglet (de panier)
   ChangeForFirst(value) {
     this.cartService.ChangeOnglet(value);
+    if (value === 1) {
+      this.p.nv1 = true;
+      this.p.nv3 = false;
+      this.p.nv2 = false;
+    } else if (value === 2) {
+      this.p.nv2 = true;
+      this.p.nv3 = false;
+      this.p.nv1 = false;
+    } else if (value === 3) {
+      this.p.nv3 = true;
+      this.p.nv2 = false;
+      this.p.nv1 = false;
+    }
   }
 
   // creation de panier utilisateur
   CreateOnglet(): void {
     if (this.existingCart) {
         this.cartService.CreatingTab();
+        // console.log(JSON.parse(localStorage.getItem('inProgress')));
+        const indice = JSON.parse(localStorage.getItem('inProgress'));
+        console.log(indice);
+        setTimeout( () => {
+          this.AttributeActiveToLink(indice);
+        }, 500)
+        // this.AttributeActiveToLink(indice);
     }
   }
+
+
+  RemoveOnglet() {
+    this.cartService.DesactiveCart();
+    const indice = JSON.parse(localStorage.getItem('inProgress'));
+    this.AttributeActiveToLink(indice);
+  }
+
+
+  // Attribuer classe après génération
+AttributeActiveToLink(indice) {
+  const first = document.getElementById('home-tab');
+  const second = document.getElementById('cart2-tab');
+  const third = document.getElementById('cart3-tab');
+  const inP = JSON.parse(localStorage.getItem('inProgress'));
+  console.log(indice.in === 2);
+
+  if ((indice.in) === 1) {
+    this.p.nv1 = true;
+    this.p.nv2 = false;
+    this.p.nv3 = false;
+
+    if (first) {
+      first.classList.add('active');
+      first.setAttribute('aria-selected', 'true');
+    }
+    if (second) {
+      second.classList.remove('active');
+      second.setAttribute('aria-selected', 'false');
+    }
+    if (third) {
+      third.classList.remove('active');
+      third.setAttribute('aria-selected', 'false');
+    }
+
+  } else if ((indice.in) === 2) {
+
+    this.p.nv1 = false;
+    this.p.nv2 = true;
+    this.p.nv3 = false;
+
+    if (second) {
+      second.classList.add('active');
+      second.setAttribute('aria-selected', 'true');
+    }
+    if (first) {
+      first.classList.remove('active');
+      first.setAttribute('aria-selected', 'false');
+    }
+    if (third) {
+      third.classList.remove('active');
+      third.setAttribute('aria-selected', 'false');
+    }
+
+  } else if ((indice.in) === 3) {
+    this.p.nv1 = false;
+    this.p.nv2 = false;
+    this.p.nv3 = true;
+
+    if (first) {
+      first.classList.remove('active');
+      first.setAttribute('aria-selected', 'false');
+    }
+    if (second) {
+      second.classList.remove('active');
+      second.setAttribute('aria-selected', 'false');
+    }
+    if (third) {
+      third.classList.add('active');
+      third.setAttribute('aria-selected', 'true');
+    }
+
+  } else {
+    console.log('rien');
+
+  }
+}
+
+
+
 
 
   LoadOnglet() {
