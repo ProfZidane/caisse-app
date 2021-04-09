@@ -4,3 +4,7 @@ button {
   background-color: #ff817a;
   border-color: white;
 }
+
+.list {
+  border: solid;
+}
