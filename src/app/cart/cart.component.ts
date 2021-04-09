@@ -56,29 +56,19 @@ p = {
 
       this.LoadProductToCart();
 
-      setInterval( () => {
-        this.RealTimeLoadProductToCart();
-      }, 1000);
+      this.EachOneSecond();
 
    }
 
   ngOnInit(): void {
-    // this.LoadOnglet();
-    /*this.LoadDataCart();
-      this.CalCulTotal();*/
-      console.log(this.existingCart);
-
-      this.VerifyExistingCart();
-
-
-
+    console.log('Chargement du panier !');
+    this.VerifyExistingCart();
+    this.LoadOnInit();
   }
 
 
   // Verifier les paniers presents !
   VerifyExistingCart() {
-    console.log('chargement ...');
-
     this.existingCart = this.cartService.CountingExistingCart();
     console.log(this.existingCart);
   }
@@ -92,96 +82,121 @@ p = {
   }
 
 
+  // fonction de rechargement continu
+  EachOneSecond() {
+    console.log('execution set interval');
+
+    setInterval( () => {
+      this.RealTimeLoadProductToCart();
+    }, 1000);
+  }
+
+
   // charger en temps réel les données en fonction des paniers
   RealTimeLoadProductToCart() {
     const inP = JSON.parse(localStorage.getItem('inProgress'));
     // console.log(inP);
     if (inP.in === 1) {
       this.countGetDataInSpecificCart ++;
+      if (document.getElementById('home')) {
+        document.getElementById('home').classList.add('show');
+        document.getElementById('home').classList.add('active');
+      }
+      if (document.getElementById('cart2')) {
+        document.getElementById('cart2').classList.remove('show');
+        document.getElementById('cart2').classList.remove('active');
+      }
+      if (document.getElementById('cart3')) {
+        document.getElementById('cart3').classList.remove('show');
+        document.getElementById('cart3').classList.remove('active');
+      }
       this.p.nv1 = true;
       this.p.nv3 = false;
       this.p.nv2 = false;
-      //  console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 1');
+      // console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 1');
       this.Products = this.cartService.GetProductToCart1();
-    } else if (inP === 2) {
+    } else if (inP.in === 2) {
+      this.countGetDataInSpecificCart ++;
+      if (document.getElementById('home')) {
+        document.getElementById('home').classList.remove('show');
+        document.getElementById('home').classList.remove('active');
+      }
+      if (document.getElementById('cart2')) {
+        document.getElementById('cart2').classList.add('show');
+        document.getElementById('cart2').classList.add('active');
+      }
+      if (document.getElementById('cart3')) {
+        document.getElementById('cart3').classList.remove('show');
+        document.getElementById('cart3').classList.remove('active');
+      }
       this.p.nv2 = true;
       this.p.nv3 = false;
       this.p.nv1 = false;
-      //  console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 1');
+      // console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 2');
       this.Products2 = this.cartService.GetProductToCart2();
-    } else if (inP === 3) {
+    } else if (inP.in === 3) {
+      this.countGetDataInSpecificCart ++;
+      if (document.getElementById('home')) {
+        document.getElementById('home').classList.remove('show');
+        document.getElementById('home').classList.remove('active');
+      }
+      if (document.getElementById('cart2')) {
+        document.getElementById('cart2').classList.remove('show');
+        document.getElementById('cart2').classList.remove('active');
+      }
+      if (document.getElementById('cart3')) {
+        document.getElementById('cart3').classList.add('show');
+        document.getElementById('cart3').classList.add('active');
+      }
       this.p.nv3 = true;
       this.p.nv2 = false;
       this.p.nv1 = false;
-      //  console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 1');
+      // console.log('#' + this.countGetDataInSpecificCart.toString() + ' vous chargez les datas du panier 3');
       this.Products3 = this.cartService.GetProductToCart3();
     }
-    /*if (this.existingCart['1']) {
-      this.Products = this.cartService.GetProductToCart1();
-    } else if (this.existingCart['2']) {
-      this.Products = this.cartService.GetProductToCart2();
-    } else if (this.existingCart['3']) {
-      this.Products = this.cartService.GetProductToCart3();
-    }*/
   }
 
-
+/*
   LoadDataCart() {
-      /*this.Products = this.cartService.GetProductToCart();
-      console.log(this.Products);*/
-
-      /*const tableauProduit = [];
-      const pp = this.cartService.GetProductToCart();
-      const inP = JSON.parse(localStorage.getItem('inProgress'));
-      pp.forEach(elt => {
-        if (elt.progress === inP.in) {
-          tableauProduit.push(elt);
-        }
-      });
-
-      console.log(tableauProduit);*/
-
       this.Products = this.cartService.LoadTrueDataToCart();
-
   }
 
+*/
 
-
-
-
-
+// Augmentation de la quantité
   Inscrease(id) {
     console.log(id);
-
     this.cartService.InscreaseQuantity(id);
   }
 
+
+// Réduction de la quantité
   Descrease(id) {
     this.cartService.DicreaseQuantity(id);
   }
 
-  Clear(id) {
-    //console.log(id);
 
+// Suppression de produit
+  Clear(id) {
     this.cartService.ClearProduct(id);
-    // this.CalCulTotal();
   }
 
+
+
+  // Récupération du total panier
   CalCulTotal() {
     this.Total = this.cartService.GetTotal();
-
   }
 
+
+
+  // Récupérer le client en cours d'achat
   GetCustomerInLoad() {
-    /*const scc = this.authService.GetSelectedCustomer();
-    if (scc !== null) {
-      this.SelectedC = scc.name;
-    }*/
     if (this.authService.GetSelectedCustomer() !== null) {
       this.SelectedC = this.authService.GetSelectedCustomer().name;
     }
-    // this.SelectedC = scc.name;
   }
+
 
   // changement d'onglet (de panier)
   ChangeForFirst(value) {
@@ -201,6 +216,17 @@ p = {
     }
   }
 
+
+  // chargement de donnee au chargement de la page
+  LoadOnInit() {
+    const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
+    in_progress_value.in = 1;
+    localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
+    /*setTimeout( () => {
+      this.AttributeActiveToLink(indice);
+    }, 200);*/
+  }
+
   // creation de panier utilisateur
   CreateOnglet(): void {
     if (this.existingCart) {
@@ -210,7 +236,7 @@ p = {
         console.log(indice);
         setTimeout( () => {
           this.AttributeActiveToLink(indice);
-        }, 500)
+        }, 500);
         // this.AttributeActiveToLink(indice);
     }
   }
@@ -237,14 +263,23 @@ AttributeActiveToLink(indice) {
     this.p.nv3 = false;
 
     if (first) {
+      if (document.getElementById('home')) {
+        document.getElementById('home').classList.add('show');
+      }
       first.classList.add('active');
       first.setAttribute('aria-selected', 'true');
     }
     if (second) {
+      if (document.getElementById('cart2')) {
+        document.getElementById('cart2').classList.remove('show');
+      }
       second.classList.remove('active');
       second.setAttribute('aria-selected', 'false');
     }
     if (third) {
+      if (document.getElementById('cart3')) {
+        document.getElementById('cart3').classList.remove('show');
+      }
       third.classList.remove('active');
       third.setAttribute('aria-selected', 'false');
     }
@@ -256,14 +291,23 @@ AttributeActiveToLink(indice) {
     this.p.nv3 = false;
 
     if (second) {
+      if (document.getElementById('cart2')) {
+        document.getElementById('cart2').classList.add('show');
+      }
       second.classList.add('active');
       second.setAttribute('aria-selected', 'true');
     }
     if (first) {
+      if (document.getElementById('home')) {
+        document.getElementById('home').classList.remove('show');
+      }
       first.classList.remove('active');
       first.setAttribute('aria-selected', 'false');
     }
     if (third) {
+      if (document.getElementById('cart3')) {
+        document.getElementById('cart3').classList.remove('show');
+      }
       third.classList.remove('active');
       third.setAttribute('aria-selected', 'false');
     }
@@ -274,21 +318,29 @@ AttributeActiveToLink(indice) {
     this.p.nv3 = true;
 
     if (first) {
+      if (document.getElementById('home')) {
+        document.getElementById('home').classList.remove('show');
+      }
       first.classList.remove('active');
       first.setAttribute('aria-selected', 'false');
     }
     if (second) {
+      if (document.getElementById('cart2')) {
+        document.getElementById('cart2').classList.remove('show');
+      }
       second.classList.remove('active');
       second.setAttribute('aria-selected', 'false');
     }
     if (third) {
+      if (document.getElementById('cart3')) {
+        document.getElementById('cart3').classList.add('show');
+      }
       third.classList.add('active');
       third.setAttribute('aria-selected', 'true');
     }
 
   } else {
     console.log('rien');
-
   }
 }
 
@@ -328,9 +380,14 @@ AttributeActiveToLink(indice) {
 
   goToCheckout() {
     if (localStorage.getItem('customerChoice') !== null) {
-      localStorage.setItem('total', this.Total.toString());
-      // location.href = '/checkout';
-      this.route.navigateByUrl('/checkout');
+      if (Number(this.Total) > 0) {
+        localStorage.setItem('total', this.Total.toString());
+        // location.href = '/checkout';
+        this.route.navigateByUrl('/checkout');
+      } else {
+        alert('Votre panier est vide !');
+        alert('Veuillez soit switcher sur un autre ou le remplir !');
+      }
     } else {
       alert('Veuillez sélectionner un client !');
       this.route.navigateByUrl('/home/(child1:customer;open=true');

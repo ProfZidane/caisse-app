@@ -15,7 +15,8 @@ export class SalesGeneralComponent implements OnInit {
     loadingSale : false,
   };
   dtTrigger: Subject<any> = new Subject<any>();
-
+  dtOptions: any = {};
+  visibility = true;
   constructor(private salesService: SalesOperateService) { }
 
   ngOnInit(): void {
@@ -27,19 +28,28 @@ export class SalesGeneralComponent implements OnInit {
   }
 
   GetSales() {
+    this.dtOptions = {
+      // Declare the use of the extension in the dom parameter
+      dom: 'Bfrtip',
+      // Configure the buttons
+      buttons: [
+        'copy',
+        'print',
+        'excel',
+      ]
+    };
     const caissierInfo = JSON.parse(localStorage.getItem('caissier'));
     this.salesService.GetSalesByCaisser(Number(caissierInfo.id)).subscribe(
       (data) => {
         console.log(data);
-        this.loadingIndicator = true;
         this.error.loadingSale = false;
         this.sales = data;
         this.dtTrigger.next();
-
+        this.visibility = false;
       }, (err) => {
         console.log(err);
-        this.loadingIndicator = true;
         this.error.loadingSale = true;
+        this.visibility = false;
       }
     );
   }

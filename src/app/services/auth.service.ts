@@ -68,10 +68,10 @@ CustomerChoice;
     this.s.open('Nouveau Client ajouté à la commande !', 'OK');
   }
 
+
+  // Récupérer le client en pleine session
   GetSelectedCustomer() {
     this.CustomerChoice = JSON.parse(localStorage.getItem('customerChoice'));
-    //console.log(this.CustomerChoice);
-
     return this.CustomerChoice;
   }
 

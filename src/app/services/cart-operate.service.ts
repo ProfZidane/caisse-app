@@ -200,18 +200,19 @@ CreatingTab(): void {
 DesactiveCart() {
   const existing = this.existingCart;
   if (existing['3'] === true) {
-    existing['3'] == false;
+    existing['3'] = false;
     const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
     in_progress_value.in = 2;
     localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
+    localStorage.setItem('cart', JSON.stringify([existing]));
   } else if (existing['2'] === true) {
     existing['2'] = false;
     const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
     in_progress_value.in = 1;
     localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
+    localStorage.setItem('cart', JSON.stringify([existing]));
   }
   console.log(existing);
-  localStorage.setItem('cart', JSON.stringify([existing]));
 }
 
 
@@ -412,76 +413,191 @@ VerifyExistingInCart(num, object) {
   }
 
 
-  UpdateCart() {
-    localStorage.setItem('cart', JSON.stringify(this.tab));
-  }
 
+  // Calculer le total par panier
   GetTotal() {
-    // this.total = 0;
-    const inP = JSON.parse(localStorage.getItem('inProgress'));
-    if (this.tab) {
+
+    const indice = JSON.parse(localStorage.getItem('inProgress'));
+
+    if (indice.in === 1) {
+      console.log('calcul du total du panier 1 : ' + this.total + ' Fcfa');
+      const tab = JSON.parse(localStorage.getItem('cart-1'));
       let tt;
       this.total = 0;
-      this.tab.forEach(element => {
-        if (element.progress === inP.in) {
+      tab.forEach(element => {
           tt = element.price * element.quantity;
           this.total = tt + this.total;
-        }
-        // console.log(this.total);
-
       });
-      // console.log(tt);
+
+    // tslint:disable-next-line:indent
+      return this.total;
+
+    } else if (indice.in === 2) {
+      console.log('calcul du total du panier 2 : ' + this.total + ' Fcfa');
+      const tab = JSON.parse(localStorage.getItem('cart-2'));
+      let tt;
+      this.total = 0;
+      tab.forEach(element => {
+          tt = element.price * element.quantity;
+          this.total = tt + this.total;
+      });
+
+      // tslint:disable-next-line:indent
+	     return this.total;
+
+    } else if (indice.in === 3) {
+      console.log('calcul du total du panier 3 : ' + this.total + ' Fcfa');
+      const tab = JSON.parse(localStorage.getItem('cart-3'));
+      let tt;
+      this.total = 0;
+      tab.forEach(element => {
+          tt = element.price * element.quantity;
+          this.total = tt + this.total;
+      });
 
       return this.total;
     }
   }
 
 
+  // fonction de suppression des paniers
   ClearProduct(id) {
-    // console.log(this.tab.indexOf(id));
-    if (this.tab.indexOf(id) !== -1) {
-      this.tab.splice(this.tab.indexOf(id), 1);
+    const indice = JSON.parse(localStorage.getItem('inProgress'));
+
+    if (indice.in === 1) {
+      console.log('supression au panier 1');
+      const tab = JSON.parse(localStorage.getItem('cart-1'));
+      const filteredCart = tab.filter((item) => item.identify !== id.identify);
+      console.log(filteredCart);
+      localStorage.setItem('cart-1', JSON.stringify(filteredCart));
+
+    } else if (indice.in === 2) {
+      console.log('supression au panier 2');
+      const tab = JSON.parse(localStorage.getItem('cart-2'));
+      if (tab.indexOf(id) !== -1) {
+        tab.splice(tab.indexOf(id), 1);
+      }
+      const filteredCart = tab.filter((item) => item.identify !== id.identify);
+      console.log(filteredCart);
+      localStorage.setItem('cart-2', JSON.stringify(filteredCart));
+
+    } else if (indice.in === 3) {
+      console.log('supression au panier 3');
+      const tab = JSON.parse(localStorage.getItem('cart-3'));
+      if (tab.indexOf(id) !== -1) {
+        tab.splice(tab.indexOf(id), 1);
+      }
+      const filteredCart = tab.filter((item) => item.identify !== id.identify);
+      console.log(filteredCart);
+      localStorage.setItem('cart-3', JSON.stringify(filteredCart));
     }
 
-    // console.log(this.tab);
-    const tab = JSON.parse(localStorage.getItem('cart'));
-    const filteredCart = this.tab.filter((item) => item.identify !== id.id);
-    // console.log(filteredCart);
-    // tslint:disable-next-line:no-unused-expression
-    localStorage.setItem('cart', JSON.stringify(filteredCart));
-
   }
 
+
+  // fonction d'augmentation de quantite en fonction des paniers
   InscreaseQuantity(id) {
-    const tab = JSON.parse(localStorage.getItem('cart'));
-    tab.forEach(element => {
-      if (element.identify === id) {
-        if (element.quantity < element.stock) {
-          element.quantity ++;
-        } else {
-          this.s.open('Cet produit ne peut être choisie. Son stock est limité !', 'OK');
+    const indice = JSON.parse(localStorage.getItem('inProgress'));
+
+    if (indice.in === 1) {
+      console.log('augmentation de la quantite au panier 1 du prod ' + id);
+      const tab = JSON.parse(localStorage.getItem('cart-1'));
+      tab.forEach(element => {
+        if (element.identify === id) {
+          if (this.productService.VerifyIfStockRest(element) <= 0) {
+            element.quantity ++;
+          } else {
+            this.s.open('Cet produit ne peut être choisie. Son stock est limité !', 'OK');
+          }
         }
-      }
-    });
-    localStorage.setItem('cart', JSON.stringify(tab));
+      });
+      localStorage.setItem('cart-1', JSON.stringify(tab));
+
+    } else if (indice.in === 2) {
+      console.log('augmentation de la quantite au panier 2 du prod ' + id);
+      const tab = JSON.parse(localStorage.getItem('cart-2'));
+      tab.forEach(element => {
+        if (element.identify === id) {
+          if (this.productService.VerifyIfStockRest(element) <= 0) {
+            element.quantity ++;
+          } else {
+            this.s.open('Cet produit ne peut être choisie. Son stock est limité !', 'OK');
+          }
+        }
+      });
+      localStorage.setItem('cart-2', JSON.stringify(tab));
+
+    } else if (indice.in === 3) {
+      console.log('augmentation de la quantite au panier 3 du prod ' + id);
+      const tab = JSON.parse(localStorage.getItem('cart-3'));
+      tab.forEach(element => {
+        if (element.identify === id) {
+          if (this.productService.VerifyIfStockRest(element) <= 0) {
+            element.quantity ++;
+          } else {
+            this.s.open('Cet produit ne peut être choisie. Son stock est limité !', 'OK');
+          }
+        }
+      });
+      localStorage.setItem('cart-3', JSON.stringify(tab));
+    }
   }
 
 
+
+  // fonction de réduction de quantite en fonction des paniers
   DicreaseQuantity(id) {
-    const tab = JSON.parse(localStorage.getItem('cart'));
-    tab.forEach(element => {
-      if (element.identify === id) {
-        if (element.quantity > 0) {
-          element.quantity --;
-        } else {
-          alert('Vous ne pouvez pas decendre en produit négatif !');
+    const indice = JSON.parse(localStorage.getItem('inProgress'));
+
+    if (indice.in === 1) {
+      console.log('niveau réduction de la quantite au panier 1 du prod ' + id);
+
+      const tab = JSON.parse(localStorage.getItem('cart-1'));
+      tab.forEach(element => {
+        if (element.identify === id) {
+          if (element.quantity > 1) {
+            element.quantity --;
+          } else {
+            this.s.open('Veuillez supprimer directement le produit !', 'OK');
+          }
         }
-      }
-    });
-    localStorage.setItem('cart', JSON.stringify(tab));
+      });
+      localStorage.setItem('cart-1', JSON.stringify(tab));
+
+    } else if (indice.in === 2) {
+      console.log('niveau réduction de la quantite au panier 2 du prod ' + id);
+
+      const tab = JSON.parse(localStorage.getItem('cart-2'));
+      tab.forEach(element => {
+        if (element.identify === id) {
+          if (element.quantity > 1) {
+            element.quantity --;
+          } else {
+            this.s.open('Veuillez supprimer directement le produit !', 'OK');
+          }
+        }
+      });
+      localStorage.setItem('cart-2', JSON.stringify(tab));
+
+    } else if (indice.in === 3) {
+      console.log('niveau réduction de la quantite au panier 3 du prod ' + id);
+
+      const tab = JSON.parse(localStorage.getItem('cart-3'));
+      tab.forEach(element => {
+        if (element.identify === id) {
+          if (element.quantity > 1) {
+            element.quantity --;
+          } else {
+            this.s.open('Veuillez supprimer directement le produit !', 'OK');
+          }
+        }
+      });
+      localStorage.setItem('cart-3', JSON.stringify(tab));
+    }
   }
 
 
+  // basculer d'onglet à onglet
     ChangeOnglet(value) {
     if (localStorage.getItem('inProgress') === null) {
       alert('Veuillez utilisez la fenêtre présente !');
@@ -495,31 +611,68 @@ VerifyExistingInCart(num, object) {
   }
 
 
+  // Validation du panier pour paiement
   Checkout(object): Observable<any> {
     // console.log(object);
-    const panier = JSON.parse(localStorage.getItem('cart'));
+    console.log('Validation du paiement en cours ...');
     const customer = JSON.parse(localStorage.getItem('customerChoice'));
     const inProg = JSON.parse(localStorage.getItem('inProgress'));
     const subtotal = JSON.parse(localStorage.getItem('total'));
     const cart = [];
+    const indice = JSON.parse(localStorage.getItem('inProgress'));
 
-    panier.forEach(element => {
-      if (element.progress === inProg.in) {
-        const newProduct = {
-          id : element.identify,
-          price : element.price,
-          quantity : element.quantity,
-          amout : Number(element.price) * Number(element.quantity),
-          slug : element.slug
-        };
-        cart.push(newProduct);
-      }
-    });
+    if (indice.in === 1) {
+      console.log('Il s\'agit là, du panier 1');
+      const panier = JSON.parse(localStorage.getItem('cart-1'));
+      panier.forEach(element => {
+        if (element.progress === inProg.in) {
+          const newProduct = {
+            id : element.identify,
+            price : element.price,
+            quantity : element.quantity,
+            amout : Number(element.price) * Number(element.quantity),
+            slug : element.slug
+          };
+          cart.push(newProduct);
+        }
+      });
+    } else if (indice.in === 2) {
+      console.log('Il s\'agit là, du panier 2');
+      const panier = JSON.parse(localStorage.getItem('cart-2'));
+      panier.forEach(element => {
+        if (element.progress === inProg.in) {
+          const newProduct = {
+            id : element.identify,
+            price : element.price,
+            quantity : element.quantity,
+            amout : Number(element.price) * Number(element.quantity),
+            slug : element.slug
+          };
+          cart.push(newProduct);
+        }
+      });
+    } else if (indice.in === 3) {
+      console.log('Il s\'agit là, du panier 3');
+      const panier = JSON.parse(localStorage.getItem('cart-3'));
+      panier.forEach(element => {
+        if (element.progress === inProg.in) {
+          const newProduct = {
+            id : element.identify,
+            price : element.price,
+            quantity : element.quantity,
+            amout : Number(element.price) * Number(element.quantity),
+            slug : element.slug
+          };
+          cart.push(newProduct);
+        }
+      });
+    }
 
 
     console.log(cart);
 
     if (object.typePaiement === 'especes') {
+      console.log('choix du paiement : cash');
       const register = {
         typePaiement : object.typePaiement,
         caissier : '',
@@ -531,9 +684,9 @@ VerifyExistingInCart(num, object) {
         reduction : object.reduction,
         produit : cart
       };
-      console.log(register);
       this.register = register;
     } else if (object.typePaiement === 'carte' || object.typePaiement === 'cheque') {
+      console.log('choix du paiement : carte ou chèque');
       const register = {
         typePaiement : object.typePaiement,
         check : object.check,
@@ -545,11 +698,11 @@ VerifyExistingInCart(num, object) {
         reduction : object.reduction,
         produit : cart
       };
-      console.log(register);
       this.register = register;
 
 
     } else if (object.typePaiement === 'mobile-money') {
+      console.log('choix du paiement : mobile money');
       const register = {
         typePaiement : object.typePaiement,
         mobile : object.mobile,
@@ -561,15 +714,24 @@ VerifyExistingInCart(num, object) {
         reduction : object.reduction,
         produit : cart
       };
-      console.log(register);
       this.register = register;
 
+    } else if (object.typePaiement === 'echelonner') {
+      console.log('choix du paiement : échelonner');
+      const register = {
+        typePaiement : object.typePaiement,
+        caissier : '',
+        subtotal,
+        total : object.total,
+        exchange : object.exchange,
+        client : customer,
+        livraison : object.livraison,
+        reduction : object.reduction,
+        produit : cart
+      };
+      this.register = register;
     }
-     // const caissier = JSON.parse(localStorage.getItem('userData'));
-    // const caissier = caissier.id;
-    // console.log(customer);
-    // console.log(cart);
-    // console.log(total);
+
     return this.http.post(this.registerURL, this.register);
   }
 
@@ -577,6 +739,7 @@ VerifyExistingInCart(num, object) {
   starterGenerateTicket() {
     const objectProductPdf = [];
     let remise = '';
+    let exchangePoint = '';
     this.register.produit.forEach(elt => {
       const newObject = [
         {
@@ -616,12 +779,23 @@ VerifyExistingInCart(num, object) {
     } else {
       remise = 'aucune';
     }
+
+    if (this.register.exchange) {
+      if (Number(this.register.exchange) < 0) {
+        exchangePoint = (Number(this.register.exchange) * -1).toString();
+      } else {
+        exchangePoint = '0';
+      }
+    } else {
+      exchangePoint = '0';
+    }
     this.dataToPdf = {
       customer : this.register.client,
       vendeur : this.register.caissier,
       date : new Date().toLocaleDateString(),
       produit : objectProductPdf,
       total : this.register.total,
+      exchange: exchangePoint,
       remise
     };
 

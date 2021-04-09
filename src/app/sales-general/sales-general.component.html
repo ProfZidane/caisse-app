@@ -1,5 +1,10 @@
 <div class="container-fluid general-table-sales">
-  <table datatable class="row-border hover" [dtTrigger]="dtTrigger">
+  <div class="text-center" *ngIf="visibility === true">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
     <thead>
       <tr>
         <th>NUM COMMANDE</th>

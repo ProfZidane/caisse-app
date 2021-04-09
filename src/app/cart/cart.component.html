@@ -68,11 +68,10 @@
 
         </div>
         <div class="tab-pane fade" id="cart2" role="tabpanel" aria-labelledby="cart2-tab"  *ngIf="p.nv2 === true">
-          <!--
-            <p class="text-info error text-dark" *ngIf="Products.length === 0" >
+            <p class="text-info error text-dark" *ngIf="Products2.length === 0" >
             Votre panier est vide !
           </p>
-          <div class="row cart-elt ml-1 mt-2" *ngFor="let product of Products" >
+          <div class="row cart-elt ml-1 mt-2" *ngFor="let product of Products2" >
             <div class="col-md-5">
               <img src="{{ product.img }}" alt="" width="100px" height="100px">
             </div>
@@ -95,14 +94,14 @@
               </i>
             </div>
           </div>
-          -->
+
         </div>
         <div class="tab-pane fade" id="cart3" role="tabpanel" aria-labelledby="cart3-tab"  *ngIf="p.nv3 === true">
-          <!--
-            <p class="text-info error text-dark" *ngIf="Products.length === 0" >
+
+          <p class="text-info error text-dark" *ngIf="Products3.length === 0" >
             Votre panier est vide !
           </p>
-          <div class="row cart-elt ml-1 mt-2" *ngFor="let product of Products" >
+          <div class="row cart-elt ml-1 mt-2" *ngFor="let product of Products3" >
             <div class="col-md-5">
               <img src="{{ product.img }}" alt="" width="100px" height="100px">
             </div>
@@ -125,7 +124,7 @@
               </i>
             </div>
           </div>
-          -->
+
         </div>
       </div>
 

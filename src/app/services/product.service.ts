@@ -18,14 +18,19 @@ emptyCart = [];
   constructor(private http: HttpClient, private s: MatSnackBar) { }
 
 
+  // Getter de produit general
   GetProducts(): Observable<any> {
     return this.http.get(this.getproductURL);
   }
 
+
+  // Recherche de produit par slug
   GetProductBySlug(slug): Observable<any> {
     return this.http.get(this.getProductByIdURL + slug);
   }
 
+
+  // Récupérer les differents produits d'un panier
   GetProductInCart(numCart: string): Array<any> {
     if (Number(numCart) <= 3 && Number(numCart) > 0) {
       this.productCart = JSON.parse(localStorage.getItem('cart-' + numCart));
@@ -33,6 +38,8 @@ emptyCart = [];
     return this.productCart;
   }
 
+
+  // Récupérer les paniers qui sont vides
   GetEmptyCart(): Array<any> {
     const tabKeyCart = ['1', '2', '3'];
     const cartEmpty = [];
@@ -85,6 +92,7 @@ emptyCart = [];
     this.productCart.push(object);
     localStorage.setItem('cart-' + numCart, JSON.stringify(this.productCart));
   }
+
 
 
   // vérifier si le produit existe dans les autres paniers et si le stock est atteint

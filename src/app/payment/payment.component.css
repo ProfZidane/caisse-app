@@ -102,6 +102,10 @@ a.active {
     transform: translateY(150%);
   }
 
+  .err_to_cash {
+    color: red;
+    font-weight: bold;
+  }
 
   ::ng-deep .mat-progress-bar-fill::after {
     background-color: #ff817a !important;

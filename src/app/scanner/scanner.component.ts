@@ -27,6 +27,7 @@ started_message = false;
     );
   }
 
+  // Fonction de récupération du code au changement
   loadCode(event) {
     console.log(event.target.value);
     this.getProductByCode(event.target.value);
@@ -34,11 +35,14 @@ started_message = false;
     this.warning_message = false;
   }
 
+  // Réinitialisation du input barcode
   reloadInput() {
     this.code = '';
     document.getElementById('scannerInput').focus();
   }
 
+
+  // Recherche de produit par code barre
   getProductByCode(code) {
     let isFind =  0;
     if (this.articles !== null) {
