@@ -31,6 +31,9 @@ import { SalesGeneralComponent } from './sales-general/sales-general.component';
 import { SalesDailyComponent } from './sales-daily/sales-daily.component';
 
 import { DataTablesModule } from 'angular-datatables';
+import { OrderComponent } from './order/order.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { OrderContentComponent } from './order-content/order-content.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,10 @@ import { DataTablesModule } from 'angular-datatables';
     SalesDetailComponent,
     SalesContentComponent,
     SalesGeneralComponent,
-    SalesDailyComponent
+    SalesDailyComponent,
+    OrderComponent,
+    OrderDetailComponent,
+    OrderContentComponent
   ],
   imports: [
     BrowserModule,

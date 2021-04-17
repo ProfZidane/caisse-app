@@ -28,6 +28,7 @@ button {
   background-color: #FF817A !important;
   color: black;
   border-color: white;
+  cursor: pointer;
 }
 
 

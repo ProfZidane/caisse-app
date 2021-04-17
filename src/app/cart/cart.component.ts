@@ -383,7 +383,7 @@ AttributeActiveToLink(indice) {
       if (Number(this.Total) > 0) {
         localStorage.setItem('total', this.Total.toString());
         // location.href = '/checkout';
-        this.route.navigateByUrl('/checkout');
+        this.route.navigateByUrl('/checkout/new');
       } else {
         alert('Votre panier est vide !');
         alert('Veuillez soit switcher sur un autre ou le remplir !');

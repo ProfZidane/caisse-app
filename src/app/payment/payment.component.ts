@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CartOperateService } from '../services/cart-operate.service';
 
 @Component({
@@ -47,13 +47,20 @@ response_checkout = {
   error : false
 };
 error_in_money;
-  constructor(private cartService: CartOperateService, private router: Router) {
+mode;
+  constructor(private cartService: CartOperateService, private router: Router, private route: ActivatedRoute) {
     this.typePayement = 'especes';
    }
 
   ngOnInit(): void {
     /*this.Total = Number(localStorage.getItem('total'));
     console.log(this.Total);*/
+    this.route.paramMap.subscribe(
+      (params => {
+        this.mode = params.get('mode');
+      })
+    );
+    console.log(this.mode);
     this.getCustomer();
     this.getTotal();
   }
@@ -183,6 +190,7 @@ error_in_money;
         // format de donnée pour commander
         let data = {
           typePaiement : this.typePayement,
+          mode : this.mode,
           exchange : this.exchange,
           total : this.Total,
           livraison : {
@@ -236,6 +244,7 @@ error_in_money;
         // format de donnée pour commander
         let data = {
           typePaiement : this.typePayement,
+          mode : this.mode,
           exchange : this.exchange,
           total : this.Total,
           livraison : {
@@ -281,6 +290,7 @@ error_in_money;
       if (confirm === true) {
         let data = {
           typePaiement : this.typePayement,
+          mode : this.mode,
           check : this.check,
           total : this.Total,
           livraison : {
@@ -327,6 +337,7 @@ error_in_money;
       if (confirm === true) {
         let data = {
           typePaiement : this.typePayement,
+          mode : this.mode,
           mobile : this.mobileMoney,
           total : this.Total,
           livraison : {

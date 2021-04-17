@@ -11,6 +11,7 @@ getSalesURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getVentesByCaissie
 getSalesByYearURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByYear/';
 getSalesByMonthURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByMounth/';
 getSalesBetweenDateURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderBetweenTwoDate';
+getSalesTodayURL = 'https://accessoire-mode.lce-test.fr/api/caisse/';
 Sales;
 dataToPdf;
   constructor(private http: HttpClient, private pdfService: PdfService) { }

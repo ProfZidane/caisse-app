@@ -47,25 +47,25 @@ export class SalesContentComponent implements OnInit {
    }
  }
 
- GetSales() {
-   const caissierInfo = JSON.parse(localStorage.getItem('caissier'));
-   this.salesService.GetSalesByCaisser(Number(caissierInfo.id)).subscribe(
-     (data) => {
-       console.log(data);
-       this.loadingIndicator = true;
-       this.error.loadingSale = false;
-       this.sales = data;
+  GetSales() {
+    const caissierInfo = JSON.parse(localStorage.getItem('caissier'));
+    this.salesService.GetSalesByCaisser(Number(caissierInfo.id)).subscribe(
+      (data) => {
+        console.log(data);
+        this.loadingIndicator = true;
+        this.error.loadingSale = false;
+        this.sales = data;
 
-       this.saleSelected = this.sales[0];
-       console.log(this.saleSelected);
+        this.saleSelected = this.sales[0];
+        console.log(this.saleSelected);
 
-     }, (err) => {
-       console.log(err);
-       this.loadingIndicator = true;
-       this.error.loadingSale = true;
-     }
-   );
- }
+      }, (err) => {
+        console.log(err);
+        this.loadingIndicator = true;
+        this.error.loadingSale = true;
+      }
+    );
+  }
 
  SelectedSale(object) {
    console.log(object);

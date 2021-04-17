@@ -682,7 +682,8 @@ VerifyExistingInCart(num, object) {
         client : customer,
         livraison : object.livraison,
         reduction : object.reduction,
-        produit : cart
+        produit : cart,
+        mode : object.mode
       };
       this.register = register;
     } else if (object.typePaiement === 'carte' || object.typePaiement === 'cheque') {
@@ -696,7 +697,8 @@ VerifyExistingInCart(num, object) {
         client : customer,
         livraison : object.livraison,
         reduction : object.reduction,
-        produit : cart
+        produit : cart,
+        mode : object.mode
       };
       this.register = register;
 
@@ -712,7 +714,8 @@ VerifyExistingInCart(num, object) {
         client : customer,
         livraison : object.livraison,
         reduction : object.reduction,
-        produit : cart
+        produit : cart,
+        mode : object.mode
       };
       this.register = register;
 
@@ -727,7 +730,8 @@ VerifyExistingInCart(num, object) {
         client : customer,
         livraison : object.livraison,
         reduction : object.reduction,
-        produit : cart
+        produit : cart,
+        mode : object.mode
       };
       this.register = register;
     }
@@ -800,6 +804,30 @@ VerifyExistingInCart(num, object) {
     };
 
     this.pdfService.generatePdf(this.dataToPdf);
+  }
+
+
+  // Vérifier si panier est actif
+  VerifyActiveCart() {
+    const cartState = JSON.parse(localStorage.getItem('cart'));
+    console.log(cartState);
+    if (cartState['1'] !== false) {
+      console.log('je passe le cap du premier panier');
+      console.log(JSON.parse(localStorage.getItem('cart-1')));
+      if (JSON.parse(localStorage.getItem('cart-1')).length === 0) {
+        return 1;
+      }
+    } else if (cartState['2'] !== false) {
+      console.log('je passe le cap du premier panier');
+      if (JSON.parse(localStorage.getItem('cart-2')).length === 0) {
+        return 2;
+      }
+    } else if (cartState['3'] !== false) {
+      console.log('je passe le cap du premier panier');
+      if (JSON.parse(localStorage.getItem('cart-3')).length === 0) {
+        return 3;
+      }
+    }
   }
 
 

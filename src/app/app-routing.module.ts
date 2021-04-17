@@ -13,6 +13,9 @@ import { SalesDetailComponent } from './sales-detail/sales-detail.component';
 import { SalesContentComponent } from './sales-content/sales-content.component';
 import { SalesGeneralComponent } from './sales-general/sales-general.component';
 import { SalesDailyComponent } from './sales-daily/sales-daily.component';
+import { OrderComponent } from './order/order.component';
+import { OrderContentComponent } from './order-content/order-content.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 
 
 const routes: Routes = [
@@ -50,7 +53,7 @@ const routes: Routes = [
     component : ProfilComponent
   },
   {
-    path : 'checkout',
+    path : 'checkout/:mode',
     component : CheckoutComponent
   },
   {
@@ -81,6 +84,22 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'order',
+    component: OrderComponent,
+    children: [
+      {
+        path: '',
+        component: OrderContentComponent,
+        outlet: 'child3'
+      },
+      {
+        path: 'order-detail/:id',
+        component: OrderDetailComponent,
+        outlet: 'child3'
+      }
+    ]
+  }
 ];
 
 @NgModule({
