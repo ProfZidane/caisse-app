@@ -70,6 +70,7 @@ totalFictious;
           slug : element.article.slug,
           quantity : element.cart.quantity,
           stock : element.article.stock,
+          amout : element.cart.amount,
           progress : Number(numCartEmpty)
         };
         this.cartFictious.push(data);
@@ -77,9 +78,11 @@ totalFictious;
 
       console.log(this.cartFictious);
 
+      localStorage.setItem('inProgress', JSON.stringify({ "in" : Number(numCartEmpty)}));
+
       localStorage.setItem('cart-' + numCartEmpty.toString(), JSON.stringify(this.cartFictious));
 
-      this.router.navigateByUrl('/checkout/old');
+      this.router.navigateByUrl('/checkout/old/' + this.orderDetail.order.order_number);
 
     } else {
 

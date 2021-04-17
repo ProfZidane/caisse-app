@@ -11,7 +11,7 @@ getSalesURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getVentesByCaissie
 getSalesByYearURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByYear/';
 getSalesByMonthURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByMounth/';
 getSalesBetweenDateURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderBetweenTwoDate';
-getSalesTodayURL = 'https://accessoire-mode.lce-test.fr/api/caisse/';
+getSalesTodayURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getNowSales/';
 Sales;
 dataToPdf;
   constructor(private http: HttpClient, private pdfService: PdfService) { }
@@ -30,6 +30,11 @@ dataToPdf;
 
   GetSalesBetweenYear(data): Observable<any> {
     return this.http.post(this.getSalesBetweenDateURL, data);
+  }
+
+
+  GetSalesToday(id): Observable<any> {
+    return this.http.get(this.getSalesTodayURL + id);
   }
 
   GeneratePDFForSales(object) {

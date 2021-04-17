@@ -621,120 +621,192 @@ VerifyExistingInCart(num, object) {
     const cart = [];
     const indice = JSON.parse(localStorage.getItem('inProgress'));
 
-    if (indice.in === 1) {
-      console.log('Il s\'agit là, du panier 1');
-      const panier = JSON.parse(localStorage.getItem('cart-1'));
-      panier.forEach(element => {
-        if (element.progress === inProg.in) {
-          const newProduct = {
-            id : element.identify,
-            price : element.price,
-            quantity : element.quantity,
-            amout : Number(element.price) * Number(element.quantity),
-            slug : element.slug
-          };
-          cart.push(newProduct);
-        }
-      });
-    } else if (indice.in === 2) {
-      console.log('Il s\'agit là, du panier 2');
-      const panier = JSON.parse(localStorage.getItem('cart-2'));
-      panier.forEach(element => {
-        if (element.progress === inProg.in) {
-          const newProduct = {
-            id : element.identify,
-            price : element.price,
-            quantity : element.quantity,
-            amout : Number(element.price) * Number(element.quantity),
-            slug : element.slug
-          };
-          cart.push(newProduct);
-        }
-      });
-    } else if (indice.in === 3) {
-      console.log('Il s\'agit là, du panier 3');
-      const panier = JSON.parse(localStorage.getItem('cart-3'));
-      panier.forEach(element => {
-        if (element.progress === inProg.in) {
-          const newProduct = {
-            id : element.identify,
-            price : element.price,
-            quantity : element.quantity,
-            amout : Number(element.price) * Number(element.quantity),
-            slug : element.slug
-          };
-          cart.push(newProduct);
-        }
-      });
+    if (object.mode === 'old') {
+      if (object.typePaiement === 'especes') {
+        console.log('choix du paiement : cash');
+        const register = {
+          typePaiement : object.typePaiement,
+          caissier : '',
+          subtotal,
+          total : object.total,
+          exchange : object.exchange,
+          client : customer,
+          livraison : object.livraison,
+          reduction : object.reduction,
+          mode : object.mode,
+          numOrder: object.numOrder,
+          produit : JSON.parse(localStorage.getItem('cart-' + inProg.in))
+        };
+        this.register = register;
+      } else if (object.typePaiement === 'carte' || object.typePaiement === 'cheque') {
+        console.log('choix du paiement : carte ou chèque');
+        const register = {
+          typePaiement : object.typePaiement,
+          check : object.check,
+          caissier : '',
+          subtotal,
+          total : object.total,
+          client : customer,
+          livraison : object.livraison,
+          reduction : object.reduction,
+          produit : JSON.parse(localStorage.getItem('cart-' + inProg.in)),
+          mode : object.mode,
+          numOrder: object.numOrder,
+        };
+        this.register = register;
+
+
+      } else if (object.typePaiement === 'mobile-money') {
+        console.log('choix du paiement : mobile money');
+        const register = {
+          typePaiement : object.typePaiement,
+          mobile : object.mobile,
+          caissier : '',
+          subtotal,
+          total : object.total,
+          client : customer,
+          livraison : object.livraison,
+          reduction : object.reduction,
+          produit : JSON.parse(localStorage.getItem('cart-' + inProg.in)),
+          mode : object.mode,
+          numOrder: object.numOrder
+        };
+        this.register = register;
+
+      } else if (object.typePaiement === 'echelonner') {
+        console.log('choix du paiement : échelonner');
+        const register = {
+          typePaiement : object.typePaiement,
+          caissier : '',
+          subtotal,
+          total : object.total,
+          exchange : object.exchange,
+          client : customer,
+          livraison : object.livraison,
+          reduction : object.reduction,
+          produit : JSON.parse(localStorage.getItem('cart-' + inProg.in)),
+          mode : object.mode,
+          numOrder: object.numOrder
+        };
+        this.register = register;
+      }
+    } else {
+      if (indice.in === 1) {
+        console.log('Il s\'agit là, du panier 1');
+        const panier = JSON.parse(localStorage.getItem('cart-1'));
+        panier.forEach(element => {
+          if (element.progress === inProg.in) {
+            const newProduct = {
+              id : element.identify,
+              price : element.price,
+              quantity : element.quantity,
+              amout : Number(element.price) * Number(element.quantity),
+              slug : element.slug
+            };
+            cart.push(newProduct);
+          }
+        });
+      } else if (indice.in === 2) {
+        console.log('Il s\'agit là, du panier 2');
+        const panier = JSON.parse(localStorage.getItem('cart-2'));
+        panier.forEach(element => {
+          if (element.progress === inProg.in) {
+            const newProduct = {
+              id : element.identify,
+              price : element.price,
+              quantity : element.quantity,
+              amout : Number(element.price) * Number(element.quantity),
+              slug : element.slug
+            };
+            cart.push(newProduct);
+          }
+        });
+      } else if (indice.in === 3) {
+        console.log('Il s\'agit là, du panier 3');
+        const panier = JSON.parse(localStorage.getItem('cart-3'));
+        panier.forEach(element => {
+          if (element.progress === inProg.in) {
+            const newProduct = {
+              id : element.identify,
+              price : element.price,
+              quantity : element.quantity,
+              amout : Number(element.price) * Number(element.quantity),
+              slug : element.slug
+            };
+            cart.push(newProduct);
+          }
+        });
+      }
+
+
+      console.log(cart);
+
+      if (object.typePaiement === 'especes') {
+        console.log('choix du paiement : cash');
+        const register = {
+          typePaiement : object.typePaiement,
+          caissier : '',
+          subtotal,
+          total : object.total,
+          exchange : object.exchange,
+          client : customer,
+          livraison : object.livraison,
+          reduction : object.reduction,
+          produit : cart,
+          mode : object.mode
+        };
+        this.register = register;
+      } else if (object.typePaiement === 'carte' || object.typePaiement === 'cheque') {
+        console.log('choix du paiement : carte ou chèque');
+        const register = {
+          typePaiement : object.typePaiement,
+          check : object.check,
+          caissier : '',
+          subtotal,
+          total : object.total,
+          client : customer,
+          livraison : object.livraison,
+          reduction : object.reduction,
+          produit : cart,
+          mode : object.mode
+        };
+        this.register = register;
+
+
+      } else if (object.typePaiement === 'mobile-money') {
+        console.log('choix du paiement : mobile money');
+        const register = {
+          typePaiement : object.typePaiement,
+          mobile : object.mobile,
+          caissier : '',
+          subtotal,
+          total : object.total,
+          client : customer,
+          livraison : object.livraison,
+          reduction : object.reduction,
+          produit : cart,
+          mode : object.mode
+        };
+        this.register = register;
+
+      } else if (object.typePaiement === 'echelonner') {
+        console.log('choix du paiement : échelonner');
+        const register = {
+          typePaiement : object.typePaiement,
+          caissier : '',
+          subtotal,
+          total : object.total,
+          exchange : object.exchange,
+          client : customer,
+          livraison : object.livraison,
+          reduction : object.reduction,
+          produit : cart,
+          mode : object.mode
+        };
+        this.register = register;
+      }
     }
-
-
-    console.log(cart);
-
-    if (object.typePaiement === 'especes') {
-      console.log('choix du paiement : cash');
-      const register = {
-        typePaiement : object.typePaiement,
-        caissier : '',
-        subtotal,
-        total : object.total,
-        exchange : object.exchange,
-        client : customer,
-        livraison : object.livraison,
-        reduction : object.reduction,
-        produit : cart,
-        mode : object.mode
-      };
-      this.register = register;
-    } else if (object.typePaiement === 'carte' || object.typePaiement === 'cheque') {
-      console.log('choix du paiement : carte ou chèque');
-      const register = {
-        typePaiement : object.typePaiement,
-        check : object.check,
-        caissier : '',
-        subtotal,
-        total : object.total,
-        client : customer,
-        livraison : object.livraison,
-        reduction : object.reduction,
-        produit : cart,
-        mode : object.mode
-      };
-      this.register = register;
-
-
-    } else if (object.typePaiement === 'mobile-money') {
-      console.log('choix du paiement : mobile money');
-      const register = {
-        typePaiement : object.typePaiement,
-        mobile : object.mobile,
-        caissier : '',
-        subtotal,
-        total : object.total,
-        client : customer,
-        livraison : object.livraison,
-        reduction : object.reduction,
-        produit : cart,
-        mode : object.mode
-      };
-      this.register = register;
-
-    } else if (object.typePaiement === 'echelonner') {
-      console.log('choix du paiement : échelonner');
-      const register = {
-        typePaiement : object.typePaiement,
-        caissier : '',
-        subtotal,
-        total : object.total,
-        exchange : object.exchange,
-        client : customer,
-        livraison : object.livraison,
-        reduction : object.reduction,
-        produit : cart,
-        mode : object.mode
-      };
-      this.register = register;
-    }
+    console.log(this.register);
 
     return this.http.post(this.registerURL, this.register);
   }

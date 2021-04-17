@@ -53,7 +53,7 @@ const routes: Routes = [
     component : ProfilComponent
   },
   {
-    path : 'checkout/:mode',
+    path : 'checkout/:mode/:num',
     component : CheckoutComponent
   },
   {

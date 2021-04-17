@@ -6,5 +6,12 @@ button {
 }
 
 .list {
-  border: solid;
+  height: 80vh;
+  /*overflow-y: auto;*/
+}
+
+#container-list {
+  height: 65vh;
+
+  overflow-y: auto;
 }

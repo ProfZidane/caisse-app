@@ -48,6 +48,7 @@ response_checkout = {
 };
 error_in_money;
 mode;
+numOrder;
   constructor(private cartService: CartOperateService, private router: Router, private route: ActivatedRoute) {
     this.typePayement = 'especes';
    }
@@ -60,7 +61,12 @@ mode;
         this.mode = params.get('mode');
       })
     );
-    console.log(this.mode);
+    this.route.paramMap.subscribe(
+      (params => {
+        this.numOrder = params.get('num');
+      })
+    );
+    console.log(this.numOrder);
     this.getCustomer();
     this.getTotal();
   }
@@ -191,6 +197,7 @@ mode;
         let data = {
           typePaiement : this.typePayement,
           mode : this.mode,
+          numOrder : this.numOrder,
           exchange : this.exchange,
           total : this.Total,
           livraison : {
@@ -245,6 +252,7 @@ mode;
         let data = {
           typePaiement : this.typePayement,
           mode : this.mode,
+          numOrder : this.numOrder,
           exchange : this.exchange,
           total : this.Total,
           livraison : {
@@ -291,6 +299,7 @@ mode;
         let data = {
           typePaiement : this.typePayement,
           mode : this.mode,
+          numOrder : this.numOrder,
           check : this.check,
           total : this.Total,
           livraison : {
@@ -338,6 +347,7 @@ mode;
         let data = {
           typePaiement : this.typePayement,
           mode : this.mode,
+          numOrder : this.numOrder,
           mobile : this.mobileMoney,
           total : this.Total,
           livraison : {
