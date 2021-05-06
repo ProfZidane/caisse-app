@@ -72,7 +72,7 @@ dataToPdf;
     });
     console.log(objectProductPdf);
     if (object.reduction !== null) {
-        remise = object.reduction.value.toString() + ' Fcfa';
+        remise = object.reduction.valeur.toString() + ' Fcfa';
     } else {
       remise = 'aucune';
     }

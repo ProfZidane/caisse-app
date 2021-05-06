@@ -33,7 +33,6 @@ export class SalesGeneralComponent implements OnInit {
       dom: 'Bfrtip',
       // Configure the buttons
       buttons: [
-        'columnsToggle',
         'colvis',
         'copy',
         'print',
