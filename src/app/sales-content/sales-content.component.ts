@@ -163,6 +163,8 @@ export class SalesContentComponent implements OnInit {
      total : this.saleSelected.order.total_amount,
      reduction : this.saleSelected.order.coupon,
      date : this.saleSelected.order.created_at,
+     montant_recu: this.saleSelected.order.montant_recu,
+     exchange: this.saleSelected.order.reste,
      payment : {
        type : this.saleSelected.order.payment_method
      }

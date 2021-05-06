@@ -44,7 +44,7 @@ cart = {
 }
 
 // Retourner le state des paniers
-CountingExistingCart() {
+ CountingExistingCart() {
   const carts = JSON.parse(localStorage.getItem('cart'));
   console.log(carts);
 
@@ -631,6 +631,7 @@ VerifyExistingInCart(num, object) {
           caissier : '',
           subtotal,
           total : object.total,
+          montant_recu: Number(object.montant_recu),
           exchange : object.exchange,
           client : customer,
           livraison : object.livraison,
@@ -648,6 +649,7 @@ VerifyExistingInCart(num, object) {
           caissier : '',
           subtotal,
           total : object.total,
+          montant_recu: Number(object.montant_recu),
           client : customer,
           livraison : object.livraison,
           reduction : object.reduction,
@@ -666,6 +668,7 @@ VerifyExistingInCart(num, object) {
           caissier : '',
           subtotal,
           total : object.total,
+          montant_recu: Number(object.montant_recu),
           client : customer,
           livraison : object.livraison,
           reduction : object.reduction,
@@ -682,6 +685,7 @@ VerifyExistingInCart(num, object) {
           caissier : '',
           subtotal,
           total : object.total,
+          montant_recu: Number(object.montant_recu),
           exchange : object.exchange,
           client : customer,
           livraison : object.livraison,
@@ -750,6 +754,7 @@ VerifyExistingInCart(num, object) {
           caissier : '',
           subtotal,
           total : object.total,
+          montant_recu: Number(object.montant_recu),
           exchange : object.exchange,
           client : customer,
           livraison : object.livraison,
@@ -766,6 +771,7 @@ VerifyExistingInCart(num, object) {
           caissier : '',
           subtotal,
           total : object.total,
+          montant_recu: Number(object.montant_recu),
           client : customer,
           livraison : object.livraison,
           reduction : object.reduction,
@@ -783,6 +789,7 @@ VerifyExistingInCart(num, object) {
           caissier : '',
           subtotal,
           total : object.total,
+          montant_recu: Number(object.montant_recu),
           client : customer,
           livraison : object.livraison,
           reduction : object.reduction,
@@ -798,6 +805,7 @@ VerifyExistingInCart(num, object) {
           caissier : '',
           subtotal,
           total : object.total,
+          montant_recu: Number(object.montant_recu),
           exchange : object.exchange,
           client : customer,
           livraison : object.livraison,
@@ -874,6 +882,7 @@ VerifyExistingInCart(num, object) {
       produit : objectProductPdf,
       total : this.register.total,
       exchange: exchangePoint,
+      montant_recu: this.register.montant_recu,
       remise
     };
 

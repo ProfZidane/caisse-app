@@ -16,6 +16,7 @@ import { SalesDailyComponent } from './sales-daily/sales-daily.component';
 import { OrderComponent } from './order/order.component';
 import { OrderContentComponent } from './order-content/order-content.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 
 
 const routes: Routes = [
@@ -41,6 +42,11 @@ const routes: Routes = [
         path : 'scanner',
         component : ScannerComponent,
         outlet : 'child1'
+      },
+      {
+        path: 'customer-history/:id',
+        component: CustomerDetailComponent,
+        outlet: 'child1'
       }
     ]
   },

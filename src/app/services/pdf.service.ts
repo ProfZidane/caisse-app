@@ -169,7 +169,38 @@ export class PdfService {
         alignment : 'center',
       }
     ];
+
     object.produit.push(p);
+
+
+    const pe = [
+      {
+        border : [false, false, false, false],
+        text : 'A payer',
+        alignment : 'center',
+        fontSize: 7.5
+      },
+      {
+        border : [false, false, false, false],
+        text : '',
+        alignment : 'center',
+      },
+      {
+        border : [false, false, false, false],
+        text : 'FCFA',
+        alignment : 'center',
+        fontSize: 7.5
+      },
+      {
+        border : [false, false, false, false],
+        text : object.montant_recu,
+        alignment : 'center',
+        fontSize: 7.5
+      }
+    ];
+
+    object.produit.push(pe);
+
 
     const pre_p = [
       {
@@ -198,6 +229,7 @@ export class PdfService {
     ];
 
     object.produit.push(pre_p);
+
 
     const def = this.generateContent(object);
     // { content: 'A sample PDF document generated using Angular and PDFMake' };

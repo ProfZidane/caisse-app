@@ -200,6 +200,7 @@ numOrder;
           numOrder : this.numOrder,
           exchange : this.exchange,
           total : this.Total,
+          montant_recu: this.SumCustomer,
           livraison : {
             state : this.delivery.state,
             price : this.delivery.value,
@@ -255,6 +256,7 @@ numOrder;
           numOrder : this.numOrder,
           exchange : this.exchange,
           total : this.Total,
+          montant_recu: this.SumCustomer,
           livraison : {
             state : this.delivery.state,
             price : this.delivery.value,
@@ -302,6 +304,7 @@ numOrder;
           numOrder : this.numOrder,
           check : this.check,
           total : this.Total,
+          montant_recu: this.Total,
           livraison : {
             state : this.delivery.state,
             price : this.delivery.value,
@@ -350,6 +353,7 @@ numOrder;
           numOrder : this.numOrder,
           mobile : this.mobileMoney,
           total : this.Total,
+          montant_recu: this.Total,
           livraison : {
             state : this.delivery.state,
             price : this.delivery.value,

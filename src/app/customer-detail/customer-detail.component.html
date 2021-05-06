@@ -1,1 +1,39 @@
-<p>customer-detail works!</p>
+<div class="container-fluid table-orders">
+  <div class="text-center" *ngIf="loading.data === true">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div class="alert alert-danger" *ngIf="error.data === true">
+    {{ error.text }}
+  </div>
+  <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+    <thead>
+      <tr>
+        <th>NUM COMMANDE</th>
+        <th>Qte Totale Commandée</th>
+        <th>Sous-total</th>
+        <th>Total</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of sales">
+        <td>{{ order.order_number }}</td>
+        <td>{{ order.quantity }}</td>
+        <td>{{ order.sub_total }}</td>
+        <td>{{ order.total_amount }}</td>
+        <td>{{ order.created_at | date}}</td>
+        <td>{{ order.status }}</td>
+        <td>
+          <button class="btn btn-warning text-light" (click)='goProduct(order.id)'>
+            Produits
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

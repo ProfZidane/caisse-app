@@ -12,6 +12,7 @@ getSalesByYearURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByYe
 getSalesByMonthURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByMounth/';
 getSalesBetweenDateURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderBetweenTwoDate';
 getSalesTodayURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getNowSales/';
+getSalesByCustomerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getHistoriqueAchatsClient/';
 Sales;
 dataToPdf;
   constructor(private http: HttpClient, private pdfService: PdfService) { }
@@ -82,12 +83,19 @@ dataToPdf;
       date : new Date().toLocaleDateString(),
       produit : objectProductPdf,
       total : object.total,
+      montant_recu: object.montant_recu,
+      exchange:  object.exchange,
       remise : remise
     };
 
     console.log(this.dataToPdf);
 
     this.pdfService.generatePdf(this.dataToPdf);
+  }
+
+
+  GetHistorySaleByCustomer(id): Observable<any> {
+    return this.http.get(this.getSalesByCustomerURL + id);
   }
 
 
