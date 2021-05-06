@@ -38,9 +38,9 @@
                 <!-- List group -->
                 <div class="list-group" id="myList" role="tablist">
                     <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" (click)="setTypePayement('especes')" role="tab">Paiement Cash</a>
-                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#home-2" (click)="setTypePayement('echelonner')" role="tab">Paiement Echelloner</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#house" (click)="setTypePayement('echelonner')" role="tab">Paiement Echelloner</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" (click)="setTypePayement('soutra')" role="tab">Paiement Soutrali</a>
-                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" (click)="setTypePayement('')" role="tab">Paiement Par Carte / Chèque</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" (click)="setTypePayement('card/check')" role="tab">Paiement Par Carte / Chèque</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" (click)="setTypePayement('mobile-money')" role="tab">Paiement Mobile Money</a>
                 </div>
 
@@ -49,7 +49,7 @@
             <div class="col-md-10">
                 <!-- Content group -->
                 <div class="tab-content">
-                    <div class="tab-pane active" id="home" role="tabpanel">
+                    <div class="tab-pane active" id="home" role="tabpanel" *ngIf="typePayement && typePayement === 'especes'">
                       <div align="center" *ngIf="error_in_money === true">
                         <small class="err_to_cash">
                           La somme reçu du client est inférieur à celle du total. S'il s'agit d'un paiement échelloné, veuillez migrer sur l'onglet approprié !
@@ -161,7 +161,7 @@
 
                     </div>
                     <!--delimited-->
-                    <div class="tab-pane" id="home-2" role="tabpanel">
+                    <div class="tab-pane" id="house" role="tabpanel" *ngIf="typePayement && typePayement === 'echelonner'">
                       <span>Paiement échelloné</span>
                         <div class="row cash">
 
@@ -268,7 +268,7 @@
 
                     </div>
                     <!--// delimited-->
-                    <div class="tab-pane" id="profile" role="tabpanel">
+                    <div class="tab-pane" id="profile" role="tabpanel" *ngIf="typePayement && typePayement === 'soutra'">
 
                       <div class="row soutrali">
                         <div class="col-md-6">
@@ -297,7 +297,7 @@
 
 
                     </div>
-                    <div class="tab-pane" id="messages" role="tabpanel">
+                    <div class="tab-pane" id="messages" role="tabpanel" *ngIf="typePayement && (typePayement === 'card/check' || typePayement === 'carte' || typePayement === 'cheque')">
                         <div class="visa">
                             <div class="card" align="center">
                                 <div class="card-body">
@@ -364,7 +364,7 @@
                               <button class="btn btn-lg mt-5" type="submit" style="width: 100%;color: white;background-color: black;" (click)="checkoutCreditCard()">Confirmer</button>
                         </div>
                     </div>
-                    <div class="tab-pane" id="settings" role="tabpanel">
+                    <div class="tab-pane" id="settings" role="tabpanel" *ngIf="typePayement && typePayement === 'mobile-money'">
 
                         <div class="visa">
                             <div class="card" align="center">

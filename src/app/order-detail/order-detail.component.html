@@ -101,7 +101,7 @@
             <th>Total</th>
           </tr>
         </thead>
-        <tbody >
+        <tbody *ngIf="orderDetail">
           <tr *ngFor="let cart of orderDetail.carts">
             <td>{{ cart.article.title }}</td>
             <td>{{ cart.cart.price }}</td>

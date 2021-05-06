@@ -205,12 +205,14 @@ DesactiveCart() {
     in_progress_value.in = 2;
     localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
     localStorage.setItem('cart', JSON.stringify([existing]));
+    localStorage.setItem('cart-3', JSON.stringify([]));
   } else if (existing['2'] === true) {
     existing['2'] = false;
     const in_progress_value = JSON.parse(localStorage.getItem('inProgress'));
     in_progress_value.in = 1;
     localStorage.setItem('inProgress', JSON.stringify(in_progress_value));
     localStorage.setItem('cart', JSON.stringify([existing]));
+    localStorage.setItem('cart-2', JSON.stringify([]));
   }
   console.log(existing);
 }
@@ -848,9 +850,9 @@ VerifyExistingInCart(num, object) {
     console.log(objectProductPdf);
     if (this.register.reduction.state === true) {
       if (this.register.reduction.type === 'percent') {
-        remise = this.register.reduction.value.toString() + '%';
+        remise = this.register.reduction.valeur.toString() + '%';
       } else if (this.register.reduction.type === 'fixed') {
-        remise = this.register.reduction.value.toString() + ' Fcfa';
+        remise = this.register.reduction.valeur.toString() + ' Fcfa';
       }
     } else {
       remise = 'aucune';
