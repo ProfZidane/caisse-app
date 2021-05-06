@@ -36,4 +36,6 @@ h5 {
 
 .general-table-sales {
   padding: 1rem;
+  height: calc(100% - 10%);
+  overflow-y: auto;
 }
