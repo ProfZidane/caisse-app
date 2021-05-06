@@ -24,6 +24,18 @@ import { PaymentComponent } from './payment/payment.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { ScannerComponent } from './scanner/scanner.component';
+import { SalesDetailComponent } from './sales-detail/sales-detail.component';
+import { SalesContentComponent } from './sales-content/sales-content.component';
+import { SalesGeneralComponent } from './sales-general/sales-general.component';
+import { SalesDailyComponent } from './sales-daily/sales-daily.component';
+
+import { DataTablesModule } from 'angular-datatables';
+import { OrderComponent } from './order/order.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { OrderContentComponent } from './order-content/order-content.component';
+import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +49,16 @@ import { RouterModule } from '@angular/router';
     SalesComponent,
     ProfilComponent,
     CustomerComponent,
-    PaymentComponent
+    PaymentComponent,
+    ScannerComponent,
+    SalesDetailComponent,
+    SalesContentComponent,
+    SalesGeneralComponent,
+    SalesDailyComponent,
+    OrderComponent,
+    OrderDetailComponent,
+    OrderContentComponent,
+    CustomerDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +68,8 @@ import { RouterModule } from '@angular/router';
     MatProgressBarModule,
     MatSnackBarModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    DataTablesModule
   ],
   providers: [
     AuthService,

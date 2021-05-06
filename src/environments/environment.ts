@@ -10,6 +10,10 @@ export const endpoint = {
   url : 'http://192.168.1.120:8000'
 };
 
+export const SECRET_KEY = {
+  AesKey : 'LsWOKoBjV5+T8vCvtVGlJ1M/8szhK9eK',
+  AesIV : 'K9e45w069H8LtxAB'
+};
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -2,36 +2,44 @@
     <!-- onglet part -->
     <div class="row">
       <div class="col-md-2">
-        <button class="btn btn-primary btn-sm" (click)="CreateOnglet()">
+        <button class="btn primary-am btn-sm" (click)="CreateOnglet()">
           <i class="material-icons">
             add
           </i>
         </button>
       </div>
-      <div class="col-md-10">
+      <div class="col-md-8">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" id="first" >
             <a class="nav-link active" (click)="ChangeForFirst(1)" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">1</a>
           </li>
-         <!--<li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">2</a>
+         <li class="nav-item" id="second" *ngIf="existingCart['2'] === true">
+            <a class="nav-link" (click)="ChangeForFirst(2)"  id="cart2-tab" data-toggle="tab" href="#cart2" role="tab" aria-controls="cart2" aria-selected="false">2</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">3</a>
+          <li class="nav-item" id="third" *ngIf="existingCart['3'] === true">
+            <a class="nav-link" (click)="ChangeForFirst(3)" id="cart3-tab" data-toggle="tab" href="#cart3" role="tab" aria-controls="cart3" aria-selected="false">3</a>
           </li>
-          <li class="nav-item">
+
+          <!--<li class="nav-item">
             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">4</a>
           </li> -->
 
         </ul>
+      </div>
+      <div class="col-md-2" *ngIf="existingCart['2'] === true || existingCart['3'] === true">
+        <button class="btn primary-am btn-sm" id="removeCartBtn" (click)="RemoveOnglet()">
+          <i class="material-icons">
+            remove
+          </i>
+        </button>
       </div>
     </div>
 
     <!-- content articles part -->
     <div class="row article-content">
       <div class="tab-content" id="myTabContent" style="width: 90%;">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-          <p class="text-info error" *ngIf="Products.length === 0" >
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab" *ngIf="p.nv1 === true">
+          <p class="text-info error text-dark" *ngIf="Products.length === 0" >
             Votre panier est vide !
           </p>
           <div class="row cart-elt ml-1 mt-2" *ngFor="let product of Products" >
@@ -41,31 +49,85 @@
             <div class="col-md-6">
               <h3>{{ product.name }}</h3>
               <p>Prix : {{ product.price | number }} Fcfa</p>
-              <i class="material-icons" (click)="Descrease(product.identify)">
+              <i class="material-icons" style="cursor: pointer;" (click)="Descrease(product.identify)">
                 remove_circle_outline
               </i>
               <span class="qte">
                 {{ product.quantity }}
               </span>
-              <i class="material-icons" (click)="Inscrease(product.identify)">
+              <i class="material-icons" style="cursor: pointer;" (click)="Inscrease(product.identify)">
                 add_circle_outline
               </i>
             </div>
             <div class="col-md-1">
-              <i class="material-icons text-danger" style="position:relative;right:12px" (click)="Clear(product)">
+              <i class="material-icons" style="cursor: pointer;" style="position:relative;right:12px;color: #FF086C;cursor: pointer;" (click)="Clear(product)">
                 clear
               </i>
             </div>
           </div>
 
         </div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-          PROFILE
+        <div class="tab-pane fade" id="cart2" role="tabpanel" aria-labelledby="cart2-tab"  *ngIf="p.nv2 === true">
+            <p class="text-info error text-dark" *ngIf="Products2.length === 0" >
+            Votre panier est vide !
+          </p>
+          <div class="row cart-elt ml-1 mt-2" *ngFor="let product of Products2" >
+            <div class="col-md-5">
+              <img src="{{ product.img }}" alt="" width="100px" height="100px">
+            </div>
+            <div class="col-md-6">
+              <h3>{{ product.name }}</h3>
+              <p>Prix : {{ product.price | number }} Fcfa</p>
+              <i class="material-icons" style="cursor: pointer;" (click)="Descrease(product.identify)">
+                remove_circle_outline
+              </i>
+              <span class="qte">
+                {{ product.quantity }}
+              </span>
+              <i class="material-icons" style="cursor: pointer;" (click)="Inscrease(product.identify)">
+                add_circle_outline
+              </i>
+            </div>
+            <div class="col-md-1">
+              <i class="material-icons" style="cursor: pointer;" style="position:relative;right:12px;color: #FF086C;cursor: pointer;" (click)="Clear(product)">
+                clear
+              </i>
+            </div>
+          </div>
+
         </div>
-        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-          HOME
+        <div class="tab-pane fade" id="cart3" role="tabpanel" aria-labelledby="cart3-tab"  *ngIf="p.nv3 === true">
+
+          <p class="text-info error text-dark" *ngIf="Products3.length === 0" >
+            Votre panier est vide !
+          </p>
+          <div class="row cart-elt ml-1 mt-2" *ngFor="let product of Products3" >
+            <div class="col-md-5">
+              <img src="{{ product.img }}" alt="" width="100px" height="100px">
+            </div>
+            <div class="col-md-6">
+              <h3>{{ product.name }}</h3>
+              <p>Prix : {{ product.price | number }} Fcfa</p>
+              <i class="material-icons" style="cursor: pointer;" (click)="Descrease(product.identify)">
+                remove_circle_outline
+              </i>
+              <span class="qte">
+                {{ product.quantity }}
+              </span>
+              <i class="material-icons" style="cursor: pointer;" (click)="Inscrease(product.identify)">
+                add_circle_outline
+              </i>
+            </div>
+            <div class="col-md-1">
+              <i class="material-icons" style="cursor: pointer;" style="position:relative;right:12px;color: #FF086C;cursor: pointer;" (click)="Clear(product)">
+                clear
+              </i>
+            </div>
+          </div>
+
         </div>
       </div>
+
     </div>
 
     <!-- checkout info part -->
@@ -79,15 +141,15 @@
         </h1>
       </div>
       <div class="col-md-6 ">
-        <button class="btn btn-primary" *ngIf="!SelectedC" (click)="goToCustomer()">
+        <button class="btn primary-am" style="color: white; background-color: black;" *ngIf="!SelectedC" (click)="goToCustomer()">
           Ajoutez Client
         </button>
-        <button class="btn btn-primary" *ngIf="SelectedC" (click)="goToCustomer()">
+        <button class="btn" style="color: white; background-color: black;" *ngIf="SelectedC" (click)="goToCustomer()">
           {{ SelectedC }}
         </button>
       </div>
       <div class="col-md-6 ">
-        <button class="btn btn-primary" (click)="goToCheckout()">
+        <button class="btn" style="color: white; background-color: black;" (click)="goToCheckout()">
           Payer Maintenant
         </button>
       </div>

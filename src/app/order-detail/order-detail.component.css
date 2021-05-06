@@ -1,0 +1,29 @@
+.table-detail-order {
+  height: 100vh;
+  padding: 1rem;
+}
+
+.bord {
+  border: solid;
+}
+
+a,h5,small,input,button,p, li, table {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border-radius: 0;
+}
+
+.table-product {
+  border: solid;
+  height: 60vh;
+}

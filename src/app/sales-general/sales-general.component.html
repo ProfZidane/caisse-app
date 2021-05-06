@@ -1,0 +1,33 @@
+<div class="container-fluid general-table-sales">
+  <div class="text-center" *ngIf="visibility === true">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+    <thead>
+      <tr>
+        <th>NUM COMMANDE</th>
+        <th>Date </th>
+        <th>Nom & Prénoms Client</th>
+        <th>Numéro Client</th>
+        <th>Type Client</th>
+        <th>Quantité Totale Commandée</th>
+        <th>Sous-total</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sale of sales">
+        <td>{{sale.order.order_number }}</td>
+        <td>{{ sale.order.created_at | date}}</td>
+        <td>{{ sale.client.name }}</td>
+        <td>{{ sale.client.telephone }}</td>
+        <td>{{ sale.client.type }}</td>
+        <td>{{ sale.order.quantity }}</td>
+        <td>{{sale.order.sub_total }}</td>
+        <td>{{ sale.order.total_amount }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

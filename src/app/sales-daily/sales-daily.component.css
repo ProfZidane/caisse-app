@@ -1,0 +1,39 @@
+
+button {
+  border-radius: 0;
+  background-color: #ff817a;
+  border-color: white;
+}
+
+a,h5,small,input,button,p, span {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input, select {
+  border-radius: 0;
+}
+
+
+
+button {
+  border-radius: 0;
+  background-color: #ff817a;
+  border-color: white;
+}
+
+h5 {
+  font-weight: 700;
+}
+
+.bord {
+  border: solid;
+}
+
+
+.general-table-sales {
+  padding: 1rem;
+}

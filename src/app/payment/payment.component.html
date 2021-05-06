@@ -1,13 +1,19 @@
 <mat-progress-bar *ngIf="success===false"  mode="indeterminate"></mat-progress-bar>
 
 <div class="container-fluid payment-fullcontent">
+  <div class="alert alert-success" *ngIf="response_checkout.success === true" style="font-weight: 300; font-size: small;">
+    Votre commande a bien été prise en compte ! <br> Vous serez rédirigé sur votre ticket et l'accueil dans quelques secondes...
+  </div>
+  <div class="alert alert-danger" *ngIf="response_checkout.error === true" style="font-weight: 300; font-size: small;">
+    Une erreur est survenue, veuillez réessayez plus tard !
+  </div>
     <div class="card-title">
         <h1>Paiement</h1>
         <hr>
     </div>
 
     <div class="card-customer" *ngIf="customer">
-        <h1>{{ customer.name }}</h1>
+        <h1 style="color: #ff817a;">{{ customer.name }}</h1>
         <div class="card-detail-customer">
             <p class="mb-1">
                 <i class="iii material-icons">
@@ -32,6 +38,7 @@
                 <!-- List group -->
                 <div class="list-group" id="myList" role="tablist">
                     <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" (click)="setTypePayement('especes')" role="tab">Paiement Cash</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#home-2" (click)="setTypePayement('echelonner')" role="tab">Paiement Echelloner</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" (click)="setTypePayement('soutra')" role="tab">Paiement Soutrali</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" (click)="setTypePayement('')" role="tab">Paiement Par Carte / Chèque</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" (click)="setTypePayement('mobile-money')" role="tab">Paiement Mobile Money</a>
@@ -43,6 +50,12 @@
                 <!-- Content group -->
                 <div class="tab-content">
                     <div class="tab-pane active" id="home" role="tabpanel">
+                      <div align="center" *ngIf="error_in_money === true">
+                        <small class="err_to_cash">
+                          La somme reçu du client est inférieur à celle du total. S'il s'agit d'un paiement échelloné, veuillez migrer sur l'onglet approprié !
+                        </small>
+                      </div>
+                      <span>Paiement Espèce simple</span>
 
                         <div class="row cash">
                             <div class="col-md-6 data-payment">
@@ -76,7 +89,7 @@
                                           <label for="exampleFormControlSelect1">Entrez la valeur</label>
                                           <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
                                         </div>
-                                        <button class="btn btn-primary" (click)="applyReduction()">
+                                        <button class="btn primary-am" (click)="applyReduction()">
                                           Appliquer réduction
                                         </button>
                                       </div>
@@ -89,14 +102,13 @@
                                           <label for="exampleFormControlSelect1">Entrez l'adresse de livraison</label>
                                           <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPlace" [(ngModel)]="delivery.adresse">
                                         </div>
-                                        <button class="btn btn-primary" (click)="setSumDelivery()">
+                                        <button class="btn primary-am" (click)="setSumDelivery()">
                                           Coût de livraison
                                         </button>
                                       </div>
                                   </div>
                             </div>
                             <div class="col-md-6 calculator" align="center">
-
                                 <div class="row plaque">
                                     <div class="col-md-4">
                                         <button class="btn btn-secondary btn-block cal" data-id="1">1</button>
@@ -142,28 +154,142 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-primary btn-lg mt-5" style="width: 60%;" (click)="checkout()">Confirmer</button>
+                                <button class="btn btn-lg text-light mt-5" style="width: 60%;background-color: black;" (click)="checkout()">Confirmer</button>
 
                             </div>
                         </div>
 
                     </div>
+                    <!--delimited-->
+                    <div class="tab-pane" id="home-2" role="tabpanel">
+                      <span>Paiement échelloné</span>
+                        <div class="row cash">
+
+                            <div class="col-md-6 data-payment">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <p class="price" *ngIf="!Total">0 Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total | number }} Fcfa</p>
+                                        <small class="desc">Total</small>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p class="price" *ngIf="SumCustomer">{{ SumCustomer | number }} Fcfa</p>
+                                        <p class="price" *ngIf="!SumCustomer">0 Fcfa</p>
+                                        <small class="desc">Reçu du client</small>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p class="price" *ngIf="exchange">{{ exchange | number}} Fcfa</p>
+                                        <p class="price" *ngIf="!exchange">0 Fcfa</p>
+                                        <small class="desc">Echange (monnaie)</small>
+                                    </li>
+                                  </ul>
+                                  <div class="row supp bord" align="center">
+                                      <div class="col-md-6">
+                                        <div class="form-group" *ngIf="visibility.typeReduction === 'true'">
+                                          <label for="exampleFormControlSelect1">Choisir le type de réduction</label>
+                                          <select class="form-control" id="exampleFormControlSelect1" name="typeReduction" [(ngModel)]="reduction.type" (change)="setValueReduction($event)">
+                                            <option value="percent">Par pourcentage</option>
+                                            <option value="fixed">Par prix fixe</option>
+                                          </select>
+                                        </div>
+                                        <div class="form-group" *ngIf="visibility.valueReduction === 'true'">
+                                          <label for="exampleFormControlSelect1">Entrez la valeur</label>
+                                          <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
+                                        </div>
+                                        <button class="btn primary-am" (click)="applyReduction()">
+                                          Appliquer réduction
+                                        </button>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="form-group" *ngIf="visibility.sommeDelivery === 'true'">
+                                          <label for="exampleFormControlSelect1">Entrez la somme</label>
+                                          <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPrice" [(ngModel)]="delivery.value">
+                                        </div>
+                                        <div class="form-group" *ngIf="visibility.sommeDelivery === 'true'">
+                                          <label for="exampleFormControlSelect1">Entrez l'adresse de livraison</label>
+                                          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPlace" [(ngModel)]="delivery.adresse">
+                                        </div>
+                                        <button class="btn primary-am" (click)="setSumDelivery()">
+                                          Coût de livraison
+                                        </button>
+                                      </div>
+                                  </div>
+                            </div>
+                            <div class="col-md-6 calculator" align="center">
+                                <div class="row plaque">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="1">1</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="2">2</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="3">3</button>
+                                    </div>
+                                </div>
+                                <div class="row plaque">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="4">4</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="5">5</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="6">6</button>
+                                    </div>
+                                </div>
+                                <div class="row plaque">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="7">7</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="8">8</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="9">9</button>
+                                    </div>
+                                </div>
+                                <div class="row plaque">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id=".">.</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="0">0</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-secondary btn-block cal" data-id="eff">C</button>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-lg text-light mt-5" style="width: 60%;background-color: black;" (click)="checkoutEchelonne()">Confirmer</button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--// delimited-->
                     <div class="tab-pane" id="profile" role="tabpanel">
 
                       <div class="row soutrali">
                         <div class="col-md-6">
                           <div id="info-soutra">
                             <h1>Mon compte</h1>
-                            <p>
+                            <p *ngIf="customer.noCompte !== null">
                               Numéro de compte : {{ customer.noCompte }}
                             </p>
-                            <p>
+                            <p *ngIf="customer.noCompte === null">
+                              Numéro de compte : NEANT
+                            </p>
+                            <p *ngIf="customer.solde !== null">
                               Solde : {{ customer.solde }} Fcfa
+                            </p>
+                            <p *ngIf="customer.solde === null">
+                              Solde : 0 Fcfa
                             </p>
                           </div>
                         </div>
                         <div class="col-md-6">
-                          <button class="btn btn-primary btn-lg btn-soutra">
+                          <button class="btn primary-am btn-lg btn-soutra">
                             Déclancher
                           </button>
                         </div>
@@ -217,7 +343,7 @@
                                     <label for="exampleFormControlSelect1">Entrez la valeur</label>
                                     <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
                                   </div>
-                                  <button class="btn btn-primary" (click)="applyReduction()">
+                                  <button class="btn primary-am" (click)="applyReduction()">
                                     Appliquer réduction
                                   </button>
                                 </div>
@@ -230,12 +356,12 @@
                                     <label for="exampleFormControlSelect1">Entrez l'adresse de livraison</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPlace" [(ngModel)]="delivery.adresse">
                                   </div>
-                                  <button class="btn btn-primary" (click)="setSumDelivery()">
+                                  <button class="btn primary-am" (click)="setSumDelivery()">
                                     Coût de livraison
                                   </button>
                                 </div>
                             </div>
-                              <button class="btn btn-primary btn-lg mt-5" type="submit" style="width: 100%;" (click)="checkoutCreditCard()">Confirmer</button>
+                              <button class="btn btn-lg mt-5" type="submit" style="width: 100%;color: white;background-color: black;" (click)="checkoutCreditCard()">Confirmer</button>
                         </div>
                     </div>
                     <div class="tab-pane" id="settings" role="tabpanel">
@@ -292,7 +418,7 @@
                                     <label for="exampleFormControlSelect1">Entrez la valeur</label>
                                     <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
                                   </div>
-                                  <button class="btn btn-primary" (click)="applyReduction()">
+                                  <button class="btn primary-am" (click)="applyReduction()">
                                     Appliquer réduction
                                   </button>
                                 </div>
@@ -305,12 +431,12 @@
                                     <label for="exampleFormControlSelect1">Entrez l'adresse de livraison</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deliveryPlace" [(ngModel)]="delivery.adresse">
                                   </div>
-                                  <button class="btn btn-primary" (click)="setSumDelivery()">
+                                  <button class="btn primary-am" (click)="setSumDelivery()">
                                     Coût de livraison
                                   </button>
                                 </div>
                             </div>
-                              <button class="btn btn-primary btn-lg mt-5" style="width: 100%;" (click)="checkoutMobileMoney()">Confirmer</button>
+                              <button class="btn text-light btn-lg mt-5" style="width: 100%;background-color: black;" (click)="checkoutMobileMoney()">Confirmer</button>
                         </div>
 
                     </div>

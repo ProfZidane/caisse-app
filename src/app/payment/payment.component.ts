@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CartOperateService } from '../services/cart-operate.service';
 
 @Component({
@@ -41,13 +42,31 @@ mobileMoney = {
   num : ''
 };
 success;
-  constructor(private cartService: CartOperateService) {
+response_checkout = {
+  success : false,
+  error : false
+};
+error_in_money;
+mode;
+numOrder;
+  constructor(private cartService: CartOperateService, private router: Router, private route: ActivatedRoute) {
     this.typePayement = 'especes';
    }
 
   ngOnInit(): void {
     /*this.Total = Number(localStorage.getItem('total'));
     console.log(this.Total);*/
+    this.route.paramMap.subscribe(
+      (params => {
+        this.mode = params.get('mode');
+      })
+    );
+    this.route.paramMap.subscribe(
+      (params => {
+        this.numOrder = params.get('num');
+      })
+    );
+    console.log(this.numOrder);
     this.getCustomer();
     this.getTotal();
   }
@@ -58,6 +77,8 @@ success;
   }
 
 
+
+  // Récupération des données numériques du pavé écran
   TouchCalculator() {
     const touch = document.querySelectorAll('.cal');
     touch.forEach(element => {
@@ -103,6 +124,8 @@ success;
     });
   }
 
+
+  // Evenement de capture donnée des touches numériques
   KeyboardTouch() {
     document.addEventListener('keydown', (event) => {
       const nomOfTouch = event.key;
@@ -141,60 +164,133 @@ success;
     });
   }
 
+  // Récupérer client en cours
   getCustomer() {
     this.customer = JSON.parse(localStorage.getItem('customerChoice'));
   }
 
+
+  // Récupérer total en cours
   getTotal() {
     this.Total = Number(localStorage.getItem('total'));
   }
 
+
+  // Mettre à jour le mode de paiement (sélection)
   setTypePayement(value) {
     console.log(value);
     this.typePayement = value;
   }
 
 
+  // Validation de la commande option cache
   checkout() {
+    this.error_in_money = false;
+    // Verification de la somme donnée par le client
+    if (Number(this.SumCustomer) >= Number(this.Total)) {
+      this.success = false;
+      const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
+      console.log(confirm);
+
+      if (confirm === true) {
+        // format de donnée pour commander
+        let data = {
+          typePaiement : this.typePayement,
+          mode : this.mode,
+          numOrder : this.numOrder,
+          exchange : this.exchange,
+          total : this.Total,
+          livraison : {
+            state : this.delivery.state,
+            price : this.delivery.value,
+            adresse : this.delivery.adresse
+          },
+          reduction : {
+            state : this.reduction.state,
+            valeur : this.reduction.value,
+            type : this.reduction.type
+          }
+        };
+        this.cartService.Checkout(data).subscribe(
+          (success) => {
+            console.log(success);
+            this.loadingControl();
+            this.cartService.starterGenerateTicket();
+            this.response_checkout.success = true;
+            this.response_checkout.error = false;
+            this.successPayment();
+          }, (err) => {
+            console.log(err);
+            this.loadingControl();
+            this.response_checkout.success = false;
+            this.response_checkout.error = true;
+          }
+        );
+      } else {
+        this.success = true;
+      }
+    } else {
+      this.error_in_money = true;
+
+      setTimeout( () => {
+        this.error_in_money = false;
+      }, 5000);
+    }
+  }
+
+
+  // Validation du paiement par échelonnement
+  checkoutEchelonne() {
+    this.error_in_money = false;
+    // Verification de la somme donnée par le client
     this.success = false;
     const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
     console.log(confirm);
 
     if (confirm === true) {
-      // console.log(this.typePayement);
+        // format de donnée pour commander
+        let data = {
+          typePaiement : this.typePayement,
+          mode : this.mode,
+          numOrder : this.numOrder,
+          exchange : this.exchange,
+          total : this.Total,
+          livraison : {
+            state : this.delivery.state,
+            price : this.delivery.value,
+            adresse : this.delivery.adresse
+          },
+          reduction : {
+            state : this.reduction.state,
+            valuers : this.reduction.value,
+            type : this.reduction.type
+          }
+        };
+        console.log(data);
+        this.cartService.Checkout(data).subscribe(
+          (success) => {
+            console.log(success);
+            this.loadingControl();
+            this.cartService.starterGenerateTicket();
+            this.response_checkout.success = true;
+            this.response_checkout.error = false;
+            this.successPayment();
+          }, (err) => {
+            console.log(err);
+            this.loadingControl();
+            this.response_checkout.success = false;
+            this.response_checkout.error = true;
+          }
+        );
+      } else {
+        this.success = true;
+      }
 
-      // console.log(this.SumCustomer);
-      // console.log(this.exchange);
-      // format de donnée pour commander
-      let data = {
-        typePaiement : this.typePayement,
-        exchange : this.exchange,
-        total : this.Total,
-        livraison : {
-          state : this.delivery.state,
-          price : this.delivery.value,
-          adresse : this.delivery.adresse
-        },
-        reduction : {
-          state : this.reduction.state,
-          valeur : this.reduction.value,
-          type : this.reduction.type
-        }
-      };
-      this.cartService.Checkout(data).subscribe(
-        (success) => {
-          console.log(success);
-          this.loadingControl();
-        }, (err) => {
-          console.log(err);
-          this.loadingControl();
-        }
-      );
-    }
   }
 
   checkoutCreditCard() {
     this.success = false;
+    this.error_in_money = false;
     //
     console.log(this.typePayement);
     if (this.typePayement !== '') {
@@ -202,6 +298,8 @@ success;
       if (confirm === true) {
         let data = {
           typePaiement : this.typePayement,
+          mode : this.mode,
+          numOrder : this.numOrder,
           check : this.check,
           total : this.Total,
           livraison : {
@@ -220,47 +318,73 @@ success;
           (success) => {
             console.log(success);
             this.loadingControl();
+            this.cartService.starterGenerateTicket();
+            this.response_checkout.success = true;
+            this.response_checkout.error = false;
+            this.successPayment();
           }, (err) => {
             console.log(err);
             this.loadingControl();
+            this.response_checkout.success = false;
+            this.response_checkout.error = true;
           }
         );
       }
     } else {
       alert('Veuillez renseigner votre option de paiement !');
+      this.success = true;
     }
 
   }
 
   checkoutMobileMoney() {
     this.success = false;
-    const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
-    if (confirm === true) {
-      let data = {
-        typePaiement : this.typePayement,
-        mobile : this.mobileMoney,
-        total : this.Total,
-        livraison : {
-          state : this.delivery.state,
-          price : this.delivery.value,
-          adresse : this.delivery.adresse
-        },
-        reduction : {
-          state : this.reduction.state,
-          valeur : this.reduction.value,
-          type : this.reduction.type
-        }
-      };
-      // console.log(data);
-      this.cartService.Checkout(data).subscribe(
-        (success) => {
-          console.log(success);
-          this.loadingControl();
-        }, (err) => {
-          console.log(err);
-          this.loadingControl();
-        }
-      );
+    this.error_in_money = false;
+    if (this.mobileMoney.num !== '' && this.mobileMoney.network !== '') {
+
+      const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
+      if (confirm === true) {
+        let data = {
+          typePaiement : this.typePayement,
+          mode : this.mode,
+          numOrder : this.numOrder,
+          mobile : this.mobileMoney,
+          total : this.Total,
+          livraison : {
+            state : this.delivery.state,
+            price : this.delivery.value,
+            adresse : this.delivery.adresse
+          },
+          reduction : {
+            state : this.reduction.state,
+            valeur : this.reduction.value,
+            type : this.reduction.type
+          }
+        };
+        console.log(data);
+        this.cartService.Checkout(data).subscribe(
+          (success) => {
+            console.log(success);
+            this.loadingControl();
+            this.cartService.starterGenerateTicket();
+            this.response_checkout.success = true;
+            this.response_checkout.error = false;
+            this.successPayment();
+          }, (err) => {
+            console.log(err);
+            this.loadingControl();
+            this.response_checkout.success = false;
+            this.response_checkout.error = true;
+          }
+        );
+      } else {
+        this.success = true;
+      }
+
+    } else {
+
+      alert('Veuillez à ce que le numéro de téléphone du client et le réseau de transaction soit spécifier !');
+      this.success = true;
     }
 
   }
@@ -314,10 +438,45 @@ success;
     }
   }
 
+
+
+  // Animation de chargement
   loadingControl() {
     setTimeout( () => {
       this.success = true;
     }, 1000);
   }
 
+
+
+  // Opération de fin de validation
+  successPayment() {
+    // localStorage.removeItem('')
+    const indice = JSON.parse(localStorage.getItem('inProgress'));
+    if (indice.in === 1) {
+      setTimeout( () => {
+        localStorage.setItem('cart-1', '[]');
+        localStorage.removeItem('total');
+        // localStorage.setItem('customerChoice', JSON.stringify({}));
+        localStorage.removeItem('customerChoice');
+        this.router.navigateByUrl('/home');
+      }, 2000);
+    } else if (indice.in === 2) {
+      setTimeout( () => {
+        localStorage.setItem('cart-2', '[]');
+        localStorage.removeItem('total');
+        // localStorage.setItem('customerChoice', JSON.stringify({}));
+        localStorage.removeItem('customerChoice');
+        this.router.navigateByUrl('/home');
+      }, 2000);
+    } else if (indice.in === 3) {
+      setTimeout( () => {
+        localStorage.setItem('cart-3', '[]');
+        localStorage.removeItem('total');
+        // localStorage.setItem('customerChoice', JSON.stringify({}));
+        localStorage.removeItem('customerChoice');
+        this.router.navigateByUrl('/home');
+      }, 2000);
+    }
+  }
 }

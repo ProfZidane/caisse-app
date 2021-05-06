@@ -1,0 +1,17 @@
+
+button {
+  border-radius: 0;
+  background-color: #ff817a;
+  border-color: white;
+}
+
+.list {
+  height: 80vh;
+  /*overflow-y: auto;*/
+}
+
+#container-list {
+  height: 65vh;
+
+  overflow-y: auto;
+}

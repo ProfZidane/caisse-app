@@ -14,6 +14,14 @@ button {
   border-radius: 0;
 }
 
+.primary-am {
+  border-color: white;
+  background-color: #ff817a;
+}
+
+
+
+
 .bord {
     border: solid;
 }
@@ -51,6 +59,7 @@ button {
 }*/
 
 .footer {
+  background-color: white;
   padding: 1rem;
   position: fixed;
   bottom: 0;
@@ -76,4 +85,11 @@ button {
 .error {
   position: absolute;
   transform: translateY(200%);
+}
+
+
+#removeCartBtn {
+  position: relative;
+  bottom: 0px;
+  right: 35%;
 }
