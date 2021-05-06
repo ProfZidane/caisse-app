@@ -235,6 +235,8 @@ p = {
         const indice = JSON.parse(localStorage.getItem('inProgress'));
         console.log(indice);
         setTimeout( () => {
+          console.log('activation');
+
           this.AttributeActiveToLink(indice);
         }, 500);
         // this.AttributeActiveToLink(indice);

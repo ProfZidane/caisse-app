@@ -42,6 +42,7 @@ emptyCart = [];
   // Récupérer les paniers qui sont vides
   GetEmptyCart(): Array<any> {
     const tabKeyCart = ['1', '2', '3'];
+    this.emptyCart = [];
     const cartEmpty = [];
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < tabKeyCart.length; i++) {
@@ -53,6 +54,7 @@ emptyCart = [];
 
         const cart = JSON.parse(localStorage.getItem('cart-' + tabKeyCart[i]));
         if (cart.length === 0) {
+          console.log(cart);
           this.emptyCart.push(tabKeyCart[i]);
         }
       } else {

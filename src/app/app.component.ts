@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
         localStorage.setItem('cart-3', JSON.stringify([]));
       }
     }
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
   }
 
 }
