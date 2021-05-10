@@ -3,12 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
-};
-
-export const endpoint = {
+  production: false,
   url : 'https://accessoire-mode.lce-test.fr/api/caisse/'
 };
+
 
 export const SECRET_KEY = {
   AesKey : 'LsWOKoBjV5+T8vCvtVGlJ1M/8szhK9eK',

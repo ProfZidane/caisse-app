@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { endpoint } from '../../environments/environment';
+import { environment, } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
@@ -7,11 +7,11 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ReservationService {
-getURL = endpoint.url + 'getAllReservations';
-getByIdURL = endpoint.url + 'getDetailsReservation/';
-deleteURL = endpoint.url + 'retirerProductInReservation/';
-removeURL = endpoint.url + 'cancelReservation/';
-changeURL = endpoint.url + 'changeToOrder/';
+getURL = environment.url + 'getAllReservations';
+getByIdURL = environment.url + 'getDetailsReservation/';
+deleteURL = environment.url + 'retirerProductInReservation/';
+removeURL = environment.url + 'cancelReservation/';
+changeURL = environment.url + 'changeToOrder/';
   constructor(private http: HttpClient) { }
 
   getReservation(): Observable<any> {
