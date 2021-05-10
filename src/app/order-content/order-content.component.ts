@@ -25,6 +25,7 @@ export class OrderContentComponent implements OnInit {
       (data) => {
         console.log(data);
         this.orders = data;
+
         this.dtTrigger.next();
         this.visibility = false;
       }, (err) => {

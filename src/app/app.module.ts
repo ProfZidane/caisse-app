@@ -35,6 +35,9 @@ import { OrderComponent } from './order/order.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderContentComponent } from './order-content/order-content.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
+import { ReservationManagementComponent } from './reservation-management/reservation-management.component';
+import { ReservationDetailComponent } from './reservation-detail/reservation-detail.component';
+import { ReservationComponent } from './reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +61,10 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
     OrderComponent,
     OrderDetailComponent,
     OrderContentComponent,
-    CustomerDetailComponent
+    CustomerDetailComponent,
+    ReservationManagementComponent,
+    ReservationDetailComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,33 @@
+.table-orders {
+  padding: 1rem;
+  height: calc(100% - 15%);
+  overflow-y: scroll;
+}
+
+a,h5,small,input,button,p {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border-radius: 0;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: #ff817a !important;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: #E4E8EB;
+}
+
+::ng-deep .mat-progress-bar {
+  border-radius: 2px;
+}

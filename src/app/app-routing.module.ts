@@ -17,6 +17,9 @@ import { OrderComponent } from './order/order.component';
 import { OrderContentComponent } from './order-content/order-content.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
+import { ReservationManagementComponent } from './reservation-management/reservation-management.component';
+import { ReservationComponent } from './reservation/reservation.component';
+import { ReservationDetailComponent } from './reservation-detail/reservation-detail.component';
 
 
 const routes: Routes = [
@@ -103,6 +106,22 @@ const routes: Routes = [
         path: 'order-detail/:id',
         component: OrderDetailComponent,
         outlet: 'child3'
+      }
+    ]
+  },
+  {
+    path: 'reservation',
+    component: ReservationComponent,
+    children: [
+      {
+        path: '',
+        component: ReservationManagementComponent,
+        outlet: 'child4'
+      },
+      {
+        path: 'reservation-detail/:id',
+        component: ReservationDetailComponent,
+        outlet: 'child4'
       }
     ]
   }

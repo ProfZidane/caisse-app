@@ -29,4 +29,8 @@ export class SidemenuComponent implements OnInit {
     this.route.navigateByUrl('/order');
   }
 
+  goToReservation() {
+    this.route.navigateByUrl('/reservation');
+  }
+
 }

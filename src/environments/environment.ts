@@ -7,7 +7,7 @@ export const environment = {
 };
 
 export const endpoint = {
-  url : 'http://192.168.1.120:8000'
+  url : 'https://accessoire-mode.lce-test.fr/api/caisse/'
 };
 
 export const SECRET_KEY = {
