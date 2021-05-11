@@ -23,8 +23,8 @@
       <tr *ngFor="let order of sales">
         <td>{{ order.order_number }}</td>
         <td>{{ order.quantity }}</td>
-        <td>{{ order.sub_total }}</td>
-        <td>{{ order.total_amount }}</td>
+        <td>{{ order.sub_total | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+        <td>{{ order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
         <td>{{ order.created_at | date:'short':'UTC':'fr' }}</td>
         <td>{{ order.status }}</td>
         <td>

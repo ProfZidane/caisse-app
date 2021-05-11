@@ -3,7 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { ReservationService } from '../services/reservation.service';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
+registerLocaleData(localeFr, 'fr');
 @Component({
   selector: 'app-reservation-detail',
   templateUrl: './reservation-detail.component.html',

@@ -62,16 +62,16 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
                                         <p class="price" *ngIf="!Total">0 Fcfa</p>
-                                        <p class="price" *ngIf="Total">{{ Total | number }} Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa</p>
                                         <small class="desc">Total</small>
                                     </li>
                                     <li class="list-group-item">
-                                        <p class="price" *ngIf="SumCustomer">{{ SumCustomer | number }} Fcfa</p>
+                                        <p class="price" *ngIf="SumCustomer">{{ SumCustomer | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa</p>
                                         <p class="price" *ngIf="!SumCustomer">0 Fcfa</p>
                                         <small class="desc">Reçu du client</small>
                                     </li>
                                     <li class="list-group-item">
-                                        <p class="price" *ngIf="exchange">{{ exchange | number}} Fcfa</p>
+                                        <p class="price" *ngIf="exchange">{{ exchange | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa</p>
                                         <p class="price" *ngIf="!exchange">0 Fcfa</p>
                                         <small class="desc">Echange (monnaie)</small>
                                     </li>
@@ -169,16 +169,16 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
                                         <p class="price" *ngIf="!Total">0 Fcfa</p>
-                                        <p class="price" *ngIf="Total">{{ Total | number }} Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa</p>
                                         <small class="desc">Total</small>
                                     </li>
                                     <li class="list-group-item">
-                                        <p class="price" *ngIf="SumCustomer">{{ SumCustomer | number }} Fcfa</p>
+                                        <p class="price" *ngIf="SumCustomer">{{ SumCustomer | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa</p>
                                         <p class="price" *ngIf="!SumCustomer">0 Fcfa</p>
                                         <small class="desc">Reçu du client</small>
                                     </li>
                                     <li class="list-group-item">
-                                        <p class="price" *ngIf="exchange">{{ exchange | number}} Fcfa</p>
+                                        <p class="price" *ngIf="exchange">{{ exchange | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa</p>
                                         <p class="price" *ngIf="!exchange">0 Fcfa</p>
                                         <small class="desc">Echange (monnaie)</small>
                                     </li>
@@ -281,7 +281,7 @@
                               Numéro de compte : NEANT
                             </p>
                             <p *ngIf="customer.solde !== null">
-                              Solde : {{ customer.solde }} Fcfa
+                              Solde : {{ customer.solde | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa
                             </p>
                             <p *ngIf="customer.solde === null">
                               Solde : 0 Fcfa
@@ -307,7 +307,7 @@
                                       </div>
                                       <div class="col-md-6">
                                         <p class="price" *ngIf="!Total">0 Fcfa</p>
-                                        <p class="price" *ngIf="Total">{{ Total | number }} Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa</p>
                                       </div>
                                   </div>
                                 </div>
@@ -375,7 +375,7 @@
                                       </div>
                                       <div class="col-md-6">
                                         <p class="price" *ngIf="!Total">0 Fcfa</p>
-                                        <p class="price" *ngIf="Total">{{ Total | number }} Fcfa</p>
+                                        <p class="price" *ngIf="Total">{{ Total | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa</p>
                                       </div>
                                   </div>
                                 </div>

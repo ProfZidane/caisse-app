@@ -28,7 +28,7 @@
         <td>{{ reservation.email }}</td>
         <td>{{ reservation.phone }}</td>
         <td>{{ reservation.quantity }}</td>
-        <td>{{ reservation.total_amount }}</td>
+        <td>{{ reservation.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
         <td>{{ reservation.name }}</td>
         <td>{{ reservation.date_promise | date:'short':'UTC':'fr' }}</td>
         <td>

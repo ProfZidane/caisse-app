@@ -25,8 +25,8 @@
         <td>{{ sale.client.telephone }}</td>
         <td>{{ sale.client.type }}</td>
         <td>{{ sale.order.quantity }}</td>
-        <td>{{sale.order.sub_total }}</td>
-        <td>{{ sale.order.total_amount }}</td>
+        <td>{{sale.order.sub_total | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+        <td>{{ sale.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
       </tr>
     </tbody>
   </table>

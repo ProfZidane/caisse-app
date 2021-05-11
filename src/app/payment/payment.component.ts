@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartOperateService } from '../services/cart-operate.service';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
+registerLocaleData(localeFr, 'fr');
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',

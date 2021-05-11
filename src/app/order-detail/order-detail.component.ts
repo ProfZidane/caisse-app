@@ -4,6 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { CartOperateService } from '../services/cart-operate.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr, 'fr');
 
 @Component({
   selector: 'app-order-detail',

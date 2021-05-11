@@ -76,7 +76,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
               Montant Total
               <span class="badge badge-pill">
-                {{ details.total_amount }}
+                {{ details.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
               </span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -110,8 +110,8 @@
           <tr *ngFor="let product of products">
             <td>{{ product.title }}</td>
             <td>{{ product.quantity }}</td>
-            <td>{{ product.price }}</td>
-            <td>{{ product.amount }}</td>
+            <td>{{ product.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+            <td>{{ product.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
             <td>
               <button class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal" (click)="viewImageProduct(product.title, product.photo)">
                 Voir Image
