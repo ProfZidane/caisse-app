@@ -103,12 +103,12 @@
       </div>
 
       <li class="list-group-item line" *ngFor="let sale of sales" (click)="SelectedSale(sale)">
-        <div class="row">
+        <div class="row" style="cursor: pointer;">
           <div class="col-md-4">
             <p style="font-weight: 900; color: #ff817a;">{{ sale.order.order_number }}</p>
           </div>
           <div class="col-md-4">
-            <p>{{ sale.order.created_at | date:'short' }}</p>
+            <p>{{ sale.order.created_at | date:'short':'UTC':'fr' }}</p>
           </div>
           <div class="col-md-4">
             <p style="font-weight: 900;">{{ sale.order.total_amount | number }} FCFA</p>
@@ -157,7 +157,7 @@
             <i class="material-icons">
               perm_contact_calendar
             </i>
-            {{ saleSelected.order.created_at }}
+            {{ saleSelected.order.created_at | date:'short':'UTC':'fr' }}
           </p>
         </li>
         <li class="list-group-item">

@@ -23,7 +23,7 @@
         <td>{{ order.quantity }}</td>
         <td>{{ order.sub_total }}</td>
         <td>{{ order.total_amount }}</td>
-        <td>{{ order.created_at | date}}</td>
+        <td>{{ order.created_at | date:'short':'UTC':'fr' }}</td>
         <td>
           <button class="btn btn-warning text-light" (click)='goToDetailOrder(order.id)'>
             Voir Détails

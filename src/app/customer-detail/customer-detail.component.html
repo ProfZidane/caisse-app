@@ -25,7 +25,7 @@
         <td>{{ order.quantity }}</td>
         <td>{{ order.sub_total }}</td>
         <td>{{ order.total_amount }}</td>
-        <td>{{ order.created_at | date}}</td>
+        <td>{{ order.created_at | date:'short':'UTC':'fr' }}</td>
         <td>{{ order.status }}</td>
         <td>
           <button class="btn btn-warning text-light" (click)='goProduct(order.id)'>

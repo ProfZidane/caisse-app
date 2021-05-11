@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ReservationService } from '../services/reservation.service';
 import { Router } from '@angular/router';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
+registerLocaleData(localeFr, 'fr');
 @Component({
   selector: 'app-reservation-management',
   templateUrl: './reservation-management.component.html',
@@ -24,6 +27,9 @@ export class ReservationManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.getReservations();
+    this.dtOptions = {
+      ordering: false
+    };
   }
 
   getReservations() {

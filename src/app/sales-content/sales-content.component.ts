@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SalesOperateService } from '../services/sales-operate.service';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr, 'fr');
 
 @Component({
   selector: 'app-sales-content',
@@ -54,7 +58,7 @@ export class SalesContentComponent implements OnInit {
         console.log(data);
         this.loadingIndicator = true;
         this.error.loadingSale = false;
-        this.sales = data;
+        this.sales = data.reverse();
 
         this.saleSelected = this.sales[0];
         console.log(this.saleSelected);

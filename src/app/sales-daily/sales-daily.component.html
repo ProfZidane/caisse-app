@@ -20,7 +20,7 @@
     <tbody *ngIf="salesDaily">
       <tr *ngFor="let sale of salesDaily">
         <td>{{sale.order.order_number }}</td>
-        <td>{{ sale.order.created_at | date}}</td>
+        <td>{{ sale.order.created_at | date:'short':'UTC':'fr' }}</td>
         <td>{{ sale.client.name }}</td>
         <td>{{ sale.client.telephone }}</td>
         <td>{{ sale.client.type }}</td>

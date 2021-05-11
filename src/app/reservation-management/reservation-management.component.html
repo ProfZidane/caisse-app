@@ -30,7 +30,7 @@
         <td>{{ reservation.quantity }}</td>
         <td>{{ reservation.total_amount }}</td>
         <td>{{ reservation.name }}</td>
-        <td>{{ reservation.date_promise | date}}</td>
+        <td>{{ reservation.date_promise | date:'short':'UTC':'fr' }}</td>
         <td>
           <button class="btn btn-warning text-light" (click)='goToDetailOrder(reservation.id)'>
             Détails
@@ -38,7 +38,7 @@
         </td>
         <td>
           <button class="btn btn-danger" (click)="removeReservation(reservation.reservation_number)">
-            Rétirer
+            Annuler
           </button>
         </td>
       </tr>
