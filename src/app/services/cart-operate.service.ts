@@ -646,7 +646,7 @@ VerifyExistingInCart(num, object) {
         const register = {
           typePaiement : object.typePaiement,
           check : object.check,
-          caissier : '',
+          caissier : JSON.parse(localStorage.getItem('caissier')).name,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -665,7 +665,7 @@ VerifyExistingInCart(num, object) {
         const register = {
           typePaiement : object.typePaiement,
           mobile : object.mobile,
-          caissier : '',
+          caissier : JSON.parse(localStorage.getItem('caissier')).name,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -682,7 +682,7 @@ VerifyExistingInCart(num, object) {
         console.log('choix du paiement : échelonner');
         const register = {
           typePaiement : object.typePaiement,
-          caissier : '',
+          caissier : JSON.parse(localStorage.getItem('caissier')).name,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -751,7 +751,7 @@ VerifyExistingInCart(num, object) {
         console.log('choix du paiement : cash');
         const register = {
           typePaiement : object.typePaiement,
-          caissier : '',
+          caissier : JSON.parse(localStorage.getItem('caissier')).name,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -768,7 +768,7 @@ VerifyExistingInCart(num, object) {
         const register = {
           typePaiement : object.typePaiement,
           check : object.check,
-          caissier : '',
+          caissier : JSON.parse(localStorage.getItem('caissier')).name,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -786,7 +786,7 @@ VerifyExistingInCart(num, object) {
         const register = {
           typePaiement : object.typePaiement,
           mobile : object.mobile,
-          caissier : '',
+          caissier : JSON.parse(localStorage.getItem('caissier')).name,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -802,7 +802,7 @@ VerifyExistingInCart(num, object) {
         console.log('choix du paiement : échelonner');
         const register = {
           typePaiement : object.typePaiement,
-          caissier : '',
+          caissier : JSON.parse(localStorage.getItem('caissier')).name,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),

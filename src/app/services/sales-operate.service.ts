@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { PdfService } from './pdf.service';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ getSalesByMonthURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByM
 getSalesBetweenDateURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderBetweenTwoDate';
 getSalesTodayURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getNowSales/';
 getSalesByCustomerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getHistoriqueAchatsClient/';
+getInfoSalesByCustomerURL = environment.url + 'getAchatsClientCartInfo/';
 Sales;
 dataToPdf;
   constructor(private http: HttpClient, private pdfService: PdfService) { }
@@ -96,6 +98,10 @@ dataToPdf;
 
   GetHistorySaleByCustomer(id): Observable<any> {
     return this.http.get(this.getSalesByCustomerURL + id);
+  }
+
+  GetDetailHistory(id): Observable<any> {
+    return this.http.get(this.getInfoSalesByCustomerURL + id);
   }
 
 

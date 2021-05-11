@@ -23,6 +23,7 @@ error = {
 sales;
 dtTrigger: Subject<any> = new Subject<any>();
 dtOptions: any = {};
+details;
   constructor(private salesService: SalesOperateService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -54,6 +55,14 @@ dtOptions: any = {};
 
   goProduct(id) {
     console.log(id);
+    this.salesService.GetDetailHistory(id).subscribe(
+      (data) => {
+        console.log(data);
+        this.details = data;
+      }, (err) => {
+        console.log(err);
+      }
+    );
   }
 
 }
