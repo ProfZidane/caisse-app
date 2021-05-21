@@ -97,15 +97,7 @@ export class FactureManagementComponent implements OnInit {
 
   }
 
-  changeOnglet(type) {
-    if (type === 'versement') {
-      this.ongletState.versement = true;
-      this.ongletState.product = false;
-    } else {
-      this.ongletState.versement = false;
-      this.ongletState.product = true;
-    }
-  }
+
 
   goToDetail(idOrder) {
     /*this.historyVersement = [];

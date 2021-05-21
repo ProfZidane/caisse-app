@@ -42,6 +42,10 @@ export class FactureDetailComponent implements OnInit {
   state = {
     inputOther: false,
   };
+  ongletState = {
+    versement: true,
+    product: false
+  };
   constructor(private salesService: SalesOperateService, private route: ActivatedRoute,
               private pdf2Service: Pdf2Service) { }
 
@@ -150,6 +154,16 @@ export class FactureDetailComponent implements OnInit {
     this.retrait.order_id = this.id;
   }
 
+
+  changeOnglet(type) {
+    if (type === 'versement') {
+      this.ongletState.versement = true;
+      this.ongletState.product = false;
+    } else {
+      this.ongletState.versement = false;
+      this.ongletState.product = true;
+    }
+  }
 
   retiredProductFunction() {
     this.error.required = false;
