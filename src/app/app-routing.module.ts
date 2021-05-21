@@ -20,6 +20,8 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
 import { ReservationManagementComponent } from './reservation-management/reservation-management.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { ReservationDetailComponent } from './reservation-detail/reservation-detail.component';
+import { FactureManagementComponent } from './facture-management/facture-management.component';
+import { FactureDetailComponent } from './facture-detail/facture-detail.component';
 
 
 const routes: Routes = [
@@ -124,6 +126,14 @@ const routes: Routes = [
         outlet: 'child4'
       }
     ]
+  },
+  {
+    path: 'facture',
+    component: FactureManagementComponent
+  },
+  {
+    path: 'facture-detail/:id',
+    component: FactureDetailComponent
   }
 ];
 

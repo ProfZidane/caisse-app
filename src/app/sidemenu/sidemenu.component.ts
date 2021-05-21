@@ -33,4 +33,8 @@ export class SidemenuComponent implements OnInit {
     this.route.navigateByUrl('/reservation');
   }
 
+  goToFacture() {
+    this.route.navigateByUrl('/facture');
+  }
+
 }

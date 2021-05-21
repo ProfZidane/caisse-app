@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { PdfService } from './pdf.service';
+
 import { ProductService } from './product.service';
+import { Pdf2Service } from './pdf-2.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +26,8 @@ cart = {
   cart_2: [],
   cart_3: []
 };
-  constructor(private s: MatSnackBar, private pdfService: PdfService, private http: HttpClient, private productService: ProductService) { }
+  constructor(private s: MatSnackBar, private pdfService: PdfService, private http: HttpClient, private productService: ProductService,
+              private pdf2Service: Pdf2Service) { }
 
   VerifyInProgress() {
     if (localStorage.getItem('inProgress') === null) {
@@ -628,7 +631,7 @@ VerifyExistingInCart(num, object) {
         console.log('choix du paiement : cash');
         const register = {
           typePaiement : object.typePaiement,
-          caissier : '',
+          caissier : JSON.parse(localStorage.getItem('caissier')).id,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -646,7 +649,7 @@ VerifyExistingInCart(num, object) {
         const register = {
           typePaiement : object.typePaiement,
           check : object.check,
-          caissier : JSON.parse(localStorage.getItem('caissier')).name,
+          caissier : JSON.parse(localStorage.getItem('caissier')).id,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -665,7 +668,7 @@ VerifyExistingInCart(num, object) {
         const register = {
           typePaiement : object.typePaiement,
           mobile : object.mobile,
-          caissier : JSON.parse(localStorage.getItem('caissier')).name,
+          caissier : JSON.parse(localStorage.getItem('caissier')).id,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -682,7 +685,7 @@ VerifyExistingInCart(num, object) {
         console.log('choix du paiement : échelonner');
         const register = {
           typePaiement : object.typePaiement,
-          caissier : JSON.parse(localStorage.getItem('caissier')).name,
+          caissier : JSON.parse(localStorage.getItem('caissier')).id,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -751,7 +754,7 @@ VerifyExistingInCart(num, object) {
         console.log('choix du paiement : cash');
         const register = {
           typePaiement : object.typePaiement,
-          caissier : JSON.parse(localStorage.getItem('caissier')).name,
+          caissier : JSON.parse(localStorage.getItem('caissier')).id,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -768,7 +771,7 @@ VerifyExistingInCart(num, object) {
         const register = {
           typePaiement : object.typePaiement,
           check : object.check,
-          caissier : JSON.parse(localStorage.getItem('caissier')).name,
+          caissier : JSON.parse(localStorage.getItem('caissier')).id,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -786,7 +789,7 @@ VerifyExistingInCart(num, object) {
         const register = {
           typePaiement : object.typePaiement,
           mobile : object.mobile,
-          caissier : JSON.parse(localStorage.getItem('caissier')).name,
+          caissier : JSON.parse(localStorage.getItem('caissier')).id,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -802,7 +805,7 @@ VerifyExistingInCart(num, object) {
         console.log('choix du paiement : échelonner');
         const register = {
           typePaiement : object.typePaiement,
-          caissier : JSON.parse(localStorage.getItem('caissier')).name,
+          caissier : JSON.parse(localStorage.getItem('caissier')).id,
           subtotal,
           total : object.total,
           montant_recu: Number(object.montant_recu),
@@ -857,11 +860,12 @@ VerifyExistingInCart(num, object) {
     });
     console.log(objectProductPdf);
     if (this.register.reduction.state === true) {
-      if (this.register.reduction.type === 'percent') {
+      /*if (this.register.reduction.type === 'percent') {
         remise = this.register.reduction.valeur.toString() + '%';
       } else if (this.register.reduction.type === 'fixed') {
         remise = this.register.reduction.valeur.toString() + ' Fcfa';
-      }
+      }*/
+      remise = this.register.reduction.valeur.toString() + ' Fcfa';
     } else {
       remise = 'aucune';
     }
@@ -880,6 +884,7 @@ VerifyExistingInCart(num, object) {
       vendeur : this.register.caissier,
       date : new Date().toLocaleDateString(),
       produit : objectProductPdf,
+      sub_total: this.register.subtotal,
       total : this.register.total,
       exchange: exchangePoint,
       montant_recu: this.register.montant_recu,
@@ -887,6 +892,78 @@ VerifyExistingInCart(num, object) {
     };
 
     this.pdfService.generatePdf(this.dataToPdf);
+  }
+
+
+  // créer pdf pour les factures échelonné
+  GenerateFactureEchelonne() {
+    const objectProductPdf = [];
+    let remise = '';
+    let exchangePoint = '';
+    this.register.produit.forEach(elt => {
+      const newObject = [
+        {
+          border : [false, false, false, false],
+          text : elt.quantity.toString(),
+          fontSize : 8,
+          alignment : 'center',
+        },
+        {
+          border : [false, false, false, false],
+          text : elt.slug,
+          fontSize : 8,
+          alignment : 'center',
+        },
+        {
+          border : [false, false, false, false],
+          text : elt.price.toString(),
+          fontSize : 8,
+          alignment : 'center',
+        },
+        {
+          border : [false, false, false, false],
+          text : elt.amout.toString(),
+          fontSize : 8,
+          alignment : 'center',
+        }
+      ];
+      objectProductPdf.push(newObject);
+    });
+    console.log(objectProductPdf);
+    if (this.register.reduction.state === true) {
+      /*if (this.register.reduction.type === 'percent') {
+        remise = this.register.reduction.valeur.toString() + '%';
+      } else if (this.register.reduction.type === 'fixed') {
+        remise = this.register.reduction.valeur.toString() + ' Fcfa';
+      }*/
+      remise = this.register.reduction.valeur.toString() + ' Fcfa';
+    } else {
+      remise = 'aucune';
+    }
+
+    if (this.register.exchange) {
+      if (Number(this.register.exchange) < 0) {
+        exchangePoint = (Number(this.register.exchange) * -1).toString();
+      } else {
+        exchangePoint = '0';
+      }
+    } else {
+      exchangePoint = '0';
+    }
+    this.dataToPdf = {
+      customer : this.register.client,
+      vendeur : this.register.caissier,
+      date : new Date().toLocaleDateString(),
+      produit : objectProductPdf,
+      subTotal: this.register.subtotal,
+      total : this.register.total,
+      exchange: exchangePoint,
+      montant_recu: this.register.montant_recu,
+      remise
+    };
+
+    this.pdf2Service.generatePdf(this.dataToPdf);
+
   }
 
 

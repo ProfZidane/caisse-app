@@ -49,14 +49,26 @@
         <span style="float: right;">{{ quantitySum }}</span>
       </div>
 
+      <div class="col-md-2" *ngIf="!quantitySum">
+        <span style="float: right;">0</span>
+      </div>
+
 
       <div class="col-md-2" *ngIf="subTotal">
         <span style="float: right;">{{ subTotal | currency:'Fcfa':'symbol':'4.2-2':'fr'   }}</span>
       </div>
 
+      <div class="col-md-2" *ngIf="!subTotal">
+        <span style="float: right;">0 Fcfa</span>
+      </div>
+
 
       <div class="col-md-2" *ngIf="total">
         <span style="float: right;">{{ total | currency:'Fcfa':'symbol':'4.2-2':'fr'  }}</span>
+      </div>
+
+      <div class="col-md-2" *ngIf="!total">
+        <span style="float: right;">0 Fcfa</span>
       </div>
 
     </div>

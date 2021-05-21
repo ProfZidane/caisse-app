@@ -164,11 +164,12 @@ export class SalesContentComponent implements OnInit {
      produit : this.saleSelected.order.cart_info,
      caissier : JSON.parse(localStorage.getItem('caissier')).name,
      client : this.saleSelected.client,
+     subTotal: this.saleSelected.order.sub_total,
      total : this.saleSelected.order.total_amount,
      reduction : this.saleSelected.order.coupon,
      date : this.saleSelected.order.created_at,
      montant_recu: this.saleSelected.order.montant_recu,
-     exchange: this.saleSelected.order.reste,
+     exchange: (Number(this.saleSelected.order.montant_recu) - Number(this.saleSelected.order.total_amount)),
      payment : {
        type : this.saleSelected.order.payment_method
      }

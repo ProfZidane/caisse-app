@@ -15,6 +15,10 @@ getSalesBetweenDateURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrde
 getSalesTodayURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getNowSales/';
 getSalesByCustomerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getHistoriqueAchatsClient/';
 getInfoSalesByCustomerURL = environment.url + 'getAchatsClientCartInfo/';
+echelonneURL = environment.url + 'getFacturesImpayes';
+echelonnePaidURL = environment.url + 'getFacturesPayes';
+echelonneDetailURL = environment.url + 'getFacturesImpayesDetails/';
+echellonePostURL = environment.url + 'storePayement';
 Sales;
 dataToPdf;
   constructor(private http: HttpClient, private pdfService: PdfService) { }
@@ -75,7 +79,7 @@ dataToPdf;
     });
     console.log(objectProductPdf);
     if (object.reduction !== null) {
-        remise = object.reduction.valeur.toString() + ' Fcfa';
+        remise = object.reduction.toString() + ' Fcfa';
     } else {
       remise = 'aucune';
     }
@@ -84,10 +88,11 @@ dataToPdf;
       vendeur : object.caissier,
       date : new Date().toLocaleDateString(),
       produit : objectProductPdf,
+      sub_total: object.subTotal.toString(),
       total : object.total,
       montant_recu: object.montant_recu,
       exchange:  object.exchange,
-      remise : remise
+      remise: remise
     };
 
     console.log(this.dataToPdf);
@@ -104,5 +109,23 @@ dataToPdf;
     return this.http.get(this.getInfoSalesByCustomerURL + id);
   }
 
+
+  GetSalesEchelonne(): Observable<any> {
+    return this.http.get(this.echelonneURL);
+  }
+
+  GetSalesPaidEchelonne(): Observable<any> {
+    return this.http.get(this.echelonnePaidURL);
+  }
+
+  GetDetailSalesEchelonne(id): Observable<any> {
+    return this.http.get(this.echelonneDetailURL + id);
+  }
+
+
+
+  SetNewPriceEchelonne(price): Observable<any> {
+    return this.http.post(this.echellonePostURL, price);
+  }
 
 }

@@ -38,6 +38,8 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
 import { ReservationManagementComponent } from './reservation-management/reservation-management.component';
 import { ReservationDetailComponent } from './reservation-detail/reservation-detail.component';
 import { ReservationComponent } from './reservation/reservation.component';
+import { FactureManagementComponent } from './facture-management/facture-management.component';
+import { FactureDetailComponent } from './facture-detail/facture-detail.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { ReservationComponent } from './reservation/reservation.component';
     CustomerDetailComponent,
     ReservationManagementComponent,
     ReservationDetailComponent,
-    ReservationComponent
+    ReservationComponent,
+    FactureManagementComponent,
+    FactureDetailComponent
   ],
   imports: [
     BrowserModule,
