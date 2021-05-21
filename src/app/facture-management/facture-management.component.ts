@@ -40,6 +40,10 @@ export class FactureManagementComponent implements OnInit {
   objectPaidPdf = [];
   details = [];
   products = [];
+  ongletState = {
+    versement: true,
+    product: false
+  };
   constructor(private salesService: SalesOperateService, private router: Router, private pdf2Service: Pdf2Service) { }
 
   ngOnInit(): void {
@@ -91,6 +95,16 @@ export class FactureManagementComponent implements OnInit {
     this.new.id = id;
     console.log(this.new);
 
+  }
+
+  changeOnglet(type) {
+    if (type === 'versement') {
+      this.ongletState.versement = true;
+      this.ongletState.product = false;
+    } else {
+      this.ongletState.versement = false;
+      this.ongletState.product = true;
+    }
   }
 
   goToDetail(idOrder) {
