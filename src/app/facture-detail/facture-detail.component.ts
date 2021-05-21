@@ -15,10 +15,12 @@ export class FactureDetailComponent implements OnInit {
   id;
   loading = {
     data: true,
-    create: false
+    create: false,
+    create2: false
   };
   error = {
     data: false,
+    required: false,
     text: 'Une erreur est survenue. Veuillez réessayer plus tard svp !'
   };
   sale;
@@ -29,6 +31,17 @@ export class FactureDetailComponent implements OnInit {
   newMontant;
   objectProductPdf = [];
   objectPaidPdf = [];
+  retrait = {
+    product_id: '',
+    order_id: '',
+    quantity: 0,
+    motif: '',
+    autre_Motif: '',
+    action: ''
+  };
+  state = {
+    inputOther: false,
+  };
   constructor(private salesService: SalesOperateService, private route: ActivatedRoute,
               private pdf2Service: Pdf2Service) { }
 
@@ -121,9 +134,41 @@ export class FactureDetailComponent implements OnInit {
 
   }
 
+  verifyMotif(event) {
+    console.log(event.target.value);
+    if (event.target.value === 'autres') {
+      this.retrait.motif = event.target.value;
+      this.state.inputOther = true;
+    } else {
+      this.state.inputOther = false;
+    }
+  }
+
   retiredProduct(id) {
     console.log(id);
+    this.retrait.product_id = id;
+    this.retrait.order_id = this.id;
+  }
 
+
+  retiredProductFunction() {
+    this.error.required = false;
+
+    if (this.retrait.quantity !== 0 && this.retrait.action !== '' && this.retrait.motif !== '') {
+      console.log(this.retrait);
+      this.loading.create2 = true;
+      /*this.salesService.SetProductToStock(this.retrait).subscribe(
+        (success) => {
+          console.log(success);
+          this.loading.create2 = false;
+        }, (err) => {
+          console.log(err);
+          this.loading.create2 = false;
+        }
+      );*/
+    } else {
+      this.error.required = true;
+    }
   }
 
   printFacture(newObject) {

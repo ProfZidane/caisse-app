@@ -161,7 +161,7 @@
                       <td>{{ product.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
                       <td>{{ product.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
                       <td>
-                        <button class="btn btn-outline-danger btn-sm" (click)="retiredProduct(product.id)">
+                        <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModalScrollableM" (click)="retiredProduct(product.id)">
                           Rétirer
                         </button>
                       </td>
@@ -211,6 +211,66 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
           <button type="submit" class="btn primary-am">Enregistrer</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalScrollableM" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form method="post" (ngSubmit)="retiredProductFunction()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">Motif de retrait</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex align-items-center text-warning mb-3" *ngIf="loading.create2 === true">
+            <strong>Retour en stock ...</strong>
+            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+          </div>
+
+          <div class="alert alert-warning" *ngIf="error.required">
+            Veuillez saisir l'ensemble des champs !
+          </div>
+          <div class="form-group">
+
+            <div class="form-group">
+              <label for="">La quantité du produit</label>
+              <input type="number" name="quantity" [(ngModel)]="retrait.quantity" class="form-control" id="">
+            </div>
+
+            <label for="inputState">Action du retour en stock</label>
+            <select id="inputState" name="action" [(ngModel)]="retrait.action" class="form-control">
+              <option selected>Choisir...</option>
+              <option value="argent_retourner">Rendre son argent</option>
+              <option value="avoir">Ajouter à ses avoirs</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="inputState">Motifs de retour en stock</label>
+            <select id="inputState" name="motif" [(ngModel)]="retrait.motif" class="form-control" (change)="verifyMotif($event)">
+              <option selected>Choisir...</option>
+              <option value="article defectueux">Article Défectueux</option>
+              <option value="changement avis">Changement d'avis</option>
+              <option value="autres">Autres</option>
+            </select>
+          </div>
+
+          <div class="form-group" *ngIf="state.inputOther">
+            <label for="">Entrez le motif</label>
+            <input type="text" class="form-control" name="otherMotif" [(ngModel)]="retrait.autre_Motif">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          <button type="submit" class="btn primary-am">Valider</button>
         </div>
       </div>
     </form>

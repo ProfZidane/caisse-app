@@ -19,6 +19,7 @@ echelonneURL = environment.url + 'getFacturesImpayes';
 echelonnePaidURL = environment.url + 'getFacturesPayes';
 echelonneDetailURL = environment.url + 'getFacturesImpayesDetails/';
 echellonePostURL = environment.url + 'storePayement';
+backStockProductURL = environment.url + '';
 Sales;
 dataToPdf;
   constructor(private http: HttpClient, private pdfService: PdfService) { }
@@ -128,4 +129,8 @@ dataToPdf;
     return this.http.post(this.echellonePostURL, price);
   }
 
+
+  SetProductToStock(data): Observable<any> {
+    return this.http.post(this.backStockProductURL, data);
+  }
 }
