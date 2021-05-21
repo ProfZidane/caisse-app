@@ -19,7 +19,7 @@ echelonneURL = environment.url + 'getFacturesImpayes';
 echelonnePaidURL = environment.url + 'getFacturesPayes';
 echelonneDetailURL = environment.url + 'getFacturesImpayesDetails/';
 echellonePostURL = environment.url + 'storePayement';
-backStockProductURL = environment.url + '';
+backStockProductURL = environment.url + 'storeRetours';
 Sales;
 dataToPdf;
   constructor(private http: HttpClient, private pdfService: PdfService) { }

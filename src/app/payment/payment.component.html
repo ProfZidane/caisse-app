@@ -13,7 +13,8 @@
     </div>
 
     <div class="card-customer" *ngIf="customer">
-        <h1 style="color: #ff817a;">{{ customer.name }}</h1>
+        <h1 style="color: #ff817a;">{{ customer.name }}
+        </h1>
         <div class="card-detail-customer">
             <p class="mb-1">
                 <i class="iii material-icons">
@@ -27,6 +28,24 @@
                 </i> &nbsp;
                 {{ customer.email }}
             </span>
+            <br>
+            <span>
+              <i class="iii material-icons">
+                monetization_on
+              </i> &nbsp;
+              {{ customer.avoirs }} Fcfa <small>(avoirs) <button class="btn btn-dark btn-sm ml-4" [disabled]="stateAvoirUse" (click)="useAvoir()"><i class="material-icons">touch_app</i></button></small>
+          </span>
+            <!--<div class="float-right">
+              <i class="iii material-icons">
+
+              </i>
+              <span>
+                Avoirs :  {{ customer.avoirs }} Fcfa
+              </span>
+              <button class="btn btn-dark btn-sm">
+                Utiliser
+              </button>
+            </div> -->
         </div>
     </div>
 

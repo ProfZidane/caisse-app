@@ -34,10 +34,10 @@ export class FactureDetailComponent implements OnInit {
   retrait = {
     product_id: '',
     order_id: '',
-    quantity: 0,
+    quantity: 1,
     motif: '',
-    autre_Motif: '',
-    action: ''
+    autre_motif: '',
+    action_caisse: ''
   };
   state = {
     inputOther: false,
@@ -154,18 +154,19 @@ export class FactureDetailComponent implements OnInit {
   retiredProductFunction() {
     this.error.required = false;
 
-    if (this.retrait.quantity !== 0 && this.retrait.action !== '' && this.retrait.motif !== '') {
+    if (this.retrait.quantity !== 0 && this.retrait.action_caisse !== '' && this.retrait.motif !== '') {
       console.log(this.retrait);
       this.loading.create2 = true;
-      /*this.salesService.SetProductToStock(this.retrait).subscribe(
+      this.salesService.SetProductToStock(this.retrait).subscribe(
         (success) => {
           console.log(success);
           this.loading.create2 = false;
+          // window.location.reload();
         }, (err) => {
           console.log(err);
           this.loading.create2 = false;
         }
-      );*/
+      );
     } else {
       this.error.required = true;
     }

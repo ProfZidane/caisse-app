@@ -88,6 +88,9 @@
 
     <div class="col-md-8">
       <div class="col-md-12">
+        <button class="btn btn-danger btn-sm m-2" style="float: right;" (click)="DisableOrderToCart()">
+          Annuler commande
+        </button>
         <button class="btn btn-info btn-sm m-2" style="float: right;" (click)="AssingOrderToCart()">
           Passer à la caisse
         </button>
@@ -99,6 +102,7 @@
             <th>Prix unitaire</th>
             <th>Quantité </th>
             <th>Total</th>
+            <th></th>
           </tr>
         </thead>
         <tbody *ngIf="orderDetail">
@@ -107,6 +111,14 @@
             <td>{{ cart.cart.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
             <td>{{ cart.cart.quantity }}</td>
             <td>{{ cart.cart.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-danger" (click)="retiredProduct()">
+                <i class="small material-icons" style="font-size: 16px;">
+                  delete
+                </i>
+                Retirer
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

@@ -763,7 +763,8 @@ VerifyExistingInCart(num, object) {
           livraison : object.livraison,
           reduction : object.reduction,
           produit : cart,
-          mode : object.mode
+          mode : object.mode,
+          avoir: object.avoir
         };
         this.register = register;
       } else if (object.typePaiement === 'carte' || object.typePaiement === 'cheque') {
@@ -779,7 +780,8 @@ VerifyExistingInCart(num, object) {
           livraison : object.livraison,
           reduction : object.reduction,
           produit : cart,
-          mode : object.mode
+          mode : object.mode,
+          avoir: object.avoir
         };
         this.register = register;
 
@@ -797,7 +799,8 @@ VerifyExistingInCart(num, object) {
           livraison : object.livraison,
           reduction : object.reduction,
           produit : cart,
-          mode : object.mode
+          mode : object.mode,
+          avoir: object.avoir
         };
         this.register = register;
 
@@ -814,7 +817,8 @@ VerifyExistingInCart(num, object) {
           livraison : object.livraison,
           reduction : object.reduction,
           produit : cart,
-          mode : object.mode
+          mode : object.mode,
+          avoir: object.avoir
         };
         this.register = register;
       }

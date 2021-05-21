@@ -61,6 +61,8 @@ productToCart;
 stateErrorInReductionSp = false;
 reductionToSpecificProduct = []; // variable does not use
 totalValueToReductionSp;
+avoirUse = 0;
+stateAvoirUse = false;
   constructor(private cartService: CartOperateService, private router: Router, private route: ActivatedRoute,
               private productService: ProductService) {
     this.typePayement = 'especes';
@@ -91,6 +93,26 @@ totalValueToReductionSp;
   }
 
 
+  useAvoir() {
+    let having = Number(prompt('Entrez le montant à retirer : '));
+    console.log(having);
+    console.log(this.customer.avoirs);
+
+    if (having) {
+      if (having <= Number(this.customer.avoirs) && having  <= this.Total) {
+        this.avoirUse = having;
+        console.log('in : ' + this.avoirUse);
+
+        this.Total -= this.avoirUse;
+        this.stateAvoirUse = true;
+      } else {
+        console.log('ff');
+
+      }
+    }
+  }
+
+
 
   // Récupération des données numériques du pavé écran
   TouchCalculator() {
@@ -98,9 +120,9 @@ totalValueToReductionSp;
     touch.forEach(element => {
       element.addEventListener('click', () => {
         const value = element.getAttribute('data-id');
-        //console.log(value);
+        // console.log(value);
         if (value === 'eff') {
-          //console.log(this.SumCustomer);
+          // console.log(this.SumCustomer);
 
           if (this.SumCustomer === '0' || this.SumCustomer === undefined || this.SumCustomer === '') {
             this.SumCustomer = '0';
@@ -112,15 +134,15 @@ totalValueToReductionSp;
 
             const newVal = this.tempo.slice(0, -1);
             this.tempo = newVal;
-            this.SumCustomer = newVal
+            this.SumCustomer = newVal;
 
 
             this.exchange = Number(this.SumCustomer) - Number(this.Total);
-            //console.log(this.exchange);
+            // console.log(this.exchange);
 
             this.exchange = this.exchange.toString();
           }
-          //console.log(newVal);
+          // console.log(newVal);
 
 
         } else {
@@ -128,7 +150,7 @@ totalValueToReductionSp;
           this.tempo += value.toString();
           this.SumCustomer = this.tempo;
           this.exchange = Number(this.SumCustomer) - Number(this.Total);
-          //console.log(this.exchange);
+          // console.log(this.exchange);
 
           this.exchange = this.exchange.toString();
 
@@ -143,9 +165,9 @@ totalValueToReductionSp;
   KeyboardTouch() {
     document.addEventListener('keydown', (event) => {
       const nomOfTouch = event.key;
-      //alert(nomOfTouch);
+      // alert(nomOfTouch);
       if (nomOfTouch === 'Backspace') {
-        //console.log(this.SumCustomer);
+        // console.log(this.SumCustomer);
 
         if (this.SumCustomer === '0' || this.SumCustomer === undefined || this.SumCustomer === '') {
           this.SumCustomer = '0';
@@ -153,15 +175,15 @@ totalValueToReductionSp;
 
         } else {
 
-          const newVal = this.tempo.slice(0,-1);
+          const newVal = this.tempo.slice(0, -1);
           this.tempo = newVal;
-          this.SumCustomer = newVal
+          this.SumCustomer = newVal;
           this.exchange = Number(this.SumCustomer) - Number(this.Total);
-          //console.log(this.exchange);
+          // console.log(this.exchange);
 
           this.exchange = this.exchange.toString();
         }
-        //console.log(newVal);
+        // console.log(newVal);
 
       } else if (nomOfTouch === '1' || nomOfTouch === '2' || nomOfTouch === '3' || nomOfTouch === '4' || nomOfTouch === '5' ||
                   nomOfTouch === '6' || nomOfTouch === '7' || nomOfTouch === '8' || nomOfTouch === '9' || nomOfTouch === '0') {
@@ -169,7 +191,7 @@ totalValueToReductionSp;
         this.tempo += nomOfTouch;
         this.SumCustomer = this.tempo;
         this.exchange = Number(this.SumCustomer) - Number(this.Total);
-        //console.log(this.exchange);
+        // console.log(this.exchange);
 
         this.exchange = this.exchange.toString();
 
@@ -227,6 +249,7 @@ totalValueToReductionSp;
               exchange : this.exchange,
               subTotal: Number(this.SubTotal),
               total : this.Total,
+              avoir: this.avoirUse,
               montant_recu: this.SumCustomer,
               livraison : {
                 state : this.delivery.state,
@@ -247,6 +270,7 @@ totalValueToReductionSp;
               exchange : this.exchange,
               subTotal: Number(this.SubTotal),
               total : this.Total,
+              avoir: this.avoirUse,
               montant_recu: this.SumCustomer,
               livraison : {
                 state : this.delivery.state,
@@ -268,6 +292,7 @@ totalValueToReductionSp;
             exchange : this.exchange,
             subTotal: Number(this.SubTotal),
             total : this.Total,
+            avoir: this.avoirUse,
             montant_recu: this.SumCustomer,
             livraison : {
               state : this.delivery.state,
@@ -335,6 +360,7 @@ totalValueToReductionSp;
               exchange : this.exchange,
               subTotal: Number(this.SubTotal),
               total : this.Total,
+              avoir: this.avoirUse,
               montant_recu: this.SumCustomer,
               livraison : {
                 state : this.delivery.state,
@@ -355,6 +381,7 @@ totalValueToReductionSp;
               exchange : this.exchange,
               subTotal: Number(this.SubTotal),
               total : this.Total,
+              avoir: this.avoirUse,
               montant_recu: this.SumCustomer,
               livraison : {
                 state : this.delivery.state,
@@ -376,6 +403,7 @@ totalValueToReductionSp;
             exchange : this.exchange,
             subTotal: Number(this.SubTotal),
             total : this.Total,
+            avoir: this.avoirUse,
             montant_recu: this.SumCustomer,
             livraison : {
               state : this.delivery.state,
@@ -431,6 +459,7 @@ totalValueToReductionSp;
               check : this.check,
               subTotal: Number(this.SubTotal),
               total : this.Total,
+              avoir: this.avoirUse,
               montant_recu: this.Total,
               livraison : {
                 state : this.delivery.state,
@@ -451,6 +480,7 @@ totalValueToReductionSp;
               check : this.check,
               subTotal: Number(this.SubTotal),
               total : this.Total,
+              avoir: this.avoirUse,
               montant_recu: this.Total,
               livraison : {
                 state : this.delivery.state,
@@ -472,6 +502,7 @@ totalValueToReductionSp;
             check : this.check,
             subTotal: Number(this.SubTotal),
             total : this.Total,
+            avoir: this.avoirUse,
             montant_recu: this.Total,
             livraison : {
               state : this.delivery.state,
@@ -527,6 +558,7 @@ totalValueToReductionSp;
               mobile : this.mobileMoney,
               subTotal: Number(this.SubTotal),
               total : this.Total,
+              avoir: this.avoirUse,
               montant_recu: this.Total,
               livraison : {
                 state : this.delivery.state,
@@ -547,6 +579,7 @@ totalValueToReductionSp;
               mobile : this.mobileMoney,
               subTotal: Number(this.SubTotal),
               total : this.Total,
+              avoir: this.avoirUse,
               montant_recu: this.Total,
               livraison : {
                 state : this.delivery.state,
@@ -568,6 +601,7 @@ totalValueToReductionSp;
             mobile : this.mobileMoney,
             subTotal: Number(this.SubTotal),
             total : this.Total,
+            avoir: this.avoirUse,
             montant_recu: this.Total,
             livraison : {
               state : this.delivery.state,
@@ -627,9 +661,9 @@ totalValueToReductionSp;
 
   setReductionToProduct(id, price) {
 
-    const value = document.getElementById(id);
-    const value2 = document.getElementById('pourc-' + id);
-    const spinner = document.getElementById('loader-' + id);
+    const value = (document.getElementById(id) as HTMLInputElement);
+    const value2 = (document.getElementById('pourc-' + id) as HTMLInputElement);
+    const spinner = (document.getElementById('loader-' + id) as HTMLInputElement);
     spinner.style.display = 'block';
 
 

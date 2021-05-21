@@ -161,7 +161,7 @@
                       <td>{{ product.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
                       <td>{{ product.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
                       <td>
-                        <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModalScrollableM" (click)="retiredProduct(product.id)">
+                        <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModalScrollableM" (click)="retiredProduct(product.product_id)">
                           Rétirer
                         </button>
                       </td>
@@ -242,11 +242,11 @@
 
             <div class="form-group">
               <label for="">La quantité du produit</label>
-              <input type="number" name="quantity" [(ngModel)]="retrait.quantity" class="form-control" id="">
+              <input type="number" min="1" aria-multiselectable="false" name="quantity" [(ngModel)]="retrait.quantity" class="form-control" id="">
             </div>
 
             <label for="inputState">Action du retour en stock</label>
-            <select id="inputState" name="action" [(ngModel)]="retrait.action" class="form-control">
+            <select id="inputState" name="action" [(ngModel)]="retrait.action_caisse" class="form-control">
               <option selected>Choisir...</option>
               <option value="argent_retourner">Rendre son argent</option>
               <option value="avoir">Ajouter à ses avoirs</option>
@@ -265,7 +265,7 @@
 
           <div class="form-group" *ngIf="state.inputOther">
             <label for="">Entrez le motif</label>
-            <input type="text" class="form-control" name="otherMotif" [(ngModel)]="retrait.autre_Motif">
+            <input type="text" class="form-control" name="otherMotif" [(ngModel)]="retrait.autre_motif">
           </div>
         </div>
         <div class="modal-footer">

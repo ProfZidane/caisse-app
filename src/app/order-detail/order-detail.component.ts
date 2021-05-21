@@ -97,4 +97,13 @@ totalFictious;
 
   }
 
+
+  DisableOrderToCart() {
+
+  }
+
+  retiredProduct() {
+
+  }
+
 }
