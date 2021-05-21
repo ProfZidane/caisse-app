@@ -59,6 +59,7 @@ export class FactureManagementComponent implements OnInit {
 
   ngOnDestroy() {
     this.dtTrigger.unsubscribe();
+    this.dtTrigger2.unsubscribe();
   }
 
   getEchellone() {

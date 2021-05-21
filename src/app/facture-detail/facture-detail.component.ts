@@ -59,6 +59,10 @@ export class FactureDetailComponent implements OnInit {
     this.getDetailSales();
   }
 
+  ngOnDestroy() {
+    this.dtTrigger.unsubscribe();
+  }
+
 
   getDetailSales() {
     this.salesService.GetDetailSalesEchelonne(this.id).subscribe(
