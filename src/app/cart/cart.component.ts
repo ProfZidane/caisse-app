@@ -3,6 +3,10 @@ import { CartOperateService } from './../services/cart-operate.service';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../services/product.service';
 import { Router } from '@angular/router';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr, 'fr');
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',

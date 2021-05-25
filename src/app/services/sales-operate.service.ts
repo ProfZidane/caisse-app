@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { PdfService } from './pdf.service';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,12 @@ getSalesByYearURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByYe
 getSalesByMonthURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByMounth/';
 getSalesBetweenDateURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderBetweenTwoDate';
 getSalesTodayURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getNowSales/';
+getSalesByCustomerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getHistoriqueAchatsClient/';
+getInfoSalesByCustomerURL = environment.url + 'getAchatsClientCartInfo/';
+echelonneURL = environment.url + 'getFacturesImpayes';
+echelonnePaidURL = environment.url + 'getFacturesPayes';
+echelonneDetailURL = environment.url + 'getFacturesImpayesDetails/';
+echellonePostURL = environment.url + 'storePayement';
 Sales;
 dataToPdf;
   constructor(private http: HttpClient, private pdfService: PdfService) { }
@@ -72,7 +79,7 @@ dataToPdf;
     });
     console.log(objectProductPdf);
     if (object.reduction !== null) {
-        remise = object.reduction.value.toString() + ' Fcfa';
+        remise = object.reduction.toString() + ' Fcfa';
     } else {
       remise = 'aucune';
     }
@@ -81,8 +88,11 @@ dataToPdf;
       vendeur : object.caissier,
       date : new Date().toLocaleDateString(),
       produit : objectProductPdf,
+      sub_total: object.subTotal.toString(),
       total : object.total,
-      remise : remise
+      montant_recu: object.montant_recu,
+      exchange:  object.exchange,
+      remise: remise
     };
 
     console.log(this.dataToPdf);
@@ -90,5 +100,32 @@ dataToPdf;
     this.pdfService.generatePdf(this.dataToPdf);
   }
 
+
+  GetHistorySaleByCustomer(id): Observable<any> {
+    return this.http.get(this.getSalesByCustomerURL + id);
+  }
+
+  GetDetailHistory(id): Observable<any> {
+    return this.http.get(this.getInfoSalesByCustomerURL + id);
+  }
+
+
+  GetSalesEchelonne(): Observable<any> {
+    return this.http.get(this.echelonneURL);
+  }
+
+  GetSalesPaidEchelonne(): Observable<any> {
+    return this.http.get(this.echelonnePaidURL);
+  }
+
+  GetDetailSalesEchelonne(id): Observable<any> {
+    return this.http.get(this.echelonneDetailURL + id);
+  }
+
+
+
+  SetNewPriceEchelonne(price): Observable<any> {
+    return this.http.post(this.echellonePostURL, price);
+  }
 
 }

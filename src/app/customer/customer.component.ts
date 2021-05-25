@@ -1,6 +1,7 @@
 import { NgForm } from '@angular/forms';
 import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer',
@@ -17,7 +18,7 @@ error = {
 };
 validationMessage;
 search;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.authService.GetCustomer().subscribe(
@@ -108,6 +109,11 @@ search;
     } else {
       this.Customers = this.FilterString(this.CustomersBase, event.target.value);
     }
+  }
+
+
+  History(id) {
+    this.router.navigateByUrl('/home/(child1:customer-history/' + id + ';open=true)');
   }
 
 }

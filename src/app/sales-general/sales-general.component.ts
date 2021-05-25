@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SalesOperateService } from '../services/sales-operate.service';
 import { Subject } from 'rxjs';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
+registerLocaleData(localeFr, 'fr');
 @Component({
   selector: 'app-sales-general',
   templateUrl: './sales-general.component.html',
@@ -21,6 +24,9 @@ export class SalesGeneralComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetSales();
+    this.dtOptions = {
+      ordering: false
+    };
   }
 
   ngOnDestroy() {
@@ -33,7 +39,6 @@ export class SalesGeneralComponent implements OnInit {
       dom: 'Bfrtip',
       // Configure the buttons
       buttons: [
-        'columnsToggle',
         'colvis',
         'copy',
         'print',

@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartOperateService } from '../services/cart-operate.service';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { ProductService } from '../services/product.service';
+import { $ } from 'protractor';
 
+registerLocaleData(localeFr, 'fr');
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -9,18 +14,21 @@ import { CartOperateService } from '../services/cart-operate.service';
 })
 export class PaymentComponent implements OnInit {
 Total;
+SubTotal;
 SumCustomer;
 tempo = '';
 exchange;
 customer;
 typePayement;
 visibility = {
+  option: false,
   typeReduction : '',
   valueReduction : '',
   sommeDelivery : ''
 };
 reduction = {
   state : false,
+  option: '',
   type : '',
   value : 0,
 };
@@ -49,7 +57,12 @@ response_checkout = {
 error_in_money;
 mode;
 numOrder;
-  constructor(private cartService: CartOperateService, private router: Router, private route: ActivatedRoute) {
+productToCart;
+stateErrorInReductionSp = false;
+reductionToSpecificProduct = []; // variable does not use
+totalValueToReductionSp;
+  constructor(private cartService: CartOperateService, private router: Router, private route: ActivatedRoute,
+              private productService: ProductService) {
     this.typePayement = 'especes';
    }
 
@@ -69,6 +82,7 @@ numOrder;
     console.log(this.numOrder);
     this.getCustomer();
     this.getTotal();
+    this.getProductToCart();
   }
 
   ngAfterViewInit() {
@@ -96,7 +110,7 @@ numOrder;
 
           } else {
 
-            const newVal = this.tempo.slice(0,-1);
+            const newVal = this.tempo.slice(0, -1);
             this.tempo = newVal;
             this.SumCustomer = newVal
 
@@ -173,6 +187,15 @@ numOrder;
   // Récupérer total en cours
   getTotal() {
     this.Total = Number(localStorage.getItem('total'));
+    this.SubTotal = this.Total;
+  }
+
+
+  // récupérer les produits du panier en cours
+  getProductToCart() {
+    const cartInProgress = JSON.parse(localStorage.getItem('inProgress')).in;
+    this.productToCart = this.productService.GetProductInCart(cartInProgress);
+    console.log(this.productToCart);
   }
 
 
@@ -193,24 +216,75 @@ numOrder;
       console.log(confirm);
 
       if (confirm === true) {
+        let data = {};
         // format de donnée pour commander
-        let data = {
-          typePaiement : this.typePayement,
-          mode : this.mode,
-          numOrder : this.numOrder,
-          exchange : this.exchange,
-          total : this.Total,
-          livraison : {
-            state : this.delivery.state,
-            price : this.delivery.value,
-            adresse : this.delivery.adresse
-          },
-          reduction : {
-            state : this.reduction.state,
-            valeur : this.reduction.value,
-            type : this.reduction.type
-          }
-        };
+        if (this.reductionToSpecificProduct.length === 0) {
+           if (this.reduction.type === 'percent') {
+            data = {
+              typePaiement : this.typePayement,
+              mode : this.mode,
+              numOrder : this.numOrder,
+              exchange : this.exchange,
+              subTotal: Number(this.SubTotal),
+              total : this.Total,
+              montant_recu: this.SumCustomer,
+              livraison : {
+                state : this.delivery.state,
+                price : this.delivery.value,
+                adresse : this.delivery.adresse
+              },
+              reduction : {
+                state : this.reduction.state,
+                valeur :   (Number(this.reduction.value) * Number(this.Total)) / 100,
+                type : this.reduction.type
+              }
+            };
+           } else {
+            data = {
+              typePaiement : this.typePayement,
+              mode : this.mode,
+              numOrder : this.numOrder,
+              exchange : this.exchange,
+              subTotal: Number(this.SubTotal),
+              total : this.Total,
+              montant_recu: this.SumCustomer,
+              livraison : {
+                state : this.delivery.state,
+                price : this.delivery.value,
+                adresse : this.delivery.adresse
+              },
+              reduction : {
+                state : this.reduction.state,
+                valeur : this.reduction.value,
+                type : this.reduction.type
+              }
+            };
+           }
+        } else {
+           data = {
+            typePaiement : this.typePayement,
+            mode : this.mode,
+            numOrder : this.numOrder,
+            exchange : this.exchange,
+            subTotal: Number(this.SubTotal),
+            total : this.Total,
+            montant_recu: this.SumCustomer,
+            livraison : {
+              state : this.delivery.state,
+              price : this.delivery.value,
+              adresse : this.delivery.adresse
+            },
+            reduction : {
+              state : true,
+              valeur : this.totalValueToReductionSp,
+              type : 'byProduct',
+              products: this.reductionToSpecificProduct
+            }
+          };
+        }
+
+        console.log(data);
+
         this.cartService.Checkout(data).subscribe(
           (success) => {
             console.log(success);
@@ -219,6 +293,8 @@ numOrder;
             this.response_checkout.success = true;
             this.response_checkout.error = false;
             this.successPayment();
+            this.totalValueToReductionSp = 0;
+            this.reductionToSpecificProduct = [];
           }, (err) => {
             console.log(err);
             this.loadingControl();
@@ -248,30 +324,79 @@ numOrder;
     console.log(confirm);
 
     if (confirm === true) {
+        let data = {};
         // format de donnée pour commander
-        let data = {
-          typePaiement : this.typePayement,
-          mode : this.mode,
-          numOrder : this.numOrder,
-          exchange : this.exchange,
-          total : this.Total,
-          livraison : {
-            state : this.delivery.state,
-            price : this.delivery.value,
-            adresse : this.delivery.adresse
-          },
-          reduction : {
-            state : this.reduction.state,
-            valuers : this.reduction.value,
-            type : this.reduction.type
+        if (this.reductionToSpecificProduct.length === 0) {
+          if (this.reduction.type === 'percent') {
+            data = {
+              typePaiement : this.typePayement,
+              mode : this.mode,
+              numOrder : this.numOrder,
+              exchange : this.exchange,
+              subTotal: Number(this.SubTotal),
+              total : this.Total,
+              montant_recu: this.SumCustomer,
+              livraison : {
+                state : this.delivery.state,
+                price : this.delivery.value,
+                adresse : this.delivery.adresse
+              },
+              reduction : {
+                state : this.reduction.state,
+                valeur : (Number(this.reduction.value) * Number(this.Total)) / 100,
+                type : this.reduction.type
+              }
+            };
+          } else {
+            data = {
+              typePaiement : this.typePayement,
+              mode : this.mode,
+              numOrder : this.numOrder,
+              exchange : this.exchange,
+              subTotal: Number(this.SubTotal),
+              total : this.Total,
+              montant_recu: this.SumCustomer,
+              livraison : {
+                state : this.delivery.state,
+                price : this.delivery.value,
+                adresse : this.delivery.adresse
+              },
+              reduction : {
+                state : this.reduction.state,
+                valeur : this.reduction.value,
+                type : this.reduction.type
+              }
+            };
           }
-        };
+        } else {
+          data = {
+            typePaiement : this.typePayement,
+            mode : this.mode,
+            numOrder : this.numOrder,
+            exchange : this.exchange,
+            subTotal: Number(this.SubTotal),
+            total : this.Total,
+            montant_recu: this.SumCustomer,
+            livraison : {
+              state : this.delivery.state,
+              price : this.delivery.value,
+              adresse : this.delivery.adresse
+            },
+            reduction : {
+              state : true,
+              valeur : this.totalValueToReductionSp,
+              type : 'byProduct',
+              products: this.reductionToSpecificProduct
+            }
+          };
+        }
+
         console.log(data);
         this.cartService.Checkout(data).subscribe(
           (success) => {
             console.log(success);
             this.loadingControl();
-            this.cartService.starterGenerateTicket();
+            this.cartService.GenerateFactureEchelonne();
             this.response_checkout.success = true;
             this.response_checkout.error = false;
             this.successPayment();
@@ -296,23 +421,71 @@ numOrder;
     if (this.typePayement !== '') {
       const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
       if (confirm === true) {
-        let data = {
-          typePaiement : this.typePayement,
-          mode : this.mode,
-          numOrder : this.numOrder,
-          check : this.check,
-          total : this.Total,
-          livraison : {
-            state : this.delivery.state,
-            price : this.delivery.value,
-            adresse : this.delivery.adresse
-          },
-          reduction : {
-            state : this.reduction.state,
-            valeur : this.reduction.value,
-            type : this.reduction.type
+        let data = {};
+        if (this.reductionToSpecificProduct.length === 0) {
+          if (this.reduction.type === 'percent') {
+            data = {
+              typePaiement : this.typePayement,
+              mode : this.mode,
+              numOrder : this.numOrder,
+              check : this.check,
+              subTotal: Number(this.SubTotal),
+              total : this.Total,
+              montant_recu: this.Total,
+              livraison : {
+                state : this.delivery.state,
+                price : this.delivery.value,
+                adresse : this.delivery.adresse
+              },
+              reduction : {
+                state : this.reduction.state,
+                valeur : (Number(this.reduction.value) * Number(this.Total)) / 100,
+                type : this.reduction.type
+              }
+            };
+          } else {
+            data = {
+              typePaiement : this.typePayement,
+              mode : this.mode,
+              numOrder : this.numOrder,
+              check : this.check,
+              subTotal: Number(this.SubTotal),
+              total : this.Total,
+              montant_recu: this.Total,
+              livraison : {
+                state : this.delivery.state,
+                price : this.delivery.value,
+                adresse : this.delivery.adresse
+              },
+              reduction : {
+                state : this.reduction.state,
+                valeur : this.reduction.value,
+                type : this.reduction.type
+              }
+            };
           }
-        };
+        } else {
+          data = {
+            typePaiement : this.typePayement,
+            mode : this.mode,
+            numOrder : this.numOrder,
+            check : this.check,
+            subTotal: Number(this.SubTotal),
+            total : this.Total,
+            montant_recu: this.Total,
+            livraison : {
+              state : this.delivery.state,
+              price : this.delivery.value,
+              adresse : this.delivery.adresse
+            },
+            reduction : {
+              state : true,
+              valeur : this.totalValueToReductionSp,
+              type : 'byProduct',
+              products: this.reductionToSpecificProduct
+            }
+          };
+        }
 
         this.cartService.Checkout(data).subscribe(
           (success) => {
@@ -344,23 +517,71 @@ numOrder;
 
       const confirm = window.confirm('Voulez-vous vraiment confirmer la commande ?');
       if (confirm === true) {
-        let data = {
-          typePaiement : this.typePayement,
-          mode : this.mode,
-          numOrder : this.numOrder,
-          mobile : this.mobileMoney,
-          total : this.Total,
-          livraison : {
-            state : this.delivery.state,
-            price : this.delivery.value,
-            adresse : this.delivery.adresse
-          },
-          reduction : {
-            state : this.reduction.state,
-            valeur : this.reduction.value,
-            type : this.reduction.type
+        let data = {};
+        if (this.reductionToSpecificProduct.length === 0) {
+          if (this.reduction.type === 'percent') {
+            data = {
+              typePaiement : this.typePayement,
+              mode : this.mode,
+              numOrder : this.numOrder,
+              mobile : this.mobileMoney,
+              subTotal: Number(this.SubTotal),
+              total : this.Total,
+              montant_recu: this.Total,
+              livraison : {
+                state : this.delivery.state,
+                price : this.delivery.value,
+                adresse : this.delivery.adresse
+              },
+              reduction : {
+                state : this.reduction.state,
+                valeur : (Number(this.reduction.value) * Number(this.Total)) / 100,
+                type : this.reduction.type
+              }
+            };
+          } else {
+            data = {
+              typePaiement : this.typePayement,
+              mode : this.mode,
+              numOrder : this.numOrder,
+              mobile : this.mobileMoney,
+              subTotal: Number(this.SubTotal),
+              total : this.Total,
+              montant_recu: this.Total,
+              livraison : {
+                state : this.delivery.state,
+                price : this.delivery.value,
+                adresse : this.delivery.adresse
+              },
+              reduction : {
+                state : this.reduction.state,
+                valeur : this.reduction.value,
+                type : this.reduction.type
+              }
+            };
           }
-        };
+        } else {
+          data = {
+            typePaiement : this.typePayement,
+            mode : this.mode,
+            numOrder : this.numOrder,
+            mobile : this.mobileMoney,
+            subTotal: Number(this.SubTotal),
+            total : this.Total,
+            montant_recu: this.Total,
+            livraison : {
+              state : this.delivery.state,
+              price : this.delivery.value,
+              adresse : this.delivery.adresse
+            },
+            reduction : {
+              state : true,
+              valeur : this.totalValueToReductionSp,
+              type : 'byProduct',
+              products: this.reductionToSpecificProduct
+            }
+          };
+        }
         console.log(data);
         this.cartService.Checkout(data).subscribe(
           (success) => {
@@ -394,6 +615,90 @@ numOrder;
     this.visibility.valueReduction = 'true';
   }
 
+  requestReduction() {
+    if (this.visibility.option === false) {
+      this.visibility.option = true;
+    } else {
+      this.visibility.option = false;
+      this.visibility.typeReduction = 'false';
+      this.visibility.valueReduction = 'false';
+    }
+  }
+
+  setReductionToProduct(id, price) {
+
+    const value = document.getElementById(id);
+    const value2 = document.getElementById('pourc-' + id);
+    const spinner = document.getElementById('loader-' + id);
+    spinner.style.display = 'block';
+
+
+    if (value.value !== '' && value2.value === '') {
+
+      const data = {
+        id,
+        type: 'fixed',
+        value: Number(value.value),
+      };
+
+      this.reductionToSpecificProduct.push(data);
+
+      console.log(this.reductionToSpecificProduct);
+
+
+    } else if (value.value === '' && value2.value !== '') {
+
+      const data = {
+        id,
+        type: 'percent',
+        value: (Number(price) * Number(value2.value)) / 100
+      };
+
+      this.reductionToSpecificProduct.push(data);
+
+      console.log(this.reductionToSpecificProduct);
+
+
+    } else if (value.value !== '' && value2.value !== '') {
+
+      const data = {
+        id,
+        type: 'fixed',
+        value: Number(value.value) + ((Number(price) * Number(value2.value)) / 100)
+      };
+
+      this.reductionToSpecificProduct.push(data);
+
+      console.log(this.reductionToSpecificProduct);
+
+
+    } else {
+      console.log('nothing');
+      this.stateErrorInReductionSp = true;
+    }
+
+    setTimeout( () => {
+      spinner.style.display = 'none';
+      value.value = null;
+      value2.value = null;
+    }, 500);
+
+    setTimeout( () => {
+      this.stateErrorInReductionSp = false;
+    }, 1500);
+
+  }
+
+  applyReductionToTotal() {
+    let totalPriceReduce = 0;
+    this.reductionToSpecificProduct.forEach(element => {
+      totalPriceReduce += element.value;
+    });
+    console.log(totalPriceReduce);
+    this.totalValueToReductionSp = totalPriceReduce;
+    this.Total -= totalPriceReduce;
+  }
+
   setSumDelivery() {
     this.visibility.sommeDelivery = 'true';
     const newValue = prompt('Entrez la somme : ');
@@ -403,6 +708,16 @@ numOrder;
     this.exchange = Number(this.SumCustomer) - Number(this.Total);
     this.delivery.adresse = placeValue;
     this.delivery.state = true;
+  }
+
+  setType(event) {
+    console.log(event.target.value);
+    if (event.target.value === 'global') {
+      this.applyReduction();
+    } else {
+      this.visibility.typeReduction = 'false';
+      this.visibility.valueReduction = 'false';
+    }
   }
 
   setValueReduction(event) {

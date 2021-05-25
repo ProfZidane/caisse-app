@@ -1,0 +1,218 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid full-page">
+
+  <div class="row">
+
+    <div class="col-md-1 full-container">
+
+      <app-sidemenu></app-sidemenu>
+
+    </div>
+
+    <div class="col-md-11 full-container">
+
+      <div class="container-fluid general-table-sales">
+        <div class="text-center" *ngIf="loading.data === true">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-4">
+            <ul class="list-group mt-5" *ngIf="sale">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Numéro de commande
+                <span class="badge badge-pill">
+                  {{ sale[0].order.order_number }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Date
+                <span class="badge badge-pill">
+                  {{ sale[0].order.created_at | date:'short':'UTC':'fr' }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Quantité
+                <span class="badge badge-pill">
+                  {{ sale[0].order.quantity }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Total
+                <span class="badge badge-pill">
+                  {{ sale[0].order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Montant payé
+                <span class="badge badge-pill">
+                  {{ sale[0].order.avance | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Reste à payer
+                <span class="badge badge-pill">
+                  {{ sale[0].order.reste | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
+                </span>
+              </li>
+
+            </ul>
+
+            <ul class="list-group mt-5" *ngIf="sale">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Nom & Prénoms Client
+                <span class="badge badge-pill">
+                  {{ sale[0].order.first_name }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Email Client
+                <span class="badge badge-pill">
+                  {{ sale[0].order.email }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Numéro de téléphone
+                <span class="badge badge-pill">
+                  {{ sale[0].order.phone }}
+                </span>
+              </li>
+            </ul>
+
+            <br><br><br>
+            <button class="btn btn-outline-warning btn-block" (click)="printFacture(null)">
+              Imprimer facture (Format ticket)
+            </button>
+          </div>
+
+          <div class="col-md-8">
+
+            <ul class="nav nav-pills mt-5 mb-3 nav-justified" id="pills-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                  Historiques Versements
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                 Liste Produits
+                </a>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <div class="table-scrollable p-2">
+                    <table class="table table-borderless" >
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Montants payés</th>
+                          <th scope="col">Montants restants</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="details">
+                        <tr *ngFor="let detail of details">
+                          <th scope="row">
+                            Versement n° {{ detail.num + 1 }}
+                          </th>
+                          <td>
+                            {{ detail.created_at | date:'short':'UTC':'fr' }}
+                          </td>
+                          <td>
+                            {{ detail.montant | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
+                          </td>
+                          <td>
+                            {{ detail.reste | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <button class="btn primary-am mt-5 btn-block" data-toggle="modal" data-target="#exampleModalScrollableS">
+                    Nouveau Versement
+                  </button>
+              </div>
+              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <!-- table product -->
+                <table datatable class="row-border hover mt-3" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                  <thead>
+                    <tr>
+                      <th>Nom</th>
+                      <th>Photo</th>
+                      <th>Quantité </th>
+                      <th>Prix unitaire</th>
+                      <th>Prix Total</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let product of products">
+                      <td>{{product.title }}</td>
+                      <td>
+                        <img src="{{ product.photo }}" width="45" height="45" alt="" srcset="">
+                      </td>
+                      <td>{{ product.quantity }}</td>
+                      <td>{{ product.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+                      <td>{{ product.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+                      <td>
+                        <button class="btn btn-outline-danger btn-sm" (click)="retiredProduct(product.id)">
+                          Rétirer
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- // table product -->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalScrollableS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form method="post" (ngSubmit)="createNewVersement()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">Création d'un versement</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex align-items-center text-warning mb-3" *ngIf="loading.create === true">
+            <strong>Création ...</strong>
+            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Entrez le montant</label>
+            <input type="number" name="newMontant" [(ngModel)]="newMontant" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-danger">Soyez sûr du montant inscrit.</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          <button type="submit" class="btn primary-am">Enregistrer</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -26,19 +26,19 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
               Sous-Total
               <span class="badge badge-pill">
-                {{ orderDetail.order.sub_total }}
+                {{ orderDetail.order.sub_total | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
               </span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
               Total
               <span class="badge badge-pill">
-                {{ orderDetail.order.total_amount }}
+                {{ orderDetail.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
               </span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
               Date
               <span class="badge badge-pill">
-                {{ orderDetail.order.created_at }}
+                {{ orderDetail.order.created_at | date:'short':'UTC':'fr'}}
               </span>
             </li>
           </ul>
@@ -104,9 +104,9 @@
         <tbody *ngIf="orderDetail">
           <tr *ngFor="let cart of orderDetail.carts">
             <td>{{ cart.article.title }}</td>
-            <td>{{ cart.cart.price }}</td>
+            <td>{{ cart.cart.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
             <td>{{ cart.cart.quantity }}</td>
-            <td>{{ cart.cart.amount }}</td>
+            <td>{{ cart.cart.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
           </tr>
         </tbody>
       </table>

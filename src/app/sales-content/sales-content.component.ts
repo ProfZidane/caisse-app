@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SalesOperateService } from '../services/sales-operate.service';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr, 'fr');
 
 @Component({
   selector: 'app-sales-content',
@@ -54,7 +58,7 @@ export class SalesContentComponent implements OnInit {
         console.log(data);
         this.loadingIndicator = true;
         this.error.loadingSale = false;
-        this.sales = data;
+        this.sales = data.reverse();
 
         this.saleSelected = this.sales[0];
         console.log(this.saleSelected);
@@ -160,9 +164,12 @@ export class SalesContentComponent implements OnInit {
      produit : this.saleSelected.order.cart_info,
      caissier : JSON.parse(localStorage.getItem('caissier')).name,
      client : this.saleSelected.client,
+     subTotal: this.saleSelected.order.sub_total,
      total : this.saleSelected.order.total_amount,
      reduction : this.saleSelected.order.coupon,
      date : this.saleSelected.order.created_at,
+     montant_recu: this.saleSelected.order.montant_recu,
+     exchange: (Number(this.saleSelected.order.montant_recu) - Number(this.saleSelected.order.total_amount)),
      payment : {
        type : this.saleSelected.order.payment_method
      }

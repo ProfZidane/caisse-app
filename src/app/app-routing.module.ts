@@ -16,6 +16,12 @@ import { SalesDailyComponent } from './sales-daily/sales-daily.component';
 import { OrderComponent } from './order/order.component';
 import { OrderContentComponent } from './order-content/order-content.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
+import { ReservationManagementComponent } from './reservation-management/reservation-management.component';
+import { ReservationComponent } from './reservation/reservation.component';
+import { ReservationDetailComponent } from './reservation-detail/reservation-detail.component';
+import { FactureManagementComponent } from './facture-management/facture-management.component';
+import { FactureDetailComponent } from './facture-detail/facture-detail.component';
 
 
 const routes: Routes = [
@@ -41,6 +47,11 @@ const routes: Routes = [
         path : 'scanner',
         component : ScannerComponent,
         outlet : 'child1'
+      },
+      {
+        path: 'customer-history/:id',
+        component: CustomerDetailComponent,
+        outlet: 'child1'
       }
     ]
   },
@@ -99,6 +110,30 @@ const routes: Routes = [
         outlet: 'child3'
       }
     ]
+  },
+  {
+    path: 'reservation',
+    component: ReservationComponent,
+    children: [
+      {
+        path: '',
+        component: ReservationManagementComponent,
+        outlet: 'child4'
+      },
+      {
+        path: 'reservation-detail/:id',
+        component: ReservationDetailComponent,
+        outlet: 'child4'
+      }
+    ]
+  },
+  {
+    path: 'facture',
+    component: FactureManagementComponent
+  },
+  {
+    path: 'facture-detail/:id',
+    component: FactureDetailComponent
   }
 ];
 

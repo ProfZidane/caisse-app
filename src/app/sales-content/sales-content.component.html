@@ -103,15 +103,15 @@
       </div>
 
       <li class="list-group-item line" *ngFor="let sale of sales" (click)="SelectedSale(sale)">
-        <div class="row">
+        <div class="row" style="cursor: pointer;">
           <div class="col-md-4">
             <p style="font-weight: 900; color: #ff817a;">{{ sale.order.order_number }}</p>
           </div>
           <div class="col-md-4">
-            <p>{{ sale.order.created_at | date:'short' }}</p>
+            <p>{{ sale.order.created_at | date:'short':'UTC':'fr' }}</p>
           </div>
           <div class="col-md-4">
-            <p style="font-weight: 900;">{{ sale.order.total_amount | number }} FCFA</p>
+            <p style="font-weight: 900;">{{ sale.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</p>
           </div>
         </div>
       </li>
@@ -157,7 +157,7 @@
             <i class="material-icons">
               perm_contact_calendar
             </i>
-            {{ saleSelected.order.created_at }}
+            {{ saleSelected.order.created_at | date:'short':'UTC':'fr' }}
           </p>
         </li>
         <li class="list-group-item">
@@ -190,8 +190,8 @@
           <ul class="list-group" *ngFor="let product of saleSelected.order.cart_info">
             <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
               <strong>{{ product.title }}</strong>
-              <span>{{ product.price | number }} x {{ product.quantity }}</span>
-              <span class="badge badge-pill" style="background-color: #ff817a;">{{ product.amount | number }} FCFA</span>
+              <span>{{ product.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }} x {{ product.quantity }}</span>
+              <span class="badge badge-pill" style="background-color: #ff817a;">{{ product.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
             </li>
             <!--<li class="list-group-item d-flex justify-content-between align-items-center no-bord">
               <strong>Sac à main</strong>
@@ -209,7 +209,7 @@
           <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
               <strong>Sous-total</strong>
-              <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.sub_total">{{ saleSelected.order.sub_total | number }} FCFA</span>
+              <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.sub_total">{{ saleSelected.order.sub_total | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
             </li>
           </ul>
         </li>
@@ -226,7 +226,7 @@
           <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
               <strong>Total</strong>
-              <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.total_amount">{{ saleSelected.order.total_amount | number }} FCFA</span>
+              <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.total_amount">{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
             </li>
           </ul>
         </li>
@@ -234,17 +234,17 @@
             <ul class="list-group" *ngIf="saleSelected.order.payment_method">
               <li class="list-group-item d-flex justify-content-between align-items-center no-bord" *ngIf="saleSelected.order.payment_method === 'espece'">
                 Paiement en espèce
-                <span class="badge badge-pill" style="background-color: #ff817a;">{{ saleSelected.order.total_amount | number }} FCFA</span>
+                <span class="badge badge-pill" style="background-color: #ff817a;">{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center no-bord" *ngIf="saleSelected.order.payment_method === 'mobile-money'">
                 Paiement par mobile money
                 <span>NEANT</span>
-                <span class="badge badge-pill" style="background-color: #ff817a;" >{{ saleSelected.order.total_amount | number }} FCFA</span>
+                <span class="badge badge-pill" style="background-color: #ff817a;" >{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center no-bord" *ngIf="saleSelected.order.payment_method === 'carte' || saleSelected.order.payment_method === 'cheque'">
                 Paiement par carte/chèque
                 <span>Carte</span>
-                <span class="badge badge-pill" style="background-color: #ff817a;">{{ saleSelected.order.total_amount | number }} FCFA</span>
+                <span class="badge badge-pill" style="background-color: #ff817a;">{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
               </li>
           </ul>
         </li>

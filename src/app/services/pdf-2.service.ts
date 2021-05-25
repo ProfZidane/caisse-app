@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class PdfService {
+export class Pdf2Service {
+
   pdfMake: any;
   constructor() { }
 
@@ -16,7 +17,7 @@ export class PdfService {
     }
   }
 
-  generateContent(object) {
+  generateEchelonneContent(object) {
     var definition = {
       content : [
         {
@@ -60,7 +61,7 @@ export class PdfService {
         },
         {
           style : 'account',
-          margin : [169, 10, 0, 10],
+          margin : [139, 10, 0, 10],
           alignment : 'center',
           table : {
             alignment : 'center',
@@ -142,8 +143,8 @@ export class PdfService {
     return definition;
   }
 
+
   async generatePdf(object) {
-    console.log(object);
 
     await this.loadPdfMaker();
 
@@ -171,7 +172,7 @@ export class PdfService {
       },
       {
         border : [false, false, false, false],
-        text : object.sub_total,
+        text : object.subTotal,
         alignment : 'center',
         fontSize: 7.5,
         bold: true
@@ -203,41 +204,51 @@ export class PdfService {
     ];
 
     object.produit.push(p);
+    console.log(typeof(object.montant_recu));
+
+    if (typeof(object.montant_recu) === 'object') {
+
+      object.montant_recu.forEach(element => {
+        object.produit.push(element);
+      });
+
+    } else {
+      const pe = [
+        {
+          border : [false, false, false, false],
+          text : '1er versement',
+          alignment : 'center',
+          fontSize: 7.5
+        },
+        {
+          border : [false, false, false, false],
+          text : '',
+          alignment : 'center',
+        },
+        {
+          border : [false, false, false, false],
+          text : 'FCFA',
+          alignment : 'center',
+          fontSize: 7.5
+        },
+        {
+          border : [false, false, false, false],
+          text : object.montant_recu,
+          alignment : 'center',
+          fontSize: 7.5
+        }
+      ];
+      object.produit.push(pe);
+    }
 
 
-    const pe = [
-      {
-        border : [false, false, false, false],
-        text : 'Montant Payé',
-        alignment : 'center',
-        fontSize: 7.5
-      },
-      {
-        border : [false, false, false, false],
-        text : '',
-        alignment : 'center',
-      },
-      {
-        border : [false, false, false, false],
-        text : 'FCFA',
-        alignment : 'center',
-        fontSize: 7.5
-      },
-      {
-        border : [false, false, false, false],
-        text : object.montant_recu,
-        alignment : 'center',
-        fontSize: 7.5
-      }
-    ];
 
-    object.produit.push(pe);
 
 
     const pre_p = [
       {
         border : [false, false, false, false],
-        text : 'Monnaie Rendue',
+        text : 'Reste à payer',
         alignment : 'center',
         fontSize: 7.5
       },
@@ -262,8 +273,9 @@ export class PdfService {
 
     object.produit.push(pre_p);
 
+    console.log(object);
 
-    const def = this.generateContent(object);
+    const def = this.generateEchelonneContent(object);
     // { content: 'A sample PDF document generated using Angular and PDFMake' };
     try {
       this.pdfMake.createPdf(def).open();
@@ -271,7 +283,5 @@ export class PdfService {
       console.log(error);
     }
   }
-
-
 
 }

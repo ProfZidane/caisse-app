@@ -20,13 +20,13 @@
     <tbody>
       <tr *ngFor="let sale of sales">
         <td>{{sale.order.order_number }}</td>
-        <td>{{ sale.order.created_at | date}}</td>
+        <td>{{ sale.order.created_at | date:'short':'UTC':'fr' }}</td>
         <td>{{ sale.client.name }}</td>
         <td>{{ sale.client.telephone }}</td>
         <td>{{ sale.client.type }}</td>
         <td>{{ sale.order.quantity }}</td>
-        <td>{{sale.order.sub_total }}</td>
-        <td>{{ sale.order.total_amount }}</td>
+        <td>{{sale.order.sub_total | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+        <td>{{ sale.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
       </tr>
     </tbody>
   </table>

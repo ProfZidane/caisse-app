@@ -1,1 +1,83 @@
-<p>customer-detail works!</p>
+<div class="container-fluid table-orders">
+  <div class="text-center" *ngIf="loading.data === true">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div class="alert alert-danger" *ngIf="error.data === true">
+    {{ error.text }}
+  </div>
+  <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+    <thead>
+      <tr>
+        <th>NUM COMMANDE</th>
+        <th>Qte Totale Commandée</th>
+        <th>Sous-total</th>
+        <th>Total</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of sales">
+        <td>{{ order.order_number }}</td>
+        <td>{{ order.quantity }}</td>
+        <td>{{ order.sub_total | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+        <td>{{ order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+        <td>{{ order.created_at | date:'short':'UTC':'fr' }}</td>
+        <td>{{ order.status }}</td>
+        <td>
+          <button class="btn btn-warning text-light" data-toggle="modal" data-target="#exampleModalScrollable" (click)='goProduct(order.id)'>
+            Produits
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">Liste des produits</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Nom</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Prix Unitaire</th>
+              <th scope="col">Prix Total</th>
+              <th scope="col">Photo</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="details">
+            <tr *ngFor="let detail of details">
+              <th scope="row">{{ detail.title }}</th>
+              <td>{{ detail.quantity }}</td>
+              <td>{{ detail.price }}</td>
+              <td>{{ detail.amount }}</td>
+              <td>
+                <img [src]=detail.photo alt="" width="80" height="80">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>

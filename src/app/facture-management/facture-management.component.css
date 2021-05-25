@@ -1,0 +1,37 @@
+a,h5,small,input,button,p {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border-radius: 0;
+}
+
+.bord {
+  border: solid;
+}
+
+
+.full-page {
+  height: calc(100%);
+}
+
+.full-container {
+  height: 95vh;
+}
+
+li.nav-item > a {
+  color: black;
+}
+
+li.nav-item > a.active {
+  color: white;
+  background-color: #ff817a;
+}

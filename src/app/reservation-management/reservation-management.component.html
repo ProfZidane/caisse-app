@@ -1,0 +1,52 @@
+<mat-progress-bar *ngIf="success===false"  mode="indeterminate"></mat-progress-bar>
+
+<div class="container-fluid table-orders">
+
+  <div class="alert alert-danger" *ngIf="error.delete === true">
+    {{ error.text }}
+  </div>
+  <!-- [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" -->
+  <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+    <thead>
+      <tr>
+        <th>NUM RESERVATION</th>
+        <th>Nom & Prénoms Client</th>
+        <th>E-mail Client</th>
+        <th>Numéro Client</th>
+        <th>Quantité Totale Commandée</th>
+        <th>Total</th>
+        <th>Employé Magasin</th>
+        <th>Date réception</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let reservation of reservations">
+        <td>{{ reservation.reservation_number }}</td>
+        <td>{{ reservation.first_name }}</td>
+        <td>{{ reservation.email }}</td>
+        <td>{{ reservation.phone }}</td>
+        <td>{{ reservation.quantity }}</td>
+        <td>{{ reservation.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+        <td>{{ reservation.name }}</td>
+        <td>{{ reservation.date_promise | date:'short':'UTC':'fr' }}</td>
+        <td>
+          <button class="btn btn-warning text-light" (click)='goToDetailOrder(reservation.id)'>
+            Détails
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="removeReservation(reservation.reservation_number)">
+            Annuler
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-center" *ngIf="visibility === true">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>

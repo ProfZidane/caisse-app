@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
+registerLocaleData(localeFr, 'fr');
 @Component({
   selector: 'app-order-content',
   templateUrl: './order-content.component.html',
@@ -18,6 +21,9 @@ export class OrderContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOrders();
+    this.dtOptions = {
+      ordering: false
+    };
   }
 
   getOrders() {
@@ -25,6 +31,8 @@ export class OrderContentComponent implements OnInit {
       (data) => {
         console.log(data);
         this.orders = data;
+
+
         this.dtTrigger.next();
         this.visibility = false;
       }, (err) => {
