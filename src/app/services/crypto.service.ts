@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import * as CryptoJS from 'crypto-js';
+import { environment } from '../../environments/environment.prod';
 /*import * as Crypto from 'crypto';
 import * as CryptoJs from 'crypto-js';*/
 /*import CryptoES from 'crypto-es';
@@ -14,6 +16,17 @@ export class CryptoService {
 newValueEncoded;
 
   constructor() { }
+
+  EncryptData(data) {
+    const ciphertext = CryptoJS.AES.encrypt(data, environment.secret_key).toString();
+    return ciphertext;
+  }
+
+  DecryptData(data) {
+    const bytes  = CryptoJS.AES.decrypt(data, environment.secret_key);
+    const originalText = bytes.toString(CryptoJS.enc.Utf8);
+    return originalText;
+  }
 
 /*
   TextEncodingToAES256(data) {

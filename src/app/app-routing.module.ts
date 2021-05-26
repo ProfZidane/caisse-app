@@ -22,16 +22,18 @@ import { ReservationComponent } from './reservation/reservation.component';
 import { ReservationDetailComponent } from './reservation-detail/reservation-detail.component';
 import { FactureManagementComponent } from './facture-management/facture-management.component';
 import { FactureDetailComponent } from './facture-detail/facture-detail.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 const routes: Routes = [
   {
     path : '',
-    component : LoginComponent
+    component : LoginComponent,
   },
   {
     path : 'home',
     component : HomeComponent,
+    canActivate: [AuthGuard],
     children : [
       {
         path : '',
@@ -57,19 +59,23 @@ const routes: Routes = [
   },
   {
     path: 'sidebar',
-    component: SidemenuComponent
+    component: SidemenuComponent,
+    canActivate: [AuthGuard]
   },
   {
     path : 'customer',
-    component : ProfilComponent
+    component : ProfilComponent,
+    canActivate: [AuthGuard]
   },
   {
     path : 'checkout/:mode/:num',
-    component : CheckoutComponent
+    component : CheckoutComponent,
+    canActivate: [AuthGuard]
   },
   {
     path : 'sales',
     component : SalesComponent,
+    canActivate: [AuthGuard],
     children : [
       {
         path : 'sales-group',
@@ -98,6 +104,7 @@ const routes: Routes = [
   {
     path: 'order',
     component: OrderComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -114,6 +121,7 @@ const routes: Routes = [
   {
     path: 'reservation',
     component: ReservationComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -129,11 +137,13 @@ const routes: Routes = [
   },
   {
     path: 'facture',
-    component: FactureManagementComponent
+    component: FactureManagementComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'facture-detail/:id',
-    component: FactureDetailComponent
+    component: FactureDetailComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

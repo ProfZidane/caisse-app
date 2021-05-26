@@ -15,16 +15,16 @@ getHeaders() {
   if (localStorage.getItem('word_token') !== null) {
     const headers = new HttpHeaders({
       'Content-type' : 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('word_token')
+      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('word_token')).token
     });
     return headers;
   }
 }
   getAllOrder(): Observable<any> {
-    return this.http.get(this.getURL);
+    return this.http.get(this.getURL, { headers: this.getHeaders() });
   }
 
   getOrderDetail(id): Observable<any> {
-    return this.http.get(this.getByID + id);
+    return this.http.get(this.getByID + id, { headers: this.getHeaders() });
   }
 }

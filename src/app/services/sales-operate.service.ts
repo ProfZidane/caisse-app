@@ -29,30 +29,30 @@ getHeaders() {
   if (localStorage.getItem('word_token') !== null) {
     const headers = new HttpHeaders({
       'Content-type' : 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('word_token')
+      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('word_token')).token
     });
     return headers;
   }
 }
   GetSalesByCaisser(id): Observable<any> {
-    return this.http.get(this.getSalesURL + id);
+    return this.http.get(this.getSalesURL + id, { headers: this.getHeaders() });
   }
 
   GetSalesByMonth(id, month): Observable<any> {
-    return this.http.get(this.getSalesByMonthURL + id + '/' + month);
+    return this.http.get(this.getSalesByMonthURL + id + '/' + month, { headers: this.getHeaders() });
   }
 
   GetSalesByYear(id, year): Observable<any> {
-    return this.http.get(this.getSalesByYearURL + id + '/' + year);
+    return this.http.get(this.getSalesByYearURL + id + '/' + year, { headers: this.getHeaders() });
   }
 
   GetSalesBetweenYear(data): Observable<any> {
-    return this.http.post(this.getSalesBetweenDateURL, data);
+    return this.http.post(this.getSalesBetweenDateURL, data, { headers: this.getHeaders() });
   }
 
 
   GetSalesToday(id): Observable<any> {
-    return this.http.get(this.getSalesTodayURL + id);
+    return this.http.get(this.getSalesTodayURL + id, { headers: this.getHeaders() });
   }
 
   GeneratePDFForSales(object) {
@@ -113,34 +113,34 @@ getHeaders() {
 
 
   GetHistorySaleByCustomer(id): Observable<any> {
-    return this.http.get(this.getSalesByCustomerURL + id);
+    return this.http.get(this.getSalesByCustomerURL + id, { headers: this.getHeaders() });
   }
 
   GetDetailHistory(id): Observable<any> {
-    return this.http.get(this.getInfoSalesByCustomerURL + id);
+    return this.http.get(this.getInfoSalesByCustomerURL + id, { headers: this.getHeaders() });
   }
 
 
   GetSalesEchelonne(): Observable<any> {
-    return this.http.get(this.echelonneURL);
+    return this.http.get(this.echelonneURL, { headers: this.getHeaders() });
   }
 
   GetSalesPaidEchelonne(): Observable<any> {
-    return this.http.get(this.echelonnePaidURL);
+    return this.http.get(this.echelonnePaidURL, { headers: this.getHeaders() });
   }
 
   GetDetailSalesEchelonne(id): Observable<any> {
-    return this.http.get(this.echelonneDetailURL + id);
+    return this.http.get(this.echelonneDetailURL + id, { headers: this.getHeaders() });
   }
 
 
 
   SetNewPriceEchelonne(price): Observable<any> {
-    return this.http.post(this.echellonePostURL, price);
+    return this.http.post(this.echellonePostURL, price, { headers: this.getHeaders() });
   }
 
 
   SetProductToStock(data): Observable<any> {
-    return this.http.post(this.backStockProductURL, data);
+    return this.http.post(this.backStockProductURL, data, { headers: this.getHeaders() });
   }
 }

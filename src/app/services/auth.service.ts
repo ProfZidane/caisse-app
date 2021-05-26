@@ -59,18 +59,18 @@ CustomerChoice;
     if (localStorage.getItem('word_token') !== null) {
       const headers = new HttpHeaders({
         'Content-type' : 'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('word_token')
+        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('word_token')).token
       });
       return headers;
     }
   }
   AuthentificationByEmail(data): Observable<any> {
-    return this.http.post(this.authURL, data);
+    return this.http.post(this.authURL, data, { headers: this.getHeaders() });
   }
 
   GetCustomer(): Observable<any> {
     // let customers = this.Customer;
-    return this.http.get(this.customerURl);
+    return this.http.get(this.customerURl, { headers: this.getHeaders() });
   }
 
   ChoicingCustomer(object) {
@@ -88,6 +88,6 @@ CustomerChoice;
   AddNewCustomer(object): Observable<any> {
     /*this.Customer.push(object);
     this.Customer.reverse();*/
-    return this.http.post(this.createCustomerURL, object);
+    return this.http.post(this.createCustomerURL, object, { headers: this.getHeaders() });
   }
 }

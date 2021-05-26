@@ -64,8 +64,8 @@
             <tr *ngFor="let detail of details">
               <th scope="row">{{ detail.title }}</th>
               <td>{{ detail.quantity }}</td>
-              <td>{{ detail.price }}</td>
-              <td>{{ detail.amount }}</td>
+              <td><strong>{{ detail.price }}</strong> Fcfa</td>
+              <td><strong>{{ detail.amount }}</strong> Fcfa</td>
               <td>
                 <img [src]=detail.photo alt="" width="80" height="80">
               </td>

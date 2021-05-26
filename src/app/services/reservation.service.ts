@@ -19,28 +19,28 @@ getHeaders() {
   if (localStorage.getItem('word_token') !== null) {
     const headers = new HttpHeaders({
       'Content-type' : 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('word_token')
+      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('word_token')).token
     });
     return headers;
   }
 }
   getReservation(): Observable<any> {
-    return this.http.get(this.getURL);
+    return this.http.get(this.getURL, { headers: this.getHeaders() });
   }
 
   getDetailReservation(id): Observable<any> {
-    return this.http.get(this.getByIdURL + id);
+    return this.http.get(this.getByIdURL + id, { headers: this.getHeaders() });
   }
 
   deleteProductReservation(idReservation, idProduct): Observable<any> {
-    return this.http.get(this.deleteURL + idReservation + '/' + idProduct);
+    return this.http.get(this.deleteURL + idReservation + '/' + idProduct, { headers: this.getHeaders() });
   }
 
   removeReservation(id): Observable<any> {
-    return this.http.get(this.removeURL + id);
+    return this.http.get(this.removeURL + id, { headers: this.getHeaders() });
   }
 
   changeToOrders(num): Observable<any> {
-    return this.http.get(this.changeURL + num);
+    return this.http.get(this.changeURL + num, { headers: this.getHeaders() });
   }
 }
