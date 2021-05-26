@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
@@ -14,6 +14,16 @@ removeURL = environment.url + 'cancelReservation/';
 changeURL = environment.url + 'changeToOrder/';
   constructor(private http: HttpClient) { }
 
+// get token and set this in headers
+getHeaders() {
+  if (localStorage.getItem('word_token') !== null) {
+    const headers = new HttpHeaders({
+      'Content-type' : 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('word_token')
+    });
+    return headers;
+  }
+}
   getReservation(): Observable<any> {
     return this.http.get(this.getURL);
   }

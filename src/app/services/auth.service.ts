@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CryptoService } from './crypto.service';
 
 @Injectable({
@@ -54,6 +54,16 @@ authURL = 'https://accessoire-mode.lce-test.fr/api/connexion';
 CustomerChoice;
   constructor(private s: MatSnackBar, private http: HttpClient, private cryptoService: CryptoService) { }
 
+  // get token and set this in headers
+  getHeaders() {
+    if (localStorage.getItem('word_token') !== null) {
+      const headers = new HttpHeaders({
+        'Content-type' : 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('word_token')
+      });
+      return headers;
+    }
+  }
   AuthentificationByEmail(data): Observable<any> {
     return this.http.post(this.authURL, data);
   }

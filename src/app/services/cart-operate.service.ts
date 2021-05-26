@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
@@ -29,6 +29,16 @@ cart = {
   constructor(private s: MatSnackBar, private pdfService: PdfService, private http: HttpClient, private productService: ProductService,
               private pdf2Service: Pdf2Service) { }
 
+  // get token and set this in headers
+  getHeaders() {
+    if (localStorage.getItem('word_token') !== null) {
+      const headers = new HttpHeaders({
+        'Content-type' : 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('word_token')
+      });
+      return headers;
+    }
+  }
   VerifyInProgress() {
     if (localStorage.getItem('inProgress') === null) {
       const inProgress = {

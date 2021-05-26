@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
@@ -17,6 +17,16 @@ productCart;
 emptyCart = [];
   constructor(private http: HttpClient, private s: MatSnackBar) { }
 
+// get token and set this in headers
+getHeaders() {
+  if (localStorage.getItem('word_token') !== null) {
+    const headers = new HttpHeaders({
+      'Content-type' : 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('word_token')
+    });
+    return headers;
+  }
+}
 
   // Getter de produit general
   GetProducts(): Observable<any> {

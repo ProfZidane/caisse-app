@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PdfService } from './pdf.service';
 import { environment } from '../../environments/environment.prod';
 
@@ -24,6 +24,16 @@ Sales;
 dataToPdf;
   constructor(private http: HttpClient, private pdfService: PdfService) { }
 
+// get token and set this in headers
+getHeaders() {
+  if (localStorage.getItem('word_token') !== null) {
+    const headers = new HttpHeaders({
+      'Content-type' : 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('word_token')
+    });
+    return headers;
+  }
+}
   GetSalesByCaisser(id): Observable<any> {
     return this.http.get(this.getSalesURL + id);
   }
