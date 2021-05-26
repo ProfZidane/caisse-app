@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { CryptoService } from '../services/crypto.service';
 
 @Component({
   selector: 'app-login',
@@ -22,10 +23,13 @@ errors = {
   error_password : '',
   error_global : ''
 };
-  constructor(private route: Router, private authService: AuthService) { }
+  constructor(private route: Router, private authService: AuthService, private cryptoService: CryptoService) { }
 
 
   ngOnInit(): void {
+    const a = this.cryptoService.EncryptData('zidane');
+    console.log(this.cryptoService.DecryptData(a));
+
   }
 
   VerifyAuth(data) {
@@ -66,7 +70,13 @@ errors = {
             }, 1000);
         } else if (success.status_code === 200) {
           // save in localstorage
+          const subKey = this.cryptoService.EncryptData(success.data.id + ' ' + success.data.name);
+          const dataToken = {
+            key: subKey,
+            token: success.token
+          };
           localStorage.setItem('caissier', JSON.stringify(success.data));
+          localStorage.setItem('word_token', JSON.stringify(dataToken));
           setTimeout( () => {
             this.success = true;
             // location.href = '/home';

@@ -34,7 +34,7 @@ cart = {
     if (localStorage.getItem('word_token') !== null) {
       const headers = new HttpHeaders({
         'Content-type' : 'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('word_token')
+        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('word_token')).token
       });
       return headers;
     }
@@ -835,7 +835,7 @@ VerifyExistingInCart(num, object) {
     }
     console.log(this.register);
 
-    return this.http.post(this.registerURL, this.register);
+    return this.http.post(this.registerURL, this.register, { headers: this.getHeaders() });
   }
 
   // Générer pdf pour ticket de caisse

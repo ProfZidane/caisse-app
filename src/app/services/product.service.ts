@@ -22,7 +22,7 @@ getHeaders() {
   if (localStorage.getItem('word_token') !== null) {
     const headers = new HttpHeaders({
       'Content-type' : 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('word_token')
+      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('word_token')).token
     });
     return headers;
   }
@@ -30,13 +30,13 @@ getHeaders() {
 
   // Getter de produit general
   GetProducts(): Observable<any> {
-    return this.http.get(this.getproductURL);
+    return this.http.get(this.getproductURL, { headers: this.getHeaders() });
   }
 
 
   // Recherche de produit par slug
   GetProductBySlug(slug): Observable<any> {
-    return this.http.get(this.getProductByIdURL + slug);
+    return this.http.get(this.getProductByIdURL + slug, { headers: this.getHeaders() });
   }
 
 

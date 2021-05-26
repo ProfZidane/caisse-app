@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  url : 'https://accessoire-mode.lce-test.fr/api/caisse/'
+  url : 'https://accessoire-mode.lce-test.fr/api/caisse/',
+  secret_key: 'MA_SUPER_CLE_SECRETE'
 };
 
 /*
