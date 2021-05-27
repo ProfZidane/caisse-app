@@ -31,12 +31,21 @@ export class AppComponent implements OnInit {
         localStorage.setItem('cart-3', JSON.stringify([]));
       }
     }
+<<<<<<< HEAD
     
     if (localStorage.getItem('inProgress') === null) {
       const inProgress = {
         in : 1
       };
       localStorage.setItem('inProgress', JSON.stringify(inProgress));
+=======
+    if (localStorage.getItem('inProgress') === null) {
+      const inProgress = {
+        in : 1
+      }
+      localStorage.setItem('inProgress', JSON.stringify(inProgress));
+
+>>>>>>> a1430a3ca3f34a96b22a6d3003bbc8f326157d94
     }
     // throw new Error('Method not implemented.');
   }
