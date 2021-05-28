@@ -17,7 +17,7 @@ in_progress: any;
 tab = [];
 total = 0;
 renderer = [];
-registerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/storeOrder';
+registerURL = 'https://accessoiresmodes.com/api/caisse/storeOrder';
 register;
 dataToPdf;
 existingCart;

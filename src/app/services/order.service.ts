@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 })
 export class OrderService {
 orders;
-getURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getAllOrders';
-getByID = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderInfos/';
+getURL = 'https://accessoiresmodes.com/api/caisse/getAllOrders';
+getByID = 'https://accessoiresmodes.com/api/caisse/getOrderInfos/';
   constructor(private http: HttpClient) { }
 
 // get token and set this in headers

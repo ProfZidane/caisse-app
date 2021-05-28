@@ -8,12 +8,12 @@ import { environment } from '../../environments/environment.prod';
   providedIn: 'root'
 })
 export class SalesOperateService {
-getSalesURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getVentesByCaissier/';
-getSalesByYearURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByYear/';
-getSalesByMonthURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderByMounth/';
-getSalesBetweenDateURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getOrderBetweenTwoDate';
-getSalesTodayURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getNowSales/';
-getSalesByCustomerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/getHistoriqueAchatsClient/';
+getSalesURL = 'https://accessoiresmodes.com/api/caisse/getVentesByCaissier/';
+getSalesByYearURL = 'https://accessoiresmodes.com/api/caisse/getOrderByYear/';
+getSalesByMonthURL = 'https://accessoiresmodes.com/api/caisse/getOrderByMounth/';
+getSalesBetweenDateURL = 'https://accessoiresmodes.com/api/caisse/getOrderBetweenTwoDate';
+getSalesTodayURL = 'https://accessoiresmodes.com/api/caisse/getNowSales/';
+getSalesByCustomerURL = 'https://accessoiresmodes.com/api/caisse/getHistoriqueAchatsClient/';
 getInfoSalesByCustomerURL = environment.url + 'getAchatsClientCartInfo/';
 echelonneURL = environment.url + 'getFacturesImpayes';
 echelonnePaidURL = environment.url + 'getFacturesPayes';
