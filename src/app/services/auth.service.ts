@@ -48,9 +48,9 @@ Customer = [
     tel : '+225 45454545455'
   }
 ];
-customerURl = 'https://accessoire-mode.lce-test.fr/api/caisse/getAllClients';
-createCustomerURL = 'https://accessoire-mode.lce-test.fr/api/caisse/createUser';
-authURL = 'https://accessoire-mode.lce-test.fr/api/connexion';
+customerURl = 'https://accessoiresmodes.com/api/caisse/getAllClients';
+createCustomerURL = 'https://accessoiresmodes.com/api/caisse/createUser';
+authURL = 'https://accessoiresmodes.com/api/connexion';
 CustomerChoice;
   constructor(private s: MatSnackBar, private http: HttpClient, private cryptoService: CryptoService) { }
 
