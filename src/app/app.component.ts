@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
         in : 1
       }
       localStorage.setItem('inProgress', JSON.stringify(inProgress));
-
     }
     // throw new Error('Method not implemented.');
   }

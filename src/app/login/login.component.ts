@@ -27,8 +27,7 @@ errors = {
 
 
   ngOnInit(): void {
-    const a = this.cryptoService.EncryptData('zidane');
-    console.log(this.cryptoService.DecryptData(a));
+
 
   }
 
