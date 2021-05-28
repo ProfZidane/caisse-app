@@ -20,7 +20,7 @@
           <img src="{{ article.photo }}" alt="" width="100%" height="200px">
         </div>
         <h3 class="name-product">{{ article.title }}</h3>
-        <p>{{ article.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa</p>
+        <p>{{ article.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</p>
       </div>
 
       <div *ngIf="article.stock === 0" style="background-color: #dddddd; opacity: 0.75;">
@@ -31,7 +31,7 @@
           <img src="{{ article.photo }}" alt="" width="100%" height="200px">
         </div>
         <h3 class="name-product">{{ article.title }}</h3>
-        <p>{{ article.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }} Fcfa</p>
+        <p>{{ article.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</p>
       </div>
     </div>
 

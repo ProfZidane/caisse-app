@@ -16,12 +16,7 @@ export class AuthGuard implements CanActivate {
         const token = JSON.parse(localStorage.getItem('word_token'));
         const data = JSON.parse(localStorage.getItem('caissier'));
         const decryptData = this.cryptoService.DecryptData(token.key);
-<<<<<<< HEAD
 
-=======
-       // console.log(data.id + ' ' + data.name);
-       // console.log(decryptData);
->>>>>>> a1430a3ca3f34a96b22a6d3003bbc8f326157d94
 
         if (decryptData === data.id + ' ' + data.name) {
           return true;
