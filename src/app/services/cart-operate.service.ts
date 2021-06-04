@@ -6,6 +6,7 @@ import { PdfService } from './pdf.service';
 
 import { ProductService } from './product.service';
 import { Pdf2Service } from './pdf-2.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ in_progress: any;
 tab = [];
 total = 0;
 renderer = [];
-registerURL = 'https://accessoiresmodes.com/api/caisse/storeOrder';
+registerURL = environment.url + 'storeOrder';
 register;
 dataToPdf;
 existingCart;

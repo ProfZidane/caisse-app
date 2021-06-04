@@ -1,0 +1,354 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid full-page">
+
+    <div class="row">
+
+      <div class="col-md-1 full-container">
+
+        <app-sidemenu></app-sidemenu>
+
+      </div>
+
+      <div class="col-md-11 full-container">
+        <div class="text-center" *ngIf="visibility === true">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <!-- all state -->
+
+        <div class="all-state">
+
+          <!-- first state -->
+        <div class="container-fluid table-state" *ngIf="state && state === 'etat_reservation'">
+          <h2 style="text-align: center;"><strong>ETAT DES RESERVATIONS</strong></h2>
+          <br>
+          <div *ngFor="let reservation of reservations">
+            <div class="row">
+              <div class="col-md-2">
+                <h4>
+                  Client :
+                </h4>
+              </div>
+              <div class="col-md-2">
+                {{ reservation.telephone}}
+              </div>
+              <div class="col-md-2">
+                /
+              </div>
+              <div class="col-md-2">
+                {{ reservation.name }}
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-2"></div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-2">
+                <h4>
+                  Facture :
+                </h4>
+              </div>
+              <div class="col-md-2">
+                {{ reservation.factures[0].num_reservation }}
+              </div>
+              <div class="col-md-2">
+                /
+              </div>
+              <div class="col-md-6">
+                {{ reservation.factures[0].date | date:'short':'UTC':'fr' }}
+              </div>
+            </div>
+
+            <div class="row">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Code_Prod</th>
+                    <th scope="col">Design_Prod</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">PU NET</th>
+                    <th scope="col">Montant Net</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let prod of reservation.factures[0].cart">
+                    <th scope="row" *ngIf="prod.code_barre">
+                      {{ prod.code_barre }}
+                    </th>
+                    <th scope="row" class="text-danger" *ngIf="!prod.code_barre">
+                      NEANT
+                    </th>
+                    <td>
+                      {{ prod.title }}
+                    </td>
+                    <td>
+                      {{ prod.quantity }}
+                    </td>
+                    <td>
+                      {{ prod.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
+                    </td>
+                    <td>
+                      {{ prod.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- second state -->
+        <div class="container-fluid table-state" *ngIf="state && state === 'detail_vente_par_facture_sur_periode'">
+          <h2 style="text-align: center;"><strong>DETAIL DES VENTES PAR FACTURE SUR UNE PERIODE</strong></h2>
+          <br>
+          <div *ngIf="dateDebut && dateFin">
+            Période du <span style="font-weight: 700;">{{ dateDebut }}</span> au <span style="font-weight: 700;">{{ dateFin }}</span>
+          </div>
+          <br><br>
+          <div *ngFor="let detail of detailSalesByFactures">
+            <div class="row">
+              <div class="col-md-2">
+                <h4>
+                  Client :
+                </h4>
+              </div>
+              <div class="col-md-2">
+                {{ detail.telephone}}
+              </div>
+              <div class="col-md-2">
+                /
+              </div>
+              <div class="col-md-2">
+                {{ detail.name }}
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-2"></div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-2">
+                <h4>
+                  Facture :
+                </h4>
+              </div>
+              <div class="col-md-2">
+                {{ detail.factures[0].num_order }}
+              </div>
+              <div class="col-md-2">
+                /
+              </div>
+              <div class="col-md-6">
+                {{ detail.factures[0].date | date:'short':'UTC':'fr' }}
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Code_Prod</th>
+                    <th scope="col">Design_Prod</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">PU NET</th>
+                    <th scope="col">Montant Net</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let prod of detail.factures[0].cart">
+                    <th scope="row" *ngIf="prod.code_barre">
+                      {{ prod.code_barre }}
+                    </th>
+                    <th scope="row" class="text-danger" *ngIf="!prod.code_barre">
+                      NEANT
+                    </th>
+                    <td>
+                      {{ prod.title }}
+                    </td>
+                    <td>
+                      {{ prod.quantity }}
+                    </td>
+                    <td>
+                      {{ prod.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
+                    </td>
+                    <td>
+                      {{ prod.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- third state -->
+        <div class="container-fluid table-state" *ngIf="state && state === 'cumul_ventes_par_facture_sur_periode'">
+          <h2 style="text-align: center;"><strong>CUMUL DES VENTES PAR FACTURE SUR UNE PERIODE</strong></h2>
+          <br>
+          <div *ngIf="dateDebut && dateFin">
+            Période du <span style="font-weight: 700;">{{ dateDebut }}</span> au <span style="font-weight: 700;">{{ dateFin }}</span>
+          </div>
+          <br><br>
+
+          <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>Code client</th>
+                <th>Dénomination </th>
+                <th>N° Facture</th>
+                <th>Date</th>
+                <th>Montant net</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cumul of cumulSalesByFactures">
+                <td>{{ cumul.user_id }}</td>
+                <td>{{ cumul.name }}</td>
+                <td>{{ cumul.num_order}}</td>
+                <td>{{ cumul.created_at | date:'short':'UTC':'fr' }}</td>
+                <td>{{ cumul.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr'}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+
+        <!-- fourth state -->
+        <div class="container-fluid table-state" *ngIf="state && state === 'cumul_ventes_par_client_sur_periode'">
+          <h2 style="text-align: center;"><strong>CUMUL DES VENTES PAR CLIENT SUR UNE PERIODE</strong></h2>
+          <br>
+          <div *ngIf="dateDebut && dateFin">
+            Période du <span style="font-weight: 700;">{{ dateDebut }}</span> au <span style="font-weight: 700;">{{ dateFin }}</span>
+          </div>
+          <br><br>
+
+          <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>Code client</th>
+                <th>Dénomination </th>
+                <th>N° Facture</th>
+                <th>Date</th>
+                <th>Montant net</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cumul of cumulSalesByCustomer">
+                <td>{{ cumul.user_id }}</td>
+                <td>{{ cumul.name }}</td>
+                <td>{{ cumul.num_order}}</td>
+                <td>{{ cumul.created_at | date:'short':'UTC':'fr' }}</td>
+                <td>{{ cumul.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+          <!-- fith state -->
+          <div class="container-fluid table-state" *ngIf="state && state === 'etat_reglement_client_sur_periode'">
+            <h2 style="text-align: center;"><strong>ETAT DES REGLEMENTS CLIENT SUR UNE PERIODE</strong></h2>
+            <br>
+            <div *ngIf="dateDebut && dateFin">
+              Période du <span style="font-weight: 700;">{{ dateDebut }}</span> au <span style="font-weight: 700;">{{ dateFin }}</span>
+            </div>
+            <br><br>
+
+            <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Client </th>
+                  <th>Libellé</th>
+                  <th>Compte débité</th>
+                  <th>Montant</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let etat of reglementClient">
+                  <td>{{ etat.date | date:'short':'UTC':'fr' }}</td>
+                  <td>{{ etat.name }}</td>
+                  <td>{{ etat.libelle}}</td>
+                  <td>{{ etat.compte }}</td>
+                  <td>{{ etat.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+          <!-- sixth state -->
+          <div class="container-fluid table-state" *ngIf="state && state === 'etat_compte_client_a_date'">
+            <h2 style="text-align: center;"><strong>ETAT DES COMPTES CLIENT A UNE DATE</strong></h2>
+            <br>
+            <div *ngIf="dateDebut && dateFin">
+              Date :  <span style="font-weight: 700;">{{ dateFin }}</span>
+            </div>
+            <br><br>
+
+            <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+              <thead>
+                <tr>
+                  <th>Code Client</th>
+                  <th>Nom Client </th>
+                  <th>Vente totale</th>
+                  <th>Règlement total</th>
+                  <th>Solde</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let etat of etatCompteClient">
+                  <td>{{ etat.id }}</td>
+                  <td>{{ etat.name }}</td>
+                  <td>{{ etat.vente_total | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+                  <td>{{ etat.total_reglement | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+                  <td>{{ etat.solde | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- seventh state -->
+          <div class="container-fluid table-state" *ngIf="state && state === 'cumul_ventes_par_article_sur_periode'">
+            <h2 style="text-align: center;"><strong>CUMUL DES VENTES PAR ARTICLE SUR UNE PERIODE</strong></h2>
+            <br>
+            <div *ngIf="dateDebut && dateFin">
+              Période du <span style="font-weight: 700;">{{ dateDebut }}</span> au <span style="font-weight: 700;">{{ dateFin }}</span>
+            </div>
+            <br><br>
+
+            <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+              <thead>
+                <tr>
+                  <th>Code Client</th>
+                  <th>Nom Client </th>
+                  <th>Quantité</th>
+                  <th>Montant total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cumul of cumulSalesByArticles">
+                  <td *ngIf="cumul.code_barre">{{ cumul.code_barre }}</td>
+                  <td class="text-danger" *ngIf="!cumul.code_barre">NEANT</td>
+                  <td>{{ cumul.title }}</td>
+                  <td>{{ cumul.quantity }}</td>
+                  <td>{{ cumul.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+</div>
+

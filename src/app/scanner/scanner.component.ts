@@ -56,6 +56,8 @@ started_message = false;
       });
     }
 
+    console.log(isFind);
+
     if (isFind > 0) {
       this.warning_message = true;
     }

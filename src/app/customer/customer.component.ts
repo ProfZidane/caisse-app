@@ -18,6 +18,7 @@ error = {
 };
 validationMessage;
 search;
+numberCase = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', ' '];
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
@@ -102,10 +103,24 @@ search;
 
   }
 
+  FilterNumber(array, text) {
+    // tslint:disable-next-line:max-line-length
+    console.log(text);
+
+    // tslint:disable-next-line:max-line-length
+    const filteredCart = array.filter((item) => (item.telephone !== null) ? item.telephone.includes(text) : console.log('null'));
+    return filteredCart;
+  }
+
 
   OnResearch(event) {
+    console.log(event.target.value[event.target.value.length - 1]);
+
     if (event === '') {
       this.Customers = this.CustomersBase;
+    // tslint:disable-next-line:max-line-length
+    } else if (this.numberCase.includes(event.target.value) || this.numberCase.includes(event.target.value[event.target.value.length - 1])) {
+      this.Customers = this.FilterNumber(this.CustomersBase, event.target.value);
     } else {
       this.Customers = this.FilterString(this.CustomersBase, event.target.value);
     }
@@ -114,6 +129,10 @@ search;
 
   History(id) {
     this.router.navigateByUrl('/home/(child1:customer-history/' + id + ';open=true)');
+  }
+
+  selectCountry(event) {
+    console.log(event.target.value);
   }
 
 }
