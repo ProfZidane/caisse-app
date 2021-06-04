@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 orders;
-getURL = 'https://accessoiresmodes.com/api/caisse/getAllOrders';
-getByID = 'https://accessoiresmodes.com/api/caisse/getOrderInfos/';
+getURL = environment.url + 'getAllOrders';
+getByID = environment.url + 'getOrderInfos/';
   constructor(private http: HttpClient) { }
 
 // get token and set this in headers

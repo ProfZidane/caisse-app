@@ -17,7 +17,8 @@
           Stock : {{ article.stock }}
         </span>
         <div class="img-content">
-          <img src="{{ article.photo }}" alt="" width="100%" height="200px">
+          <img *ngIf="article.photo !== null" src="{{ article.photo }}" alt="" width="100%" height="200px">
+          <img *ngIf="article.photo === null" src="https://image.flaticon.com/icons/png/512/489/489423.png" alt="" width="100%" height="200px">
         </div>
         <h3 class="name-product">{{ article.title }}</h3>
         <p>{{ article.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</p>
@@ -28,7 +29,8 @@
           Stock : {{ article.stock }}
         </span>
         <div class="img-content">
-          <img src="{{ article.photo }}" alt="" width="100%" height="200px">
+          <img *ngIf="article.photo !== null" src="{{ article.photo }}" alt="" width="100%" height="200px">
+          <img *ngIf="article.photo === null" src="https://image.flaticon.com/icons/png/512/489/489423.png" alt="" width="100%" height="200px">
         </div>
         <h3 class="name-product">{{ article.title }}</h3>
         <p>{{ article.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</p>

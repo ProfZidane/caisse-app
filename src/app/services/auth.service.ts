@@ -48,9 +48,10 @@ Customer = [
     tel : '+225 45454545455'
   }
 ];
-customerURl = 'https://accessoiresmodes.com/api/caisse/getAllClients';
-createCustomerURL = 'https://accessoiresmodes.com/api/caisse/createUser';
-authURL = 'https://accessoiresmodes.com/api/connexion';
+customerURl = environment.url + 'getAllClients';
+createCustomerURL = environment.url + 'createUser';
+authURL = environment.endPoint + 'connexion';
+logoutURL = environment.endPoint + 'logout';
 CustomerChoice;
   constructor(private s: MatSnackBar, private http: HttpClient, private cryptoService: CryptoService) { }
 
@@ -66,6 +67,10 @@ CustomerChoice;
   }
   AuthentificationByEmail(data): Observable<any> {
     return this.http.post(this.authURL, data, { headers: this.getHeaders() });
+  }
+
+  Logout(): Observable<any> {
+    return this.http.post(this.logoutURL, { headers: this.getHeaders() });
   }
 
   GetCustomer(): Observable<any> {

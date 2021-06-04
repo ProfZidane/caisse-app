@@ -19,6 +19,8 @@ export class Pdf2Service {
 
   generateEchelonneContent(object) {
     var definition = {
+      pageOrientation: 'portrait',
+      pageSize: 'A7',
       content : [
         {
           text : 'Accessoires Modes',

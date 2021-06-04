@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PdfService } from './pdf.service';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SalesOperateService {
-getSalesURL = 'https://accessoiresmodes.com/api/caisse/getVentesByCaissier/';
-getSalesByYearURL = 'https://accessoiresmodes.com/api/caisse/getOrderByYear/';
-getSalesByMonthURL = 'https://accessoiresmodes.com/api/caisse/getOrderByMounth/';
-getSalesBetweenDateURL = 'https://accessoiresmodes.com/api/caisse/getOrderBetweenTwoDate';
-getSalesTodayURL = 'https://accessoiresmodes.com/api/caisse/getNowSales/';
-getSalesByCustomerURL = 'https://accessoiresmodes.com/api/caisse/getHistoriqueAchatsClient/';
+getSalesURL = environment.url + 'getVentesByCaissier/';
+getSalesByYearURL = environment.url + 'getOrderByYear/';
+getSalesByMonthURL = environment.url + 'getOrderByMounth/';
+getSalesBetweenDateURL = environment.url + 'getOrderBetweenTwoDate';
+getSalesTodayURL = environment.url + 'getNowSales/';
+getSalesByCustomerURL = environment.url + 'getHistoriqueAchatsClient/';
 getInfoSalesByCustomerURL = environment.url + 'getAchatsClientCartInfo/';
 echelonneURL = environment.url + 'getFacturesImpayes';
 echelonnePaidURL = environment.url + 'getFacturesPayes';
