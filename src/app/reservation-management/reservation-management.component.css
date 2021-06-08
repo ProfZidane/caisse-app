@@ -4,7 +4,7 @@
   overflow-y: scroll;
 }
 
-a,h5,small,input,button,p {
+a,h5,small,input,button,p, table {
   font-family: 'Quicksand', sans-serif;
 }
 

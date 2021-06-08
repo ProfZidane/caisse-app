@@ -16,6 +16,8 @@ getCumulSalesBCURL = environment.url + 'getCumulVentesParClientSurPeriode/';
 getEtatReglementURL = environment.url + 'getEtatReglementsSurPeriode/';
 getEtatCompteCustomerBDFURL = environment.url + 'getEtatComptesClientsParDateFin/';
 getSalesBAURL = environment.url + 'getVentesParArticleSurPeriode/';
+
+getSalesYearURL = environment.url + 'income';
   constructor(private http: HttpClient) { }
   getHeaders() {
     if (localStorage.getItem('word_token') !== null) {
@@ -53,5 +55,9 @@ getSalesBAURL = environment.url + 'getVentesParArticleSurPeriode/';
 
   getSalesByArticlesOnTIme(data): Observable<any> {
     return this.http.get(this.getSalesBAURL + data.dd + '/' + data.df, { headers: this.getHeaders() });
+  }
+
+  getSalesOfYear(): Observable<any> {
+    return this.http.get(this.getSalesYearURL, { headers: this.getHeaders() });
   }
 }
