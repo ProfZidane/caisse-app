@@ -24,6 +24,11 @@
         <div class="container-fluid table-state" *ngIf="state && state === 'etat_reservation'">
           <h2 style="text-align: center;"><strong>ETAT DES RESERVATIONS</strong></h2>
           <br>
+
+          <p *ngIf="reservations && reservations.length === 0" style="text-align: center; font-size: 20px; color: red;">
+            Aucun état disponible !
+          </p>
+
           <div *ngFor="let reservation of reservations">
             <div class="row">
               <div class="col-md-2">
@@ -109,6 +114,11 @@
             Période du <span style="font-weight: 700;">{{ dateDebut }}</span> au <span style="font-weight: 700;">{{ dateFin }}</span>
           </div>
           <br><br>
+
+          <p *ngIf="detailSalesByFactures && detailSalesByFactures.length === 0" style="text-align: center; font-size: 20px; color: red;">
+            Aucun état disponible !
+          </p>
+
           <div *ngFor="let detail of detailSalesByFactures">
             <div class="row">
               <div class="col-md-2">
@@ -195,6 +205,10 @@
           </div>
           <br><br>
 
+          <p *ngIf="cumulSalesByFactures && cumulSalesByFactures.length === 0" style="text-align: center; font-size: 20px; color: red;">
+            Aucun état disponible !
+          </p>
+
           <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
             <thead>
               <tr>
@@ -228,6 +242,10 @@
           </div>
           <br><br>
 
+          <p *ngIf="cumulSalesByCustomer && cumulSalesByCustomer.length === 0" style="text-align: center; font-size: 20px; color: red;">
+            Aucun état disponible !
+          </p>
+
           <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
             <thead>
               <tr>
@@ -259,6 +277,10 @@
               Période du <span style="font-weight: 700;">{{ dateDebut }}</span> au <span style="font-weight: 700;">{{ dateFin }}</span>
             </div>
             <br><br>
+
+            <p *ngIf="reglementClient && reglementClient.length === 0" style="text-align: center; font-size: 20px; color: red;">
+              Aucun état disponible !
+            </p>
 
             <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
               <thead>
@@ -292,6 +314,10 @@
             </div>
             <br><br>
 
+            <p *ngIf="etatCompteClient && etatCompteClient.length === 0" style="text-align: center; font-size: 20px; color: red;">
+              Aucun état disponible !
+            </p>
+
             <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
               <thead>
                 <tr>
@@ -322,6 +348,10 @@
               Période du <span style="font-weight: 700;">{{ dateDebut }}</span> au <span style="font-weight: 700;">{{ dateFin }}</span>
             </div>
             <br><br>
+
+            <p *ngIf="cumulSalesByArticles && cumulSalesByArticles.length === 0" style="text-align: center; font-size: 20px; color: red;">
+              Aucun état disponible !
+            </p>
 
             <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
               <thead>

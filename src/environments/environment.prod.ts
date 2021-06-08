@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  url : 'https://accessoiresmodes.com/api/caisse/',
+  endPoint: 'https://accessoire-mode.lce-test.fr/api/',
+  url : 'https://accessoire-mode.lce-test.fr/api/caisse/',
   secret_key: 'MA_SUPER_CLE_SECRETE'
 };
