@@ -37,6 +37,6 @@ button {
 .full-container {}
 
 .all-state {
-  height: calc(100%-50%);
+  height: calc(100%);
   overflow-y: auto;
 }
