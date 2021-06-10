@@ -47,6 +47,11 @@ export class StatisticComponent implements OnInit {
     this.router.navigateByUrl('/etat-manage/' + this.state + '/' + this.date.debut + '/' + this.date.fin);
   }
 
+  validationDate2(id) {
+    console.log(this.date);
+    document.getElementById(id).style.display = "none";
+    this.router.navigateByUrl('/etat-manage/' + this.state + '/null/' + this.date.fin);
+  }
 
   getSalesData() {
     this.statisticService.getSalesOfYear().subscribe(

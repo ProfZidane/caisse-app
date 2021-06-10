@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { StatisticService } from '../services/statistic.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-etat-management',
   templateUrl: './etat-management.component.html',
@@ -63,7 +64,8 @@ visibility;
       buttons: [
         'copy',
         'print',
-        'excel'
+        'excel',
+        'pdf'
       ]
     };
     if (this.state === 'etat_reservation') {
@@ -237,6 +239,10 @@ visibility;
   }
 
 
-  //
+  // print
+  print() {
+    const frame = document.getElementById('frame');
+
+  }
 
 }
