@@ -1,9 +1,11 @@
-<div class="alert alert-warning mt-3" *ngIf="warning_message && warning_message === true">
-  Ce produit n'existe pas dans notre boutique
-</div>
+
 
 <div class="alert alert-info mt-3" *ngIf="started_message && started_message === true">
   Vous pouvez maintenant utiliser la doucheuse !
+</div>
+
+<div class="alert alert-warning mt-3" *ngIf="state">
+  Ce produit n'existe pas dans notre boutique
 </div>
 
 <div class="container douch-style">
