@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CryptoService } from './crypto.service';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -65,6 +64,7 @@ CustomerChoice;
       return headers;
     }
   }
+
   AuthentificationByEmail(data): Observable<any> {
     return this.http.post(this.authURL, data, { headers: this.getHeaders() });
   }

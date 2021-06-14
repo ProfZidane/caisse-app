@@ -19,7 +19,7 @@ export class PdfService {
   generateContent(object) {
     var definition = {
       pageOrientation: 'portrait',
-      pageSize: 'A7',
+      pageSize: 'A5',
       content : [
         {
           text : 'Accessoires Modes',
@@ -56,45 +56,20 @@ export class PdfService {
           fontSize : 8
         },
         {
-          text : object.date,
+          text : 'Le ' + object.date,
           style : 'detail',
-          margin : [150, 10, 0, 5]
+          margin : [0, 10, 0, 5],
+          alignment: 'center',
         },
         {
           style : 'account',
-          margin : [169, 10, 0, 10],
+          margin : [55, 10, 0, 10],
           alignment : 'center',
           table : {
             alignment : 'center',
             body : object.produit,
             border: [false, false, false, false],
-          },
-          layout : {
-            hLineWidth: function (i, node) {
-              return (i === 0 || i === node.table.body.length) ? 2 : 1;
-            },
-            vLineWidth: function (i, node) {
-              return (i === 0 || i === node.table.widths.length) ? 2 : 1;
-            },
-            hLineColor: function (i, node) {
-              return 'black';
-            },
-            vLineColor: function (i, node) {
-              return 'black';
-            },
-            hLineStyle: function (i, node) {
-              if (i === 0 || i === node.table.body.length) {
-                return null;
-              }
-              return {dash: {length: 10, space: 4}};
-            },
-            vLineStyle: function (i, node) {
-              if (i === 0 || i === node.table.widths.length) {
-                return null;
-              }
-              return {dash: {length: 4}};
-            },
-            }
+          }
         },
         {
           alignment : 'center',
@@ -268,7 +243,7 @@ export class PdfService {
     const def = this.generateContent(object);
     // { content: 'A sample PDF document generated using Angular and PDFMake' };
     try {
-      this.pdfMake.createPdf(def).open();
+      this.pdfMake.createPdf(def).print();
     } catch (error) {
       console.log(error);
     }
