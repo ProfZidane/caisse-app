@@ -20,7 +20,7 @@ export class Pdf2Service {
   generateEchelonneContent(object) {
     var definition = {
       pageOrientation: 'portrait',
-      pageSize: 'A7',
+      pageSize: 'A5',
       content : [
         {
           text : 'Accessoires Modes',
@@ -59,43 +59,18 @@ export class Pdf2Service {
         {
           text : object.date,
           style : 'detail',
-          margin : [150, 10, 0, 5]
+          margin : [0, 10, 0, 5],
+          alignment : 'center',
         },
         {
           style : 'account',
-          margin : [139, 10, 0, 10],
+          margin : [55, 10, 0, 10],
           alignment : 'center',
           table : {
             alignment : 'center',
             body : object.produit,
             border: [false, false, false, false],
           },
-          layout : {
-            hLineWidth: function (i, node) {
-              return (i === 0 || i === node.table.body.length) ? 2 : 1;
-            },
-            vLineWidth: function (i, node) {
-              return (i === 0 || i === node.table.widths.length) ? 2 : 1;
-            },
-            hLineColor: function (i, node) {
-              return 'black';
-            },
-            vLineColor: function (i, node) {
-              return 'black';
-            },
-            hLineStyle: function (i, node) {
-              if (i === 0 || i === node.table.body.length) {
-                return null;
-              }
-              return {dash: {length: 10, space: 4}};
-            },
-            vLineStyle: function (i, node) {
-              if (i === 0 || i === node.table.widths.length) {
-                return null;
-              }
-              return {dash: {length: 4}};
-            },
-            }
         },
         {
           alignment : 'center',

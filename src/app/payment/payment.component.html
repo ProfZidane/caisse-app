@@ -373,6 +373,17 @@
                               </div>
                               <div class="row supp bord" align="center">
                                 <div class="col-md-6">
+                                  <div class="form-group" *ngIf="visibility.option === true">
+                                    <label for="exampleFormControlSelect1">Choisir l'option de réduction</label>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" [(ngModel)]="reduction.option" value="global" (change)="setType($event)">
+                                      <label class="form-check-label" for="inlineRadio1">Réduction globale</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" data-toggle="modal" data-target="#exampleModal" type="radio" name="inlineRadioOptions" [(ngModel)]="reduction.option" id="inlineRadio2" value="byProduct" (change)="setType($event)">
+                                      <label class="form-check-label" for="inlineRadio2">Réduction par produit</label>
+                                    </div>
+                                  </div>
                                   <div class="form-group" *ngIf="visibility.typeReduction === 'true'">
                                     <label for="exampleFormControlSelect1">Choisir le type de réduction</label>
                                     <select class="form-control" id="exampleFormControlSelect1" name="typeReduction" [(ngModel)]="reduction.type" (change)="setValueReduction($event)">
@@ -384,7 +395,7 @@
                                     <label for="exampleFormControlSelect1">Entrez la valeur</label>
                                     <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
                                   </div>
-                                  <button class="btn primary-am" (click)="applyReduction()">
+                                  <button class="btn primary-am" (click)="requestReduction()">
                                     Appliquer réduction
                                   </button>
                                 </div>
@@ -448,6 +459,17 @@
                               </div>
                               <div class="row supp bord" align="center">
                                 <div class="col-md-6">
+                                  <div class="form-group" *ngIf="visibility.option === true">
+                                    <label for="exampleFormControlSelect1">Choisir l'option de réduction</label>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" [(ngModel)]="reduction.option" value="global" (change)="setType($event)">
+                                      <label class="form-check-label" for="inlineRadio1">Réduction globale</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" data-toggle="modal" data-target="#exampleModal" type="radio" name="inlineRadioOptions" [(ngModel)]="reduction.option" id="inlineRadio2" value="byProduct" (change)="setType($event)">
+                                      <label class="form-check-label" for="inlineRadio2">Réduction par produit</label>
+                                    </div>
+                                  </div>
                                   <div class="form-group" *ngIf="visibility.typeReduction === 'true'">
                                     <label for="exampleFormControlSelect1">Choisir le type de réduction</label>
                                     <select class="form-control" id="exampleFormControlSelect1" name="typeReduction" [(ngModel)]="reduction.type" (change)="setValueReduction($event)">
@@ -459,7 +481,7 @@
                                     <label for="exampleFormControlSelect1">Entrez la valeur</label>
                                     <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="valueReduction" [(ngModel)]="reduction.value">
                                   </div>
-                                  <button class="btn primary-am" (click)="applyReduction()">
+                                  <button class="btn primary-am" (click)="requestReduction()">
                                     Appliquer réduction
                                   </button>
                                 </div>

@@ -12,7 +12,7 @@ import html2canvas from 'html2canvas';
 export class EtatManagementComponent implements OnInit {
 
 
-constructor(private statService: StatisticService, private route: ActivatedRoute,) { }
+constructor(private statService: StatisticService, private route: ActivatedRoute) { }
 state;
 dateDebut;
 dateFin;
