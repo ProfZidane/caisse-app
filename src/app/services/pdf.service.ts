@@ -19,7 +19,7 @@ export class PdfService {
   generateContent(object) {
     var definition = {
       pageSize: {
-        width: 300,
+        width: 250,
         height: 'auto'
       },
       pageOrientation: 'portrait',
@@ -94,7 +94,7 @@ export class PdfService {
         header : {
           fontSize : 20,
           bold : true,
-          margin : 10,
+          margin : 0,
           color : ''
         },
         subHeader : {
