@@ -29,6 +29,7 @@ export class FactureDetailComponent implements OnInit {
   details = [];
   products = [];
   newMontant;
+  typeNewMontant = 'especes';
   objectProductPdf = [];
   objectPaidPdf = [];
   retrait = {
@@ -46,6 +47,7 @@ export class FactureDetailComponent implements OnInit {
     versement: true,
     product: false
   };
+  typePayements;
   constructor(private salesService: SalesOperateService, private route: ActivatedRoute,
               private pdf2Service: Pdf2Service) { }
 
@@ -71,6 +73,7 @@ export class FactureDetailComponent implements OnInit {
         console.log(data);
         this.sale = data;
         this.products = data[0].cart_info;
+        this.typePayements = data[0].type_payements;
         data[0].payements.forEach(element => {
           element.num = i;
           this.details.push(element);
@@ -93,10 +96,11 @@ export class FactureDetailComponent implements OnInit {
     const data = {
       order_id: this.sale[0].order.id,
       caissier: JSON.parse(localStorage.getItem('caissier')).id,
-      montant: Number(this.newMontant)
+      montant: Number(this.newMontant),
+      type_payement: this.typeNewMontant
     };
     console.log(data);
-
+    debugger
     this.salesService.SetNewPriceEchelonne(data).subscribe(
       (success) => {
         console.log(success);

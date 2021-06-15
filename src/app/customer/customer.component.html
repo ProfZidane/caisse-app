@@ -108,19 +108,19 @@
         <span class="text-success" *ngIf="validationMessage">{{ validationMessage }}</span>
           <div class="form-group">
             <label for="exampleInputEmail1">Nom</label>
-            <input type="text" name="nom" ngModel class="form-control" id="exampleInputName" required>
+            <input type="text" name="nom" ngModel class="form-control" id="exampleInputName" >
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Prénom</label>
-            <input type="text" name="prenom" ngModel class="form-control" id="exampleInputFirstName" required>
+            <input type="text" name="prenom" ngModel class="form-control" id="exampleInputFirstName" >
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Adresse E-mail</label>
-            <input type="email" name="email" ngModel class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" required>
+            <input type="email" name="email" ngModel class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" >
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Numéro de téléphone</label>
-            <input type="text" name="tel" ngModel class="form-control" id="exampleInputTel" >
+            <input type="text" name="tel" ngModel class="form-control" id="exampleInputTel" required>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Date de naissance</label>
@@ -387,7 +387,7 @@
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Type de client</label>
-            <select class="form-control" id="exampleFormControlSelect1" name="type_client" ngModel required>
+            <select class="form-control" id="exampleFormControlSelect1" name="type_client" ngModel>
               <option value="client regulier">Client régulier</option>
               <option value="client occasionnel">Client occasionnel</option>
               <option value="demi-grossiste">Demi-grossiste</option>

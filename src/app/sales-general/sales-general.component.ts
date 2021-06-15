@@ -20,9 +20,15 @@ export class SalesGeneralComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: any = {};
   visibility = true;
+  user;
   constructor(private salesService: SalesOperateService) { }
 
   ngOnInit(): void {
+    if (localStorage.getItem('caissier') !== null) {
+      this.user = JSON.parse(localStorage.getItem('caissier'));
+    }
+    console.log(this.user.role);
+    
     this.GetSales();
     this.dtOptions = {
       ordering: false,
@@ -67,7 +73,7 @@ export class SalesGeneralComponent implements OnInit {
       ]
     };
     const caissierInfo = JSON.parse(localStorage.getItem('caissier'));
-    this.salesService.GetSalesByCaisser(Number(caissierInfo.id)).subscribe(
+    this.salesService.GetSalesByCaisser().subscribe(
       (data) => {
         console.log(data);
         this.error.loadingSale = false;
