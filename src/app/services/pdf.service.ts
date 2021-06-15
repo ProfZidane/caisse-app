@@ -19,11 +19,13 @@ export class PdfService {
   generateContent(object) {
     var definition = {
       pageSize: {
-        width: 200,
+        width: 230,
         height: 'auto'
       },
       pageOrientation: 'portrait',
       pageNumber: [1, 2, 3],
+      verticalRatio: 0.2,
+      horizontalRatio: 0.0,
       content : [
         {
           text : 'Accessoires Modes',
@@ -53,7 +55,7 @@ export class PdfService {
           fontSize : 8
         },
         {
-          text : 'Vendeur : ' + JSON.parse(localStorage.getItem('caissier')).name,
+          text : 'Caissier : ' + JSON.parse(localStorage.getItem('caissier')).name,
           style : 'subContent',
           margin : [0, 5, 0, 0],
           alignment: 'center',
@@ -91,6 +93,7 @@ export class PdfService {
       styles : {
         margin: 0,
         padding: 0,
+        font: 'times new roman',
         header : {
           fontSize : 20,
           bold : true,
