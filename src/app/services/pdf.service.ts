@@ -18,11 +18,11 @@ export class PdfService {
 
   generateContent(object) {
     var definition = {
-      pageOrientation: 'landscape',
       pageSize: {
         width: 595.28,
         height: 'auto'
       },
+      pageOrientation: 'landscape',
       content : [
         {
           text : 'Accessoires Modes',
