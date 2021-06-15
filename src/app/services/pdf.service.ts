@@ -19,7 +19,10 @@ export class PdfService {
   generateContent(object) {
     var definition = {
       pageOrientation: 'portrait',
-      pageSize: 'A7',
+      pageSize: {
+        width: 595.28,
+        height: 'auto'
+      },
       content : [
         {
           text : 'Accessoires Modes',
@@ -63,7 +66,7 @@ export class PdfService {
         },
         {
           style : 'account',
-          margin : [17, 10, 0, 10],
+          margin : [140, 10, 0, 10],
           alignment : 'center',
           table : {
             alignment : 'center',
