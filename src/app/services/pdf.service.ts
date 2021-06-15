@@ -22,7 +22,7 @@ export class PdfService {
         width: 595.28,
         height: 'auto'
       },
-      pageOrientation: 'landscape',
+      pageOrientation: 'portrait',
       content : [
         {
           text : 'Accessoires Modes',
