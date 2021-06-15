@@ -19,7 +19,7 @@ export class PdfService {
   generateContent(object) {
     var definition = {
       pageSize: {
-        width: 250,
+        width: 200,
         height: 'auto'
       },
       pageOrientation: 'portrait',
@@ -67,7 +67,7 @@ export class PdfService {
         },
         {
           style : 'account',
-          margin : [10, 10, 0, 10],
+          margin : [0, 10, 0, 10],
           alignment : 'center',
           table : {
             alignment : 'center',
