@@ -18,7 +18,7 @@ export class PdfService {
 
   generateContent(object) {
     var definition = {
-      pageOrientation: 'portrait',
+      pageOrientation: 'landscape',
       pageSize: {
         width: 595.28,
         height: 'auto'
