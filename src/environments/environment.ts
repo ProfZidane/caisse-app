@@ -4,8 +4,8 @@
 
 /* export const environment = {
   production: false,
-  endPoint: 'https://accessoire-mode.lce-test.fr/api/',
-  url : 'https://accessoire-mode.lce-test.fr/api/caisse/',
+  endPoint: 'http://accessoire-mode.lce-test.fr/api/',
+  url : 'http://accessoire-mode.lce-test.fr/api/caisse/',
   secret_key: 'MA_SUPER_CLE_SECRETE'
 }; */
 

@@ -19,9 +19,14 @@ dtOptions: any = {};
 quantitySum = 0;
 subTotal = 0;
 total = 0;
+user;
   constructor(private salesService: SalesOperateService) { }
 
   ngOnInit(): void {
+    if (localStorage.getItem('caissier') !== null) {
+      this.user = JSON.parse(localStorage.getItem('caissier'));
+    }
+    console.log(this.user.role);
     this.id = JSON.parse(localStorage.getItem('caissier')).id;
     this.dtOptions = {
       ordering: false,

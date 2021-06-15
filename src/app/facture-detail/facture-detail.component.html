@@ -83,6 +83,35 @@
               </li>
             </ul>
 
+            <div *ngIf="typePayements">
+              <ul class="list-group mt-5" *ngFor="let typePayment of typePayements">
+                <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="typePayment.type_payement === 'especes'">
+                  Règlement en espèces
+                  <span class="badge badge-pill">
+                    {{ typePayment.montant }}
+                  </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="typePayment.type_payement === 'soutra'">
+                  Règlement par soutrali
+                  <span class="badge badge-pill">
+                    {{ typePayment.montant }}
+                  </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="typePayment.type_payement === 'carte'">
+                  Règlement par carte de crédit
+                  <span class="badge badge-pill">
+                    {{ typePayment.montant }}
+                  </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="typePayment.type_payement === 'cheque'">
+                  Règlement par chèque
+                  <span class="badge badge-pill">
+                    {{ typePayment.montant }}
+                  </span>
+                </li>
+              </ul>
+            </div>
+
             <br><br><br>
             <button class="btn btn-outline-warning btn-block" (click)="printFacture(null)">
               Imprimer facture (Format ticket)
@@ -206,6 +235,16 @@
             <label for="exampleInputEmail1">Entrez le montant</label>
             <input type="number" name="newMontant" [(ngModel)]="newMontant" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             <small id="emailHelp" class="form-text text-danger">Soyez sûr du montant inscrit.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Sélectionnez le type de paiement</label>
+            <select class="custom-select" id="inputGroupSelect02" name="typeNewMontant" [(ngModel)]="typeNewMontant">
+              <option selected value="especes">Paiement Cash</option>
+              <option value="soutrali">Paiement Soutrali</option>
+              <option value="carte">Paiement par carte</option>
+              <option value="cheque">Paiement par chèque</option>
+              <option value="mobile-money">Paiement Mobile Money</option>
+            </select>
           </div>
         </div>
         <div class="modal-footer">
