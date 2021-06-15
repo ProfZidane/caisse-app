@@ -19,7 +19,7 @@ export class PdfService {
   generateContent(object) {
     var definition = {
       pageSize: {
-        width: 260,
+        width: 240,
         height: 'auto'
       },
       pageOrientation: 'portrait',
@@ -172,7 +172,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'NET A PAYER',
         alignment : 'center',
-        fontSize: 13
+        fontSize: 10
       },
       {
         border : [false, false, false, false],
