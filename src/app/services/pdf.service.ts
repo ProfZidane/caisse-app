@@ -71,7 +71,7 @@ export class PdfService {
         },
         {
           style : 'account',
-          margin : [0, 10, 0, 10],
+          margin : [-15, 10, 0, 10],
           alignment : 'center',
           table : {
             alignment : 'center',
@@ -140,28 +140,28 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'Sous-total',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : '',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : object.sub_total,
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       }
     ];
@@ -172,7 +172,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'NET A PAYER',
         alignment : 'center',
-        fontSize: 10
+        fontSize: 8
       },
       {
         border : [false, false, false, false],
@@ -199,7 +199,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'Montant Payé',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
@@ -210,13 +210,13 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
         text : object.montant_recu,
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       }
     ];
 
@@ -228,7 +228,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'Monnaie Rendue',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
@@ -239,13 +239,13 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
         text : object.exchange,
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       }
     ];
 
