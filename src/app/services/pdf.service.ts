@@ -18,8 +18,16 @@ export class PdfService {
 
   generateContent(object) {
     var definition = {
+      pageSize: {
+        width: 240,
+        height: 'auto'
+      },
       pageOrientation: 'portrait',
-      pageSize: 'A5',
+      pageNumber: [1, 2, 3],
+      startPosition: {
+        verticalRatio: 0.1,
+        horizontalRatio: 0.0,
+      },
       content : [
         {
           text : 'Accessoires Modes',
@@ -49,7 +57,7 @@ export class PdfService {
           fontSize : 8
         },
         {
-          text : 'Vendeur : ' + JSON.parse(localStorage.getItem('caissier')).name,
+          text : 'Caissier : ' + JSON.parse(localStorage.getItem('caissier')).name,
           style : 'subContent',
           margin : [0, 5, 0, 0],
           alignment: 'center',
@@ -63,7 +71,7 @@ export class PdfService {
         },
         {
           style : 'account',
-          margin : [55, 10, 0, 10],
+          margin : [-15, 10, 0, 10],
           alignment : 'center',
           table : {
             alignment : 'center',
@@ -85,10 +93,13 @@ export class PdfService {
         }
       ],
       styles : {
+        margin: 0,
+        padding: 0,
+        font: 'times new roman',
         header : {
-          fontSize : 20,
+          fontSize : 15,
           bold : true,
-          margin : 10,
+          margin : 0,
           color : ''
         },
         subHeader : {
@@ -129,28 +140,28 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'Sous-total',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : '',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : object.sub_total,
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       }
     ];
@@ -161,6 +172,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'NET A PAYER',
         alignment : 'center',
+        fontSize: 8
       },
       {
         border : [false, false, false, false],
@@ -187,7 +199,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'Montant Payé',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
@@ -198,13 +210,13 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
         text : object.montant_recu,
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       }
     ];
 
@@ -216,7 +228,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'Monnaie Rendue',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
@@ -227,13 +239,13 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
         text : object.exchange,
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       }
     ];
 

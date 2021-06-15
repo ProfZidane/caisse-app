@@ -85,7 +85,7 @@
 
             <div *ngIf="typePayements">
               <ul class="list-group mt-5" *ngFor="let typePayment of typePayements">
-                <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="typePayment.type_payement === 'especes'">
+                <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="typePayment.type_payement === 'especes' || typePayment.type_payement === 'echelonner'">
                   Règlement en espèces
                   <span class="badge badge-pill">
                     {{ typePayment.montant }}
