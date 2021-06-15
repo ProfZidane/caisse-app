@@ -19,13 +19,15 @@ export class PdfService {
   generateContent(object) {
     var definition = {
       pageSize: {
-        width: 230,
+        width: 260,
         height: 'auto'
       },
       pageOrientation: 'portrait',
       pageNumber: [1, 2, 3],
-      verticalRatio: 0.2,
-      horizontalRatio: 0.0,
+      startPosition: {
+        verticalRatio: 0.1,
+        horizontalRatio: 0.0,
+      },
       content : [
         {
           text : 'Accessoires Modes',
@@ -95,7 +97,7 @@ export class PdfService {
         padding: 0,
         font: 'times new roman',
         header : {
-          fontSize : 20,
+          fontSize : 15,
           bold : true,
           margin : 0,
           color : ''
@@ -170,6 +172,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'NET A PAYER',
         alignment : 'center',
+        fontSize: 13
       },
       {
         border : [false, false, false, false],
