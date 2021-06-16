@@ -28,7 +28,6 @@
             </div> -->
 
             <select class="custom-select" name="typePayementEchelonne" (change)="selectTypePayementToEchelonne()" [(ngModel)]="typePayementEchelonne">
-              <option selected>Methode Paiement</option>
               <option value="especes">En espèces</option>
               <option value="carte">Par carte</option>
               <option value="cheque">Par chèque</option>
@@ -44,6 +43,7 @@
                   call
                 </i> &nbsp;
                 {{ customer.telephone }}
+
             </p>
             <span>
                 <i class="iii material-icons">
@@ -58,6 +58,35 @@
               </i> &nbsp;
               {{ customer.avoirs }} Fcfa <small>(avoirs) <button class="btn btn-dark btn-sm ml-4" [disabled]="stateAvoirUse" (click)="useAvoir()"><i class="material-icons">touch_app</i></button></small>
           </span>
+
+          <div style="float: right;">
+            <div class="row p-2"  style="width: 100%;">
+              <div class="col-md-3" *ngIf="jsonPayementEchelonne.mode === 'mobile-money'">
+                <span>
+                  Réseau:
+                </span>
+              </div>
+              <div class="col-md-6" *ngIf="jsonPayementEchelonne.mode === 'cheque'">
+                <span>
+                  Compte:
+                </span>
+              </div>
+              <div class="col-md-3" *ngIf="jsonPayementEchelonne.mode === 'mobile-money' && jsonPayementEchelonne.network !== ''">
+                {{ jsonPayementEchelonne.network }}
+              </div>
+              <div class="col-md-6" *ngIf="jsonPayementEchelonne.mode === 'cheque' && jsonPayementEchelonne.numAccount !== ''">
+                {{ jsonPayementEchelonne.numAccount }}
+              </div>
+              <div class="col-md-3" *ngIf="jsonPayementEchelonne.mode === 'mobile-money'">
+                <span>
+                  Téléphone: 
+                </span>
+              </div>
+              <div class="col-md-3" *ngIf="jsonPayementEchelonne.mode === 'mobile-money' && jsonPayementEchelonne.num !== ''">
+                {{ jsonPayementEchelonne.num }}
+              </div>
+            </div>
+          </div>
             <!--<div class="float-right">
               <i class="iii material-icons">
 

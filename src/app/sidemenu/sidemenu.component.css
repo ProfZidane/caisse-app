@@ -35,5 +35,22 @@ button {
 .sidetitle {
   position: relative;
   bottom: 8px;
-  margin-left: 0.5rem;
+  width: 20px; 
+}
+
+.pi {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+@media screen and (max-width: 1124px)
+{
+    i  {
+      font-size: 25px;
+    }
+
+    .sidetitle {
+      font-size: 10px;
+    }
 }
