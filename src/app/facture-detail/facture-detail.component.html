@@ -53,6 +53,18 @@
                   {{ sale[0].order.avance | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
                 </span>
               </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="sale[0].order.coupon">
+                Remise
+                <span class="badge badge-pill">
+                  {{ sale[0].order.coupon | currency:'Fcfa':'symbol':'4.2-2':'fr' }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="!sale[0].order.coupon">
+                Remise
+                <span class="badge badge-pill text-danger">
+                  NEANT
+                </span>
+              </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 Reste à payer
                 <span class="badge badge-pill">

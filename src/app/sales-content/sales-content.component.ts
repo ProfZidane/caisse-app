@@ -60,7 +60,7 @@ export class SalesContentComponent implements OnInit {
   constructor(private salesService: SalesOperateService) {
     if (localStorage.getItem('caissier') !== null) {
       this.user = JSON.parse(localStorage.getItem('caissier'));
-      if (this.user.role === 'admin') {
+      if (this.user.role === 'admin' && this.user.is_manager === true) {
         this.data.caissier = 'all';
         this.caissier = null;
       } else {

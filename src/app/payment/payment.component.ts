@@ -63,14 +63,16 @@ reductionToSpecificProduct = []; // variable does not use
 totalValueToReductionSp;
 avoirUse = 0;
 stateAvoirUse = false;
+typePayementEchelonne = "En espèce";
   constructor(private cartService: CartOperateService, private router: Router, private route: ActivatedRoute,
               private productService: ProductService) {
-    this.typePayement = 'especes';
+    
    }
 
   ngOnInit(): void {
     /*this.Total = Number(localStorage.getItem('total'));
     console.log(this.Total);*/
+    this.typePayement = 'especes';
     this.route.paramMap.subscribe(
       (params => {
         this.mode = params.get('mode');
@@ -659,7 +661,7 @@ stateAvoirUse = false;
     }
   }
 
-  setReductionToProduct(id, price) {
+  setReductionToProduct(id, price, qte) {
 
     const value = (document.getElementById(id) as HTMLInputElement);
     const value2 = (document.getElementById('pourc-' + id) as HTMLInputElement);
@@ -672,7 +674,7 @@ stateAvoirUse = false;
       const data = {
         id,
         type: 'fixed',
-        value: Number(value.value),
+        value: Number(value.value) * Number(qte),
       };
 
       this.reductionToSpecificProduct.push(data);
@@ -685,7 +687,7 @@ stateAvoirUse = false;
       const data = {
         id,
         type: 'percent',
-        value: (Number(price) * Number(value2.value)) / 100
+        value: (Number(price) * (Number(value2.value) * Number(qte))) / 100
       };
 
       this.reductionToSpecificProduct.push(data);
@@ -698,7 +700,7 @@ stateAvoirUse = false;
       const data = {
         id,
         type: 'fixed',
-        value: Number(value.value) + ((Number(price) * Number(value2.value)) / 100)
+        value: Number(value.value) + ((Number(price) * (Number(value2.value) * Number(qte))) / 100)
       };
 
       this.reductionToSpecificProduct.push(data);
@@ -827,5 +829,11 @@ stateAvoirUse = false;
         this.router.navigateByUrl('/home');
       }, 2000);
     }
+  }
+
+
+  selectTypePayementToEchelonne() {
+    console.log(this.typePayementEchelonne);
+    
   }
 }
