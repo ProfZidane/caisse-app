@@ -364,7 +364,7 @@ jsonPayementEchelonne = {
             data = {
               typePaiement : this.typePayement,
               mode : this.mode,
-              modeReglement: this.jsonPayementEchelonne,
+              reglement: this.jsonPayementEchelonne,
               numOrder : this.numOrder,
               exchange : this.exchange,
               subTotal: Number(this.SubTotal),
@@ -386,7 +386,7 @@ jsonPayementEchelonne = {
             data = {
               typePaiement : this.typePayement,
               mode : this.mode,
-              modeReglement: this.jsonPayementEchelonne,
+              reglement: this.jsonPayementEchelonne,
               numOrder : this.numOrder,
               exchange : this.exchange,
               subTotal: Number(this.SubTotal),
@@ -409,7 +409,7 @@ jsonPayementEchelonne = {
           data = {
             typePaiement : this.typePayement,
             mode : this.mode,
-            modeReglement: this.jsonPayementEchelonne,
+            reglement: this.jsonPayementEchelonne,
             numOrder : this.numOrder,
             exchange : this.exchange,
             subTotal: Number(this.SubTotal),
@@ -913,6 +913,14 @@ jsonPayementEchelonne = {
         console.log(this.typePayementEchelonne);
 
       }
+
+    } else if (this.typePayementEchelonne === 'carte') {
+
+
+          this.jsonPayementEchelonne.numAccount = null;
+          this.jsonPayementEchelonne.network = null;
+          this.jsonPayementEchelonne.num = null;
+
 
     } else {
 

@@ -829,6 +829,7 @@ VerifyExistingInCart(num, object) {
           reduction : object.reduction,
           produit : cart,
           mode : object.mode,
+          modeReglement: object.reglement,
           avoir: object.avoir
         };
         this.register = register;

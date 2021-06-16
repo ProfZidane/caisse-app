@@ -121,6 +121,12 @@
                     {{ typePayment.montant }}
                   </span>
                 </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="typePayment.type_payement === 'mobile-money'">
+                  Règlement par mobile money
+                  <span class="badge badge-pill">
+                    {{ typePayment.montant }}
+                  </span>
+                </li>
               </ul>
             </div>
 
