@@ -26,16 +26,16 @@
 
                 <div class="form-group" *ngIf="user && user.role === 'admin' && user.is_manager === 1" >
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="recapitulatif" (input)="checkEtat($event)">
-                    <label class="form-check-label" for="inlineRadio1">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio6" value="recapitulatif" (input)="checkEtat($event)">
+                    <label class="form-check-label" for="inlineRadio6">
                       Récapitulatif journalier
                     </label>
                   </div>
                 </div>
                 <div class="form-group" *ngIf="user && user.role === 'admin' && user.is_manager === 1" >
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="recapitulatif_periodique" (input)="checkEtat($event)" data-toggle="modal" data-target="#exampleModal2">
-                    <label class="form-check-label" for="inlineRadio1">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio7" value="recapitulatif_periodique" (input)="checkEtat($event)" data-toggle="modal" data-target="#exampleModal2">
+                    <label class="form-check-label" for="inlineRadio7">
                       Récapitulatif Périodique
                     </label>
                   </div>
@@ -78,8 +78,8 @@
 
                 <div class="form-group">
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="cumul_ventes_par_article_sur_periode" (input)="checkEtat($event)" data-toggle="modal" data-target="#exampleModal">
-                    <label class="form-check-label" for="inlineRadio1">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="cumul_ventes_par_article_sur_periode" (input)="checkEtat($event)" data-toggle="modal" data-target="#exampleModal">
+                    <label class="form-check-label" for="inlineRadio5">
                       Cumul des ventes par article sur une période
                     </label>
                   </div>
