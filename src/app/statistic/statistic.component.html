@@ -12,7 +12,7 @@
 
       <div class="col-md-11 full-container">
 
-        <div class="row">
+        <div class="row ">
 
           <div class="col-md-8 p-2" align="center">
             <h2 class="mb-2" style="font-weight: 600;">Diagramme des ventes de l'année</h2>
@@ -24,6 +24,22 @@
               <div class="container">
                 <h1 style="text-transform: uppercase; font-weight: 700;">Sélectionnez votre état</h1>
 
+                <div class="form-group" *ngIf="user && user.role === 'admin' && user.is_manager === 1" >
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="recapitulatif" (input)="checkEtat($event)">
+                    <label class="form-check-label" for="inlineRadio1">
+                      Récapitulatif journalier
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group" *ngIf="user && user.role === 'admin' && user.is_manager === 1" >
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="recapitulatif_periodique" (input)="checkEtat($event)">
+                    <label class="form-check-label" for="inlineRadio1">
+                      Récapitulatif Périodique
+                    </label>
+                  </div>
+                </div>
                 <div class="form-group">
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="etat_reservation" (input)="checkEtat($event)">
