@@ -2,12 +2,12 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-/*export const environment = {
+/* export const environment = {
   production: false,
   endPoint: 'https://accessoire-mode.lce-test.fr/api/',
   url : 'https://accessoire-mode.lce-test.fr/api/caisse/',
   secret_key: 'MA_SUPER_CLE_SECRETE'
-};*/
+}; */
 
 export const environment = {
   production: false,

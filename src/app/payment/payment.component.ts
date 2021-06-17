@@ -63,14 +63,22 @@ reductionToSpecificProduct = []; // variable does not use
 totalValueToReductionSp;
 avoirUse = 0;
 stateAvoirUse = false;
+typePayementEchelonne = "especes";
+jsonPayementEchelonne = {
+  mode: 'especes',
+  network: null,
+  numAccount: null,
+  num: null
+};
   constructor(private cartService: CartOperateService, private router: Router, private route: ActivatedRoute,
               private productService: ProductService) {
-    this.typePayement = 'especes';
+    
    }
 
   ngOnInit(): void {
     /*this.Total = Number(localStorage.getItem('total'));
     console.log(this.Total);*/
+    this.typePayement = 'especes';
     this.route.paramMap.subscribe(
       (params => {
         this.mode = params.get('mode');
@@ -356,6 +364,7 @@ stateAvoirUse = false;
             data = {
               typePaiement : this.typePayement,
               mode : this.mode,
+              reglement: this.jsonPayementEchelonne,
               numOrder : this.numOrder,
               exchange : this.exchange,
               subTotal: Number(this.SubTotal),
@@ -377,6 +386,7 @@ stateAvoirUse = false;
             data = {
               typePaiement : this.typePayement,
               mode : this.mode,
+              reglement: this.jsonPayementEchelonne,
               numOrder : this.numOrder,
               exchange : this.exchange,
               subTotal: Number(this.SubTotal),
@@ -399,6 +409,7 @@ stateAvoirUse = false;
           data = {
             typePaiement : this.typePayement,
             mode : this.mode,
+            reglement: this.jsonPayementEchelonne,
             numOrder : this.numOrder,
             exchange : this.exchange,
             subTotal: Number(this.SubTotal),
@@ -659,7 +670,7 @@ stateAvoirUse = false;
     }
   }
 
-  setReductionToProduct(id, price) {
+  setReductionToProduct(id, price, qte) {
 
     const value = (document.getElementById(id) as HTMLInputElement);
     const value2 = (document.getElementById('pourc-' + id) as HTMLInputElement);
@@ -672,7 +683,7 @@ stateAvoirUse = false;
       const data = {
         id,
         type: 'fixed',
-        value: Number(value.value),
+        value: Number(value.value) * Number(qte),
       };
 
       this.reductionToSpecificProduct.push(data);
@@ -685,7 +696,7 @@ stateAvoirUse = false;
       const data = {
         id,
         type: 'percent',
-        value: (Number(price) * Number(value2.value)) / 100
+        value: (Number(price) * (Number(value2.value) * Number(qte))) / 100
       };
 
       this.reductionToSpecificProduct.push(data);
@@ -698,7 +709,7 @@ stateAvoirUse = false;
       const data = {
         id,
         type: 'fixed',
-        value: Number(value.value) + ((Number(price) * Number(value2.value)) / 100)
+        value: Number(value.value) + ((Number(price) * (Number(value2.value) * Number(qte))) / 100)
       };
 
       this.reductionToSpecificProduct.push(data);
@@ -828,4 +839,103 @@ stateAvoirUse = false;
       }, 2000);
     }
   }
+
+
+  selectTypePayementToEchelonne() {
+    console.log(this.typePayementEchelonne);
+
+    this.jsonPayementEchelonne.mode = this.typePayementEchelonne;
+
+    if (this.typePayementEchelonne === 'cheque') {
+
+      const numA = prompt('Entrez le numéro de compte : ');
+      
+      if (numA) {
+
+        console.log(numA);
+
+        this.jsonPayementEchelonne.numAccount = numA;
+        this.jsonPayementEchelonne.network = null;
+        this.jsonPayementEchelonne.num = null;
+        
+      } else {
+
+        console.log("annuler");
+        this.typePayementEchelonne = 'especes';
+        this.jsonPayementEchelonne.mode = 'especes';
+        this.jsonPayementEchelonne.numAccount = null;
+        this.jsonPayementEchelonne.network = null;
+        this.jsonPayementEchelonne.num = null;
+        console.log(this.typePayementEchelonne);
+
+
+      }
+
+    } else if (this.typePayementEchelonne === 'mobile-money') {
+
+      const network = prompt('Entrez le réseau de transfert : ');
+
+      if (network) {
+
+        const num = prompt('Entrez le numéro de téléphone : ');
+
+        if (num) {
+
+          console.log(num);
+
+          this.jsonPayementEchelonne.numAccount = null;
+          this.jsonPayementEchelonne.network = network;
+          this.jsonPayementEchelonne.num = num;
+          
+        } else {
+
+          console.log("annuler");
+          this.typePayementEchelonne = 'especes';
+          this.jsonPayementEchelonne.mode = 'especes';
+          this.jsonPayementEchelonne.numAccount = null;
+          this.jsonPayementEchelonne.network = null;
+          this.jsonPayementEchelonne.num = null;
+
+          console.log(this.typePayementEchelonne);
+          
+
+        }
+
+
+      } else {
+
+        console.log("annuler");
+        this.typePayementEchelonne = 'especes';
+        this.jsonPayementEchelonne.mode = 'especes';
+        this.jsonPayementEchelonne.numAccount = null;
+        this.jsonPayementEchelonne.network = null;
+        this.jsonPayementEchelonne.num = null;
+        console.log(this.typePayementEchelonne);
+
+      }
+
+    } else if (this.typePayementEchelonne === 'carte') {
+
+
+          this.jsonPayementEchelonne.numAccount = null;
+          this.jsonPayementEchelonne.network = null;
+          this.jsonPayementEchelonne.num = null;
+
+
+    } else {
+
+      this.typePayementEchelonne = 'especes';
+      this.jsonPayementEchelonne.mode = 'especes';
+      this.jsonPayementEchelonne.network = null;
+      this.jsonPayementEchelonne.num = null;
+      this.jsonPayementEchelonne.numAccount = null;
+
+    }
+
+    console.log(this.jsonPayementEchelonne);
+    
+
+  }
+
+
 }

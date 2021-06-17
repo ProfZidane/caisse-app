@@ -25,7 +25,7 @@ userConnected;
 
   logout() {
     localStorage.removeItem('word_token');
-    localStorage.removeItem('userData');
+    localStorage.removeItem('caissier');
     this.router.navigateByUrl('/');
     /*
     // remove data in localstorage

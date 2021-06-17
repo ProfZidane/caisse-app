@@ -21,9 +21,11 @@ export class StatisticComponent implements OnInit {
   };
   labels;
   points = [];
+  user;
   constructor(private router: Router, private statisticService: StatisticService) { }
 
   ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('caissier'));
     this.getSalesData();
   }
 
@@ -37,6 +39,9 @@ export class StatisticComponent implements OnInit {
                 || this.state === 'cumul_ventes_par_client_sur_periode' || this.state === 'etat_reglement_client_sur_periode'
                 || this.state === 'etat_compte_client_a_date' || this.state === 'cumul_ventes_par_article_sur_periode') {
       console.log('open modal to get date');
+    } else if (this.state === 'recapitulatif') {
+      this.router.navigateByUrl('/daily-recap');
+    } else if (this.state === 'recapitulatif_periodique') {
     }
 
   }
@@ -51,6 +56,12 @@ export class StatisticComponent implements OnInit {
     console.log(this.date);
     document.getElementById(id).style.display = "none";
     this.router.navigateByUrl('/etat-manage/' + this.state + '/null/' + this.date.fin);
+  }
+
+  validationDate3(id) {
+    console.log(this.date);
+    document.getElementById(id).style.display = "none";
+    this.router.navigateByUrl('/periode-recap/' + this.date.debut + '/' + this.date.fin);
   }
 
   getSalesData() {

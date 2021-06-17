@@ -13,7 +13,29 @@
     </div>
 
     <div class="card-customer" *ngIf="customer">
-        <h1 style="color: #ff817a;">{{ customer.name }}
+        <h1 style="color: #ff817a;">
+          {{ customer.name }}
+
+          <div class="input-group-prepend" style="float: right;" *ngIf="typePayement && typePayement === 'echelonner'">
+            <!--<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ typePayementEchelonne }}</button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" style="cursor: pointer;" (click)="selectTypePayementToEchelonne('especes')">En espèces</a>
+              <a class="dropdown-item" style="cursor: pointer;" (click)="selectTypePayementToEchelonne('carte')">Par carte</a>
+              <a class="dropdown-item" style="cursor: pointer;" (click)="selectTypePayementToEchelonne('cheque')">Par chèque</a>
+              <a class="dropdown-item" style="cursor: pointer;" (click)="selectTypePayementToEchelonne('mobile-money')">Par mobile money</a>
+              <div role="separator" class="dropdown-divider"></div>
+              <a class="dropdown-item" style="cursor: pointer;" (click)="selectTypePayementToEchelonne('soutrali')">Par soutrali</a>
+            </div> -->
+
+            <select class="custom-select" name="typePayementEchelonne" (change)="selectTypePayementToEchelonne()" [(ngModel)]="typePayementEchelonne">
+              <option value="especes">En espèces</option>
+              <option value="carte">Par carte</option>
+              <option value="cheque">Par chèque</option>
+              <option value="mobile-money">Par mobile money</option>
+              <option value="soutrali">Par soutrali</option>
+            </select>
+          </div>
+          
         </h1>
         <div class="card-detail-customer">
             <p class="mb-1">
@@ -21,6 +43,7 @@
                   call
                 </i> &nbsp;
                 {{ customer.telephone }}
+
             </p>
             <span>
                 <i class="iii material-icons">
@@ -35,6 +58,35 @@
               </i> &nbsp;
               {{ customer.avoirs }} Fcfa <small>(avoirs) <button class="btn btn-dark btn-sm ml-4" [disabled]="stateAvoirUse" (click)="useAvoir()"><i class="material-icons">touch_app</i></button></small>
           </span>
+
+          <div style="float: right;">
+            <div class="row p-2"  style="width: 100%;">
+              <div class="col-md-3" *ngIf="jsonPayementEchelonne.mode === 'mobile-money'">
+                <span>
+                  Réseau:
+                </span>
+              </div>
+              <div class="col-md-6" *ngIf="jsonPayementEchelonne.mode === 'cheque'">
+                <span>
+                  Compte:
+                </span>
+              </div>
+              <div class="col-md-3" *ngIf="jsonPayementEchelonne.mode === 'mobile-money' && jsonPayementEchelonne.network !== ''">
+                {{ jsonPayementEchelonne.network }}
+              </div>
+              <div class="col-md-6" *ngIf="jsonPayementEchelonne.mode === 'cheque' && jsonPayementEchelonne.numAccount !== ''">
+                {{ jsonPayementEchelonne.numAccount }}
+              </div>
+              <div class="col-md-3" *ngIf="jsonPayementEchelonne.mode === 'mobile-money'">
+                <span>
+                  Téléphone: 
+                </span>
+              </div>
+              <div class="col-md-3" *ngIf="jsonPayementEchelonne.mode === 'mobile-money' && jsonPayementEchelonne.num !== ''">
+                {{ jsonPayementEchelonne.num }}
+              </div>
+            </div>
+          </div>
             <!--<div class="float-right">
               <i class="iii material-icons">
 
@@ -56,7 +108,7 @@
             <div class="col-md-2">
                 <!-- List group -->
                 <div class="list-group" id="myList" role="tablist">
-                    <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" (click)="setTypePayement('especes')" role="tab">Paiement Cash</a>
+                    <a class="list-group-item list-group-item-action active" data-toggle="list" href="#main" (click)="setTypePayement('especes')" role="tab">Paiement Cash</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#house" (click)="setTypePayement('echelonner')" role="tab">Paiement Echelloner</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" (click)="setTypePayement('soutra')" role="tab">Paiement Soutrali</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" (click)="setTypePayement('card/check')" role="tab">Paiement Par Carte / Chèque</a>
@@ -68,7 +120,7 @@
             <div class="col-md-10">
                 <!-- Content group -->
                 <div class="tab-content">
-                    <div class="tab-pane active" id="home" role="tabpanel" *ngIf="typePayement && typePayement === 'especes'">
+                    <div class="tab-pane active" id="main" role="tabpanel" *ngIf="typePayement && typePayement === 'especes'">
                       <div align="center" *ngIf="error_in_money === true">
                         <small class="err_to_cash">
                           La somme reçu du client est inférieur à celle du total. S'il s'agit d'un paiement échelloné, veuillez migrer sur l'onglet approprié !
@@ -553,7 +605,7 @@
                 <input type="number" min="0" max="100" class="form-control" name="reduction" id="pourc-{{ product.identify }}"  id="">
               </td>
               <td>
-                <button class="btn btn-info btn-sm" (click)="setReductionToProduct(product.identify, product.price)">Appliquer</button>
+                <button class="btn btn-info btn-sm" (click)="setReductionToProduct(product.identify, product.price, product.quantity)">Appliquer</button>
               </td>
               <td>
                 <div class="d-flex justify-content-center">

@@ -1,0 +1,288 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid full-page">
+
+    <div class="row">
+
+      <div class="col-md-1 full-container">
+
+        <app-sidemenu></app-sidemenu>
+
+      </div>
+
+      <div class="col-md-11 full-container content">
+        <div class="text-center" *ngIf="visibility === true">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <!-- all state -->
+
+        <div class="banner-title p-1" align="center">
+            <h1>Récapitulatif journalier du <span >{{ now }}</span></h1>
+        </div>
+
+        <div class="banner-title-2">
+            <h2>Récapitulatif des ventes</h2>
+        </div>
+
+        <div class="row p-2 horizontal" *ngIf="sales">
+            <div class="col-md-3 p-2">
+                <div class="card text-center" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title">Nombre Total</h5>
+                        <br>
+                      <p class="card-text">
+                        <span class="p-3 circle">
+                            {{ sales.nbrFacture }}
+                        </span>
+                      </p>
+                      <br>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-3 p-2">
+                <div class="card text-center" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title">Chiffre d'affaire Total</h5>
+                      <br>
+                      <p class="card-text">
+                        <span class="p-3 circle">
+                            {{ sales.chiffreAffaireDuJour }}
+                        </span>
+                      </p>
+                      <br>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-3 p-2">
+                <div class="card text-center" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title">Chiffre d'affaire Soldé</h5>
+                      <br>
+                      <p class="card-text">
+                        <span class="p-3 circle">
+                            {{ sales.montantTotalSolde }}
+                        </span>
+                      </p>
+                      <br>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-3 p-2">
+                <div class="card text-center" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title">Chiffre d'affaire Non Soldé</h5>
+                      <br>
+                      <p class="card-text">
+                        <span class="p-3 circle">
+                            {{ sales.montantTotalNonSolde }}
+                        </span>
+                      </p>
+                      <br>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-3 p-2">
+                <div class="card text-center" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title">Solde sur vente antérieur</h5>
+                      <br>
+                      <p class="card-text">
+                        <span class="p-3 circle">
+                            {{ sales.soldeArriere }}
+                        </span>
+                      </p>
+                      <br>
+                    </div>
+                  </div>
+            </div>
+            
+            
+        </div>
+        <br>
+        <!-- tableau de donne -->
+        <h3>Détail par moyens de paiement</h3>
+            <table class="table m-2">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Espèces</th>
+                    <th scope="col">Carte</th>
+                    <th scope="col">Chèque</th>
+                    <th scope="col">Mobile money</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="sales">
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>
+                        {{ sales.totalEspece }} <strong>Fcfa</strong>
+                    </td>
+                    <td>
+                        {{ sales.totalCarte }} <strong>Fcfa</strong>
+                    </td>
+                    <td>
+                        {{ sales.totalCheque }} <strong>Fcfa</strong>
+                    </td>
+                    <td>
+                        {{ sales.totalMobileMoney }} <strong>Fcfa</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- second level of recap -->
+
+            <div class="banner-title-2 mb-4" style="margin-top: 6rem;">
+                <h2>Récapitulatif des réservations</h2>
+            </div>
+
+            <div class="row" *ngIf='reservations' align="center">
+
+                <div class="col-md-6 p-2">
+                    <div class="card text-center" style="width: 18rem;">
+                        <div class="card-body">
+                          <h5 class="card-title">Nombre Total</h5>
+                          <br>
+                          <p class="card-text">
+                            <span class="p-3 circle">
+                                {{ reservations.nbreReservation }}
+                            </span>
+                          </p>
+                          <br>
+                        </div>
+                      </div>
+                </div>
+                <div class="col-md-6 p-2">
+                    <div class="card text-center" style="width: 18rem;">
+                        <div class="card-body">
+                          <h5 class="card-title">Chiffre d'affaire</h5>
+                          <br>
+                          <p class="card-text">
+                            <span class="p-3 circle">
+                                {{ reservations.chiffreAffaireReservations }}
+                            </span>
+                          </p>
+                          <br>
+                        </div>
+                      </div>
+                </div>
+            </div>
+
+
+            <!-- third level of recap -->
+
+            <div class="banner-title-2 mb-4" style="margin-top: 6rem;">
+                <h2>Récapitulatif par caissier</h2>
+            </div>
+
+            
+            <div *ngIf="caissier">
+                <div *ngFor="let caiss of caissier" class="mt-5 mb-5">
+                    <h4>{{ caiss.nomCaissier }}</h4>
+                    
+                    <h5>Récapitulatif Ventes</h5>
+                    <table class="table m-2">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre Total</th>
+                            <th scope="col">Chiffre d'affaire total</th>
+                            <th scope="col">Chiffre d'affaire soldé</th>
+                            <th scope="col">Chiffre d'affaire non soldé</th>
+                            <th scope="col">Solde antérieur</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>
+                                {{ caiss.ventes.nbrFactures }} <strong>Fcfa</strong>
+                            </td>
+                            <td>
+                                {{ caiss.ventes.chiffreAffaireDuJour }} <strong>Fcfa</strong>
+                            </td>
+                            <td>
+                                {{ caiss.ventes.montantTotalSolde }} <strong>Fcfa</strong>
+                            </td>
+                            <td>
+                                {{ caiss.ventes.montantTotalNonSolde }} <strong>Fcfa</strong>
+                            </td>
+                            <td>
+                                {{ caiss.ventes.soldeArriere }} <strong>Fcfa</strong>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <br>
+
+                      <h5>Détail par moyen de paiement</h5>
+                    <table class="table m-2">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Espèces</th>
+                            <th scope="col">Carte</th>
+                            <th scope="col">Chèque</th>
+                            <th scope="col">Mobile money</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>
+                                {{ caiss.ventes.totalEspece }} <strong>Fcfa</strong>
+                            </td>
+                            <td>
+                                {{ caiss.ventes.totalCarte }} <strong>Fcfa</strong>
+                            </td>
+                            <td>
+                                {{ caiss.ventes.totalCheque }} <strong>Fcfa</strong>
+                            </td>
+                            <td>
+                                {{ caiss.ventes.totalMobileMoney }} <strong>Fcfa</strong>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <br>
+
+                      <h5>Récapitulatif réservations</h5>
+                    <table class="table m-2">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre total</th>
+                            <th scope="col">Chiffre d'affaire</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>
+                                {{ caiss.reservations.nbreReservation }} <strong>Fcfa</strong>
+                            </td>
+                            <td>
+                                {{ caiss.reservations.chiffreAffaireReservations }} <strong>Fcfa</strong>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                </div>
+                <br><br>
+                <br><br>
+            </div>
+
+            
+
+              <!-- end of 11's div -->
+      </div>
+
+    </div>
+
+</div>
+

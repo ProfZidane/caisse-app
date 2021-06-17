@@ -48,6 +48,7 @@ export class FactureDetailComponent implements OnInit {
     product: false
   };
   typePayements;
+  remise;
   constructor(private salesService: SalesOperateService, private route: ActivatedRoute,
               private pdf2Service: Pdf2Service) { }
 
@@ -183,7 +184,7 @@ export class FactureDetailComponent implements OnInit {
         (success) => {
           console.log(success);
           this.loading.create2 = false;
-          // window.location.reload();
+          window.location.reload();
         }, (err) => {
           console.log(err);
           this.loading.create2 = false;
@@ -261,6 +262,14 @@ export class FactureDetailComponent implements OnInit {
       this.sale[0].order.reste -= Number(this.newMontant);
     }
 
+    // remise 
+    if (this.sale[0].order.coupon) {
+      this.remise = this.sale[0].order.coupon;
+    } else {
+      this.remise = 'Pas marquée';
+    }
+
+
     const data = {
       idOrder: this.sale[0].order.order_number,
       produit: this.objectProductPdf,
@@ -268,7 +277,7 @@ export class FactureDetailComponent implements OnInit {
       customer : { name: this.sale[0].order.first_name, telephone: this.sale[0].phone },
       subTotal: this.sale[0].order.sub_total,
       total: this.sale[0].order.total_amount,
-      remise: 'Pas marquée',
+      remise: this.remise,
       // tslint:disable-next-line:max-line-length
       date: new Date(this.sale[0].order.created_at).toLocaleDateString('fr-fr', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
             + ' ' + new Date(this.sale[0].order.created_at).toLocaleTimeString(),
