@@ -44,7 +44,7 @@
             <div class="col-md-3 p-2">
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
-                      <h5 class="card-title">Chiffre d'affaire Total</h5>
+                      <h5 class="card-title">Chiffre d'affaire du jour</h5>
                       <br>
                       <p class="card-text">
                         <span class="p-3 circle">
@@ -58,7 +58,21 @@
             <div class="col-md-3 p-2">
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
-                      <h5 class="card-title">Chiffre d'affaire Soldé</h5>
+                      <h5 class="card-title">Montant total des ventes</h5>
+                      <br>
+                      <p class="card-text">
+                        <span class="p-3 circle">
+                            {{ sales.montantTotalVente }}
+                        </span>
+                      </p>
+                      <br>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-3 p-2">
+                <div class="card text-center" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title">Montant total Soldé</h5>
                       <br>
                       <p class="card-text">
                         <span class="p-3 circle">
@@ -72,7 +86,7 @@
             <div class="col-md-3 p-2">
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
-                      <h5 class="card-title">Chiffre d'affaire Non Soldé</h5>
+                      <h5 class="card-title">Montant total Non Soldé</h5>
                       <br>
                       <p class="card-text">
                         <span class="p-3 circle">
@@ -83,6 +97,7 @@
                     </div>
                   </div>
             </div>
+
             
         </div>
         <br>
@@ -174,8 +189,9 @@
                             <th scope="col">#</th>
                             <th scope="col">Nombre Total</th>
                             <th scope="col">Chiffre d'affaire total</th>
-                            <th scope="col">Chiffre d'affaire soldé</th>
-                            <th scope="col">Chiffre d'affaire non soldé</th>
+                            <th scope="col">Montant total des ventes</th>
+                            <th scope="col">Montant total soldé</th>
+                            <th scope="col">Montant total non soldé</th>
                           </tr>
                         </thead>
                         <tbody>
