@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 export class RecapService {
 
   getURL = environment.url + 'getRapportDuJour';
+  getByDateURL = environment.url + 'getRapportPeriodique/';
   constructor(private http: HttpClient) { }
 
   // get token and set this in headers
@@ -24,5 +25,9 @@ export class RecapService {
 
   getRapport(): Observable<any> {
     return this.http.get(this.getURL, { headers: this.getHeaders() });
+  }
+
+  getRapportBetweenDate(data): Observable<any> {
+    return this.http.get(this.getByDateURL + data.date_debut + '/' + data.date_fin, { headers: this.getHeaders() });
   }
 }

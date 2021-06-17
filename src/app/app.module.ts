@@ -46,6 +46,7 @@ import { StatisticComponent } from './statistic/statistic.component';
 import { ChartModule } from 'angular2-chartjs';
 import { EtatManagementComponent } from './etat-management/etat-management.component';
 import { RecapManagementComponent } from './recap-management/recap-management.component';
+import { RecapPeriodeManagementComponent } from './recap-periode-management/recap-periode-management.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,6 +79,7 @@ import { RecapManagementComponent } from './recap-management/recap-management.co
     StatisticComponent,
     EtatManagementComponent,
     RecapManagementComponent,
+    RecapPeriodeManagementComponent,
   ],
   imports: [
     BrowserModule,

@@ -27,6 +27,7 @@ import { InformationComponent } from './information/information.component';
 import { StatisticComponent } from './statistic/statistic.component';
 import { EtatManagementComponent } from './etat-management/etat-management.component';
 import { RecapManagementComponent } from './recap-management/recap-management.component';
+import { RecapPeriodeManagementComponent } from './recap-periode-management/recap-periode-management.component';
 
 
 const routes: Routes = [
@@ -167,6 +168,11 @@ const routes: Routes = [
   {
     path: 'daily-recap',
     component: RecapManagementComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'periode-recap/:dd/:df',
+    component: RecapPeriodeManagementComponent,
     canActivate: [AuthGuard]
   }
 ];
