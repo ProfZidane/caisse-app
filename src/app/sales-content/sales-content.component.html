@@ -12,7 +12,7 @@
         <label class="input-group-text" style="border-radius: 0;" for="inputGroupSelect01">Caissier</label>
       </div>
       <select class="custom-select" id="inputGroupSelect01" *ngIf="caissiers"  name="caissier" [(ngModel)]="caissier" (change)="OnChangeCaissier($event)">
-        <option selected>Choisir ...</option>
+        <option value="all" selected>Tous les caissiers</option>
         <option *ngFor="let caissier of caissiers" [value]=caissier.id>{{ caissier.name }}</option>
         
       </select>

@@ -113,11 +113,15 @@ export class SalesContentComponent implements OnInit {
  }
 
  OnChangeCaissier(event) {
-   if (event.target.value !== 'Choisir ...' || event.target.value !== null) {
+   if (event.target.value !== 'Tous les caissiers' || event.target.value !== null) {
+    console.log("all not not is it");
+
     this.data.caissier = event.target.value;
     this.sales =  [];
     this.GetRealSales();
    } else {
+     console.log('is it all');
+     
      this.data.caissier = 'all';
      this.sales =  [];
      this.GetRealSales();
@@ -144,7 +148,8 @@ export class SalesContentComponent implements OnInit {
    this.loadingIndicator = false;
    this.error.loadingSale = false;
    this.warning.messageEmptySearch = false;
-  if (this.data.caissier === 'all') {
+  if (this.data.caissier === '' || this.data.caissier === null) {
+    
     const send = {
       caissier: 'all',
       trier_par: this.data.trier_par
@@ -194,6 +199,8 @@ export class SalesContentComponent implements OnInit {
         trier_par: this.data.trier_par,
         annee: this.year
       };
+      console.log(send);
+      
       this.salesService.GetVentes(send).subscribe(
         (data) => {
           console.log(data);
