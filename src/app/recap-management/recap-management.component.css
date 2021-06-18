@@ -47,7 +47,7 @@ a,h5,small,input,button,p, h4, span, h2, div, table {
   }
 
   .banner-title-2 {
-      width: 30%;
+      width: 50%;
       height: 50px;
       margin-top: 2rem;
       padding: 0.5rem;
@@ -65,6 +65,6 @@ a,h5,small,input,button,p, h4, span, h2, div, table {
   }
 
   .content {
-    height: 800px;
-    overflow: scroll;
+    /*height: 800px;
+    overflow: scroll;*/
   }

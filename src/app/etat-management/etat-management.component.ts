@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StatisticService } from '../services/statistic.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import * as jspdf from 'jspdf';
-import html2canvas from 'html2canvas';
+import * as html2pdf from 'html2pdf.js';
 @Component({
   selector: 'app-etat-management',
   templateUrl: './etat-management.component.html',
@@ -239,10 +238,52 @@ visibility;
   }
 
 
-  // print
-  print() {
-    const frame = document.getElementById('frame');
+  savePDF() {
 
+    document.getElementById('btn-print').style.display = 'none';
+    
+    const element = document.getElementById('paper');
+
+    var opt = {
+      margin:       0.05,
+      filename:     this.state + '.pdf',
+      html2canvas:  { scale: 1 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+
+    html2pdf()
+      .set(opt)
+      .from(element)
+      .save();
+
+    setTimeout( () => {
+      document.getElementById('btn-print').style.display = 'block';
+    }, 500);
+  }
+
+  savePDF2() {
+
+    document.getElementById('btn-print').style.display = 'none';
+    
+    const element = document.getElementById('frame');
+
+    var opt = {
+      margin:       0.05,
+      filename:     this.state + '.pdf',
+      html2canvas:  { scale: 1 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+
+    html2pdf()
+      .set(opt)
+      .from(element)
+      .save();
+
+      setTimeout( () => {
+        document.getElementById('btn-print').style.display = 'block';
+      }, 500);
   }
 
 }

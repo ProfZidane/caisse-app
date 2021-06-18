@@ -10,7 +10,7 @@
 
       </div>
 
-      <div class="col-md-11 full-container content">
+      <div class="col-md-11 full-container content" id="paper" #content>
         <div class="text-center" *ngIf="visibility === true">
           <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
@@ -20,14 +20,20 @@
 
         <div class="banner-title p-1" align="center">
             <h1>Récapitulatif journalier du <span >{{ now }}</span></h1>
+
+            <div style="float: right;">
+                <button class="btn" id="btn-print" (click)="savePDF()">
+                    Impression
+                </button>
+            </div>
         </div>
 
-        <div class="banner-title-2">
+        <div class="banner-title-2" style="margin-top: 2rem;">
             <h2>Récapitulatif des ventes</h2>
         </div>
 
-        <div class="row p-2 horizontal" *ngIf="sales">
-            <div class="col-md-3 p-2">
+        <div class="row p-2 horizontal" align="center" *ngIf="sales">
+            <div class="col-md-4 p-2">
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title">Nombre Facture</h5>
@@ -41,7 +47,7 @@
                     </div>
                   </div>
             </div>
-            <div class="col-md-3 p-2">
+            <div class="col-md-4 p-2">
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title">Chiffre d'affaire du jour</h5>
@@ -55,7 +61,7 @@
                     </div>
                   </div>
             </div>
-            <div class="col-md-3 p-2">
+            <div class="col-md-4 p-2">
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title">Montant total des ventes</h5>
@@ -69,7 +75,7 @@
                     </div>
                   </div>
             </div>
-            <div class="col-md-3 p-2">
+            <div class="col-md-4 p-2">
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title">Montant total Soldé</h5>
@@ -83,7 +89,7 @@
                     </div>
                   </div>
             </div>
-            <div class="col-md-3 p-2">
+            <div class="col-md-4 p-2">
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title">Montant total Non Soldé</h5>
@@ -97,7 +103,7 @@
                     </div>
                   </div>
             </div>
-            <div class="col-md-3 p-2">
+            <div class="col-md-4 p-2">
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title">Solde sur vente antérieur</h5>
@@ -148,7 +154,7 @@
 
               <!-- second level of recap -->
 
-            <div class="banner-title-2 mb-4" style="margin-top: 6rem;">
+            <div class="banner-title-2 mb-4" style="margin-top: 8rem;">
                 <h2>Récapitulatif des réservations</h2>
             </div>
 
@@ -187,7 +193,7 @@
 
             <!-- third level of recap -->
 
-            <div class="banner-title-2 mb-4" style="margin-top: 6rem;">
+            <div class="banner-title-2 mb-4" style="margin-top: 8rem;">
                 <h2>Récapitulatif par caissier</h2>
             </div>
 
