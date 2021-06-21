@@ -23,6 +23,16 @@ visibility = true;
 cartFictious = [];
 clientFictious;
 totalFictious;
+cancel = {
+  product_id: '',
+  order_id: 0,
+  quantity: 1
+};
+state = false;
+error = {
+  state: false,
+  message: ''
+};
   constructor(private orderService: OrderService, private route: ActivatedRoute, private cartService: CartOperateService,
               private router: Router, private s: MatSnackBar) { }
 
@@ -126,8 +136,30 @@ totalFictious;
 
   }
 
-  retiredProduct() {
+  retiredProduct(id_product) {
+    this.cancel.product_id = id_product;
+    this.cancel.order_id = Number(this.id);
+  }
 
+  DoRetiredProduct() {
+    console.log(this.cancel);
+    this.state = true;
+    this.error.state = false;
+
+    this.orderService.cancelProduct(this.cancel).subscribe(
+      (success) => {
+        console.log(success);
+        this.state = false;
+        window.location.reload();
+      }, (err) => {
+        console.log(err);
+        this.state = false;
+        this.error.state = true;
+        if (err.status === 408) {
+          this.error.message = err.error.message;
+        }
+      }
+    )
   }
 
 }

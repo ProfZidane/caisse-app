@@ -10,6 +10,7 @@ export class OrderService {
 orders;
 getURL = environment.url + 'getAllOrders';
 getByID = environment.url + 'getOrderInfos/';
+cancelURL = environment.url + 'retirerProduct';
   constructor(private http: HttpClient) { }
 
 // get token and set this in headers
@@ -28,5 +29,9 @@ getHeaders() {
 
   getOrderDetail(id): Observable<any> {
     return this.http.get(this.getByID + id, { headers: this.getHeaders() });
+  }
+
+  cancelProduct(data): Observable<any> {
+    return this.http.post(this.cancelURL, data, { headers: this.getHeaders() });
   }
 }
