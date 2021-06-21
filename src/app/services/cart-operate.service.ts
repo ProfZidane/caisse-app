@@ -706,6 +706,7 @@ VerifyExistingInCart(num, object) {
           reduction : object.reduction,
           produit : JSON.parse(localStorage.getItem('cart-' + inProg.in)),
           mode : object.mode,
+          modeReglement: object.reglement,
           numOrder: object.numOrder
         };
         this.register = register;
