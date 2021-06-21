@@ -19,6 +19,16 @@ export class Pdf2Service {
 
   generateEchelonneContent(object) {
     var definition = {
+      pageSize: {
+        width: 240,
+        height: 'auto'
+      },
+      pageOrientation: 'portrait',
+      pageNumber: [1, 2, 3],
+      startPosition: {
+        verticalRatio: 0.1,
+        horizontalRatio: 0.0,
+      },
       content : [
         {
           text : 'Accessoires Modes',
@@ -57,43 +67,18 @@ export class Pdf2Service {
         {
           text : object.date,
           style : 'detail',
-          margin : [150, 10, 0, 5]
+          margin : [0, 10, 0, 5],
+          alignment : 'center',
         },
         {
           style : 'account',
-          margin : [139, 10, 0, 10],
+          margin : [-17, 10, 0, 10],
           alignment : 'center',
           table : {
             alignment : 'center',
             body : object.produit,
             border: [false, false, false, false],
           },
-          layout : {
-            hLineWidth: function (i, node) {
-              return (i === 0 || i === node.table.body.length) ? 2 : 1;
-            },
-            vLineWidth: function (i, node) {
-              return (i === 0 || i === node.table.widths.length) ? 2 : 1;
-            },
-            hLineColor: function (i, node) {
-              return 'black';
-            },
-            vLineColor: function (i, node) {
-              return 'black';
-            },
-            hLineStyle: function (i, node) {
-              if (i === 0 || i === node.table.body.length) {
-                return null;
-              }
-              return {dash: {length: 10, space: 4}};
-            },
-            vLineStyle: function (i, node) {
-              if (i === 0 || i === node.table.widths.length) {
-                return null;
-              }
-              return {dash: {length: 4}};
-            },
-            }
         },
         {
           alignment : 'center',
@@ -109,10 +94,13 @@ export class Pdf2Service {
         }
       ],
       styles : {
+        margin: 0,
+        padding: 0,
+        font: 'times new roman',
         header : {
           fontSize : 20,
           bold : true,
-          margin : 10,
+          margin : 0,
           color : ''
         },
         subHeader : {
@@ -153,28 +141,28 @@ export class Pdf2Service {
         border : [false, false, false, false],
         text : 'Sous-total',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : '',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : object.subTotal,
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       }
     ];
@@ -185,6 +173,7 @@ export class Pdf2Service {
         border : [false, false, false, false],
         text : 'NET A PAYER',
         alignment : 'center',
+        fontSize: 8
       },
       {
         border : [false, false, false, false],
@@ -218,7 +207,7 @@ export class Pdf2Service {
           border : [false, false, false, false],
           text : '1er versement',
           alignment : 'center',
-          fontSize: 7.5
+          fontSize: 7
         },
         {
           border : [false, false, false, false],
@@ -229,13 +218,13 @@ export class Pdf2Service {
           border : [false, false, false, false],
           text : 'FCFA',
           alignment : 'center',
-          fontSize: 7.5
+          fontSize: 7
         },
         {
           border : [false, false, false, false],
           text : object.montant_recu,
           alignment : 'center',
-          fontSize: 7.5
+          fontSize: 7
         }
       ];
       object.produit.push(pe);
@@ -250,7 +239,7 @@ export class Pdf2Service {
         border : [false, false, false, false],
         text : 'Reste à payer',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
@@ -261,13 +250,13 @@ export class Pdf2Service {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
         text : object.exchange,
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       }
     ];
 

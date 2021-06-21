@@ -2,18 +2,19 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PdfService } from './pdf.service';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SalesOperateService {
-getSalesURL = 'https://accessoiresmodes.com/api/caisse/getVentesByCaissier/';
-getSalesByYearURL = 'https://accessoiresmodes.com/api/caisse/getOrderByYear/';
-getSalesByMonthURL = 'https://accessoiresmodes.com/api/caisse/getOrderByMounth/';
-getSalesBetweenDateURL = 'https://accessoiresmodes.com/api/caisse/getOrderBetweenTwoDate';
-getSalesTodayURL = 'https://accessoiresmodes.com/api/caisse/getNowSales/';
-getSalesByCustomerURL = 'https://accessoiresmodes.com/api/caisse/getHistoriqueAchatsClient/';
+getSaleURL = environment.url + 'getVentesWithDetails';
+getSalesURL = environment.url + 'getVentesByCaissier';
+getSalesByYearURL = environment.url + 'getOrderByYear';
+getSalesByMonthURL = environment.url + 'getOrderByMounth';
+getSalesBetweenDateURL = environment.url + 'getOrderBetweenTwoDate';
+getSalesTodayURL = environment.url + 'getNowSales';
+getSalesByCustomerURL = environment.url + 'getHistoriqueAchatsClient/';
 getInfoSalesByCustomerURL = environment.url + 'getAchatsClientCartInfo/';
 echelonneURL = environment.url + 'getFacturesImpayes';
 echelonnePaidURL = environment.url + 'getFacturesPayes';
@@ -22,6 +23,7 @@ echellonePostURL = environment.url + 'storePayement';
 backStockProductURL = environment.url + 'storeRetours';
 Sales;
 dataToPdf;
+getCaissierURL = environment.url + 'getListeCaissier';
   constructor(private http: HttpClient, private pdfService: PdfService) { }
 
 // get token and set this in headers
@@ -34,16 +36,22 @@ getHeaders() {
     return headers;
   }
 }
-  GetSalesByCaisser(id): Observable<any> {
-    return this.http.get(this.getSalesURL + id, { headers: this.getHeaders() });
+
+
+  GetVentes(data): Observable<any> {
+    return this.http.post(this.getSaleURL, data, { headers: this.getHeaders() });
+  }
+
+  GetSalesByCaisser(): Observable<any> {
+    return this.http.get(this.getSalesURL, { headers: this.getHeaders() });
   }
 
   GetSalesByMonth(id, month): Observable<any> {
-    return this.http.get(this.getSalesByMonthURL + id + '/' + month, { headers: this.getHeaders() });
+    return this.http.get(this.getSalesByMonthURL + '/' + month, { headers: this.getHeaders() });
   }
 
   GetSalesByYear(id, year): Observable<any> {
-    return this.http.get(this.getSalesByYearURL + id + '/' + year, { headers: this.getHeaders() });
+    return this.http.get(this.getSalesByYearURL + '/' + year, { headers: this.getHeaders() });
   }
 
   GetSalesBetweenYear(data): Observable<any> {
@@ -52,7 +60,11 @@ getHeaders() {
 
 
   GetSalesToday(id): Observable<any> {
-    return this.http.get(this.getSalesTodayURL + id, { headers: this.getHeaders() });
+    return this.http.get(this.getSalesTodayURL, { headers: this.getHeaders() });
+  }
+
+  GetCaisser(): Observable<any> {
+    return this.http.get(this.getCaissierURL, { headers: this.getHeaders() });
   }
 
   GeneratePDFForSales(object) {

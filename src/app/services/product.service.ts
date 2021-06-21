@@ -9,8 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ProductService {
 // http://accessoire-mode.lce-test.fr/
-getproductURL = 'https://accessoiresmodes.com/api/caisse/getAllProducts';
-getProductByIdURL = 'https://accessoiresmodes.com/api/caisse/getProduct/';
+getproductURL = environment.url + 'getAllProducts';
+getProductByIdURL = environment.url + 'getProduct/';
 Articles;
 Products = [];
 productCart;

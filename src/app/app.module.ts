@@ -40,7 +40,13 @@ import { ReservationDetailComponent } from './reservation-detail/reservation-det
 import { ReservationComponent } from './reservation/reservation.component';
 import { FactureManagementComponent } from './facture-management/facture-management.component';
 import { FactureDetailComponent } from './facture-detail/facture-detail.component';
+import { InformationComponent } from './information/information.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
+import { ChartModule } from 'angular2-chartjs';
+import { EtatManagementComponent } from './etat-management/etat-management.component';
+import { RecapManagementComponent } from './recap-management/recap-management.component';
+import { RecapPeriodeManagementComponent } from './recap-periode-management/recap-periode-management.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,7 +74,12 @@ import { FactureDetailComponent } from './facture-detail/facture-detail.componen
     ReservationDetailComponent,
     ReservationComponent,
     FactureManagementComponent,
-    FactureDetailComponent
+    FactureDetailComponent,
+    InformationComponent,
+    StatisticComponent,
+    EtatManagementComponent,
+    RecapManagementComponent,
+    RecapPeriodeManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,7 +90,8 @@ import { FactureDetailComponent } from './facture-detail/facture-detail.componen
     MatSnackBarModule,
     HttpClientModule,
     RouterModule,
-    DataTablesModule
+    DataTablesModule,
+    ChartModule
   ],
   providers: [
     AuthService,

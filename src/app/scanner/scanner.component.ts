@@ -12,6 +12,7 @@ code = '';
 articles;
 warning_message = false;
 started_message = false;
+state = false;
   constructor(private productService: ProductService, private cartService: CartOperateService) { }
 
   ngOnInit(): void {
@@ -44,20 +45,36 @@ started_message = false;
 
   // Recherche de produit par code barre
   getProductByCode(code) {
+    this.state = false;
+    console.log("code produit : " + code);
+    
     let isFind =  0;
     if (this.articles !== null) {
       this.articles.forEach(element => {
         if (element.code_barre === code) {
+          console.log("produit trouvé !");
+          
           this.cartService.InsertToLocalCart(element);
         } else {
+          // console.log("produit introuvable !");
+          
           isFind ++;
 //          this.warning_message = true;
         }
       });
     }
 
+    console.log(isFind);
+
     if (isFind > 0) {
+      console.log('produit introuvable');
+      // alert('Produit introuvable !');
       this.warning_message = true;
+      this.state = true;
+
+      setTimeout(() => {
+        this.state = false;
+      }, 1500);
     }
   }
 }

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.prod';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CryptoService } from './crypto.service';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -48,9 +47,10 @@ Customer = [
     tel : '+225 45454545455'
   }
 ];
-customerURl = 'https://accessoiresmodes.com/api/caisse/getAllClients';
-createCustomerURL = 'https://accessoiresmodes.com/api/caisse/createUser';
-authURL = 'https://accessoiresmodes.com/api/connexion';
+customerURl = environment.url + 'getAllClients';
+createCustomerURL = environment.url + 'createUser';
+authURL = environment.endPoint + 'connexion';
+logoutURL = environment.endPoint + 'logout';
 CustomerChoice;
   constructor(private s: MatSnackBar, private http: HttpClient, private cryptoService: CryptoService) { }
 
@@ -64,8 +64,13 @@ CustomerChoice;
       return headers;
     }
   }
+
   AuthentificationByEmail(data): Observable<any> {
     return this.http.post(this.authURL, data, { headers: this.getHeaders() });
+  }
+
+  Logout(): Observable<any> {
+    return this.http.post(this.logoutURL, { headers: this.getHeaders() });
   }
 
   GetCustomer(): Observable<any> {

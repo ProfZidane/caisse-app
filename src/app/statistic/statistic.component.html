@@ -1,0 +1,256 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid full-page">
+
+    <div class="row">
+
+      <div class="col-md-1 full-container">
+
+        <app-sidemenu></app-sidemenu>
+
+      </div>
+
+      <div class="col-md-11 full-container">
+
+        <div class="row ">
+
+          <div class="col-md-8 p-2" align="center">
+            <h2 class="mb-2" style="font-weight: 600;">Diagramme des ventes de l'année</h2>
+
+            <chart [type]="type" [data]="data" [options]="options" style="width: 100%; height: 600px;"></chart>
+          </div>
+
+          <div class="col-md-4 p-5">
+              <div class="container">
+                <h1 style="text-transform: uppercase; font-weight: 700;">Sélectionnez votre état</h1>
+
+                <div class="form-group" *ngIf="user && user.role === 'admin' && user.is_manager === 1" >
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio6" value="recapitulatif" (input)="checkEtat($event)">
+                    <label class="form-check-label" for="inlineRadio6">
+                      Récapitulatif journalier
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group" *ngIf="user && user.role === 'admin' && user.is_manager === 1" >
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio7" value="recapitulatif_periodique" (input)="checkEtat($event)" data-toggle="modal" data-target="#exampleModal2">
+                    <label class="form-check-label" for="inlineRadio7">
+                      Récapitulatif Périodique
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="etat_reservation" (input)="checkEtat($event)">
+                    <label class="form-check-label" for="inlineRadio1">
+                      Etat des réservations en cours
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="detail_vente_par_facture_sur_periode" (input)="checkEtat($event)" data-toggle="modal" data-target="#exampleModal">
+                    <label class="form-check-label" for="inlineRadio2">
+                      Détail des ventes par facture sur une période
+                    </label>
+                  </div>
+                </div>
+
+               <div class="form-group">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="cumul_ventes_par_facture_sur_periode" (input)="checkEtat($event)" data-toggle="modal" data-target="#exampleModal">
+                  <label class="form-check-label" for="inlineRadio3">
+                    Cumul des ventes par facture sur une période
+                  </label>
+                </div>
+               </div>
+
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="cumul_ventes_par_client_sur_periode" (input)="checkEtat($event)" data-toggle="modal" data-target="#exampleModal">
+                    <label class="form-check-label" for="inlineRadio4">
+                      Cumul des ventes par client sur une période
+                    </label>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="cumul_ventes_par_article_sur_periode" (input)="checkEtat($event)" data-toggle="modal" data-target="#exampleModal">
+                    <label class="form-check-label" for="inlineRadio5">
+                      Cumul des ventes par article sur une période
+                    </label>
+                  </div>
+                </div>
+
+                <!--<div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions id="inlineRadio1" value="option123" (input)="checkEtat($event)">
+                    <label class="form-check-label" for="inlineRadio1">
+                      Détail des ventes d'un client sur une période
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions id="inlineRadio1" value="option123" (input)="checkEtat($event)">
+                    <label class="form-check-label" for="inlineRadio1">
+                      Cumul des ventes par facture d'un client sur une période
+                    </label>
+                  </div>
+                </div> -->
+
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="etat_reglement_client_sur_periode" (input)="checkEtat($event)"  data-toggle="modal" data-target="#exampleModal">
+                    <label class="form-check-label" for="inlineRadio5">
+                      Etat des règlements clients sur une période
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio6" value="etat_compte_client_a_date" (input)="checkEtat($event)" data-toggle="modal" data-target="#exampleModal1">
+                    <label class="form-check-label" for="inlineRadio6">
+                      Etat des comptes client à une date
+                    </label>
+                  </div>
+                </div>
+
+                <!--<div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option123" (input)="checkEtat($event)">
+                    <label class="form-check-label" for="inlineRadio1">
+                      Etat détaillé du compte d'un client
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option123" (input)="checkEtat($event)">
+                    <label class="form-check-label" for="inlineRadio1">
+                      Etat de synthèse des ventes et crédit d'une journée
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option123" (input)="checkEtat($event)">
+                    <label class="form-check-label" for="inlineRadio1">
+                      Etat de synthèse général journalière
+                    </label>
+                  </div>
+                </div> -->
+
+              </div>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Complément d'informations</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <label for="">Date de début</label>
+              <input type="date" name="dd" [(ngModel)]="date.debut" class="form-control">
+            </div>
+            <div class="col">
+              <label for="">Date de fin</label>
+              <input type="date" name="df" [(ngModel)]="date.fin" class="form-control">
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary" (click)="validationDate('exampleModal')" data-dismiss="modal">Valider</button>
+      </div>
+    </div>
+  </form>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Complément d'informations</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <label for="">Date de fin</label>
+              <input type="date" name="df" [(ngModel)]="date.fin" class="form-control">
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary" (click)="validationDate2('exampleModal1')" data-dismiss="modal">Valider</button>
+      </div>
+    </div>
+  </form>
+
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Complément d'informations</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <label for="">Date de début</label>
+              <input type="date" name="dd" [(ngModel)]="date.debut" class="form-control">
+            </div>
+            <div class="col">
+              <label for="">Date de fin</label>
+              <input type="date" name="df" [(ngModel)]="date.fin" class="form-control">
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary" (click)="validationDate3('exampleModal2')" data-dismiss="modal">Valider</button>
+      </div>
+    </div>
+  </form>
+
+  </div>
+</div>

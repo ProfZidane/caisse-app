@@ -1,0 +1,42 @@
+a,h5,small,input,button,p, h4, span, h2, div, table {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border-radius: 0;
+}
+
+h4 {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.bord {
+  border: solid;
+}
+
+button {
+  border-radius: 0;
+  background-color: #ff817a;
+  border-color: white;
+}
+
+.table-state {
+  padding: 2rem;
+  margin-bottom: 3rem;
+}
+
+.full-container {}
+
+.all-state {
+  height: calc(100%);
+  overflow-y: auto;
+}

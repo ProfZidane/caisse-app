@@ -18,6 +18,16 @@ export class PdfService {
 
   generateContent(object) {
     var definition = {
+      pageSize: {
+        width: 240,
+        height: 'auto'
+      },
+      pageOrientation: 'portrait',
+      pageNumber: [1, 2, 3],
+      startPosition: {
+        verticalRatio: 0.1,
+        horizontalRatio: 0.0,
+      },
       content : [
         {
           text : 'Accessoires Modes',
@@ -47,52 +57,27 @@ export class PdfService {
           fontSize : 8
         },
         {
-          text : 'Vendeur : ' + JSON.parse(localStorage.getItem('caissier')).name,
+          text : 'Caissier : ' + JSON.parse(localStorage.getItem('caissier')).name,
           style : 'subContent',
           margin : [0, 5, 0, 0],
           alignment: 'center',
           fontSize : 8
         },
         {
-          text : object.date,
+          text : 'Le ' + object.date,
           style : 'detail',
-          margin : [150, 10, 0, 5]
+          margin : [0, 10, 0, 5],
+          alignment: 'center',
         },
         {
           style : 'account',
-          margin : [169, 10, 0, 10],
+          margin : [-15, 10, 0, 10],
           alignment : 'center',
           table : {
             alignment : 'center',
             body : object.produit,
             border: [false, false, false, false],
-          },
-          layout : {
-            hLineWidth: function (i, node) {
-              return (i === 0 || i === node.table.body.length) ? 2 : 1;
-            },
-            vLineWidth: function (i, node) {
-              return (i === 0 || i === node.table.widths.length) ? 2 : 1;
-            },
-            hLineColor: function (i, node) {
-              return 'black';
-            },
-            vLineColor: function (i, node) {
-              return 'black';
-            },
-            hLineStyle: function (i, node) {
-              if (i === 0 || i === node.table.body.length) {
-                return null;
-              }
-              return {dash: {length: 10, space: 4}};
-            },
-            vLineStyle: function (i, node) {
-              if (i === 0 || i === node.table.widths.length) {
-                return null;
-              }
-              return {dash: {length: 4}};
-            },
-            }
+          }
         },
         {
           alignment : 'center',
@@ -108,10 +93,13 @@ export class PdfService {
         }
       ],
       styles : {
+        margin: 0,
+        padding: 0,
+        font: 'times new roman',
         header : {
-          fontSize : 20,
+          fontSize : 15,
           bold : true,
-          margin : 10,
+          margin : 0,
           color : ''
         },
         subHeader : {
@@ -152,28 +140,28 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'Sous-total',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : '',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       },
       {
         border : [false, false, false, false],
         text : object.sub_total,
         alignment : 'center',
-        fontSize: 7.5,
+        fontSize: 7,
         bold: true
       }
     ];
@@ -184,6 +172,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'NET A PAYER',
         alignment : 'center',
+        fontSize: 8
       },
       {
         border : [false, false, false, false],
@@ -210,7 +199,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'Montant Payé',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
@@ -221,13 +210,13 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
         text : object.montant_recu,
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       }
     ];
 
@@ -239,7 +228,7 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'Monnaie Rendue',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
@@ -250,13 +239,13 @@ export class PdfService {
         border : [false, false, false, false],
         text : 'FCFA',
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       },
       {
         border : [false, false, false, false],
         text : object.exchange,
         alignment : 'center',
-        fontSize: 7.5
+        fontSize: 7
       }
     ];
 
@@ -266,7 +255,7 @@ export class PdfService {
     const def = this.generateContent(object);
     // { content: 'A sample PDF document generated using Angular and PDFMake' };
     try {
-      this.pdfMake.createPdf(def).open();
+      this.pdfMake.createPdf(def).print();
     } catch (error) {
       console.log(error);
     }

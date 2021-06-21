@@ -26,17 +26,57 @@ export class SalesContentComponent implements OnInit {
   loadingIndicator = false;
   error = {
     loadingSale : false,
+    loadingCaissier: false
   };
 
   warning = {
     messageEmptySearch: false
   };
-  constructor(private salesService: SalesOperateService) {
 
+  caissier;
+  caissiers;
+  option2 = 'Choisir ...';
+  user;
+  data = {
+    caissier: '',
+    trier_par: null,
+    mois: {
+      state: false,
+      value: ''
+    },
+    annee: {
+      state: false,
+      value: ''
+    },
+    date_debut: {
+      state: false,
+      value: ''
+    }, 
+    date_fin: {
+      state: false,
+      value: ''
+    }
+  };
+  constructor(private salesService: SalesOperateService) {
+    if (localStorage.getItem('caissier') !== null) {
+      this.user = JSON.parse(localStorage.getItem('caissier'));
+      if (this.user.role === 'admin' && this.user.is_manager === 1) {
+        this.data.caissier = 'all';
+        this.caissier = null;
+      } else {
+        this.option2 = null;
+        this.caissier = JSON.parse(localStorage.getItem('caissier')).id;
+      }
+    }
   }
 
  ngOnInit(): void {
-   this.GetSales();
+   if (this.user.role === 'admin') {
+    this.GetCaisser();
+    this.GetRealSales();
+   } else {
+    this.GetSales();
+   }
  }
 
 
@@ -44,16 +84,195 @@ export class SalesContentComponent implements OnInit {
  OnChangeOption(event) {
    if (event.target.value === 'year') {
      this.option = 'year';
+     if (this.user.role === 'admin') {
+      this.data.trier_par = 'annee';
+      this.data.annee.state = true;
+      this.data.mois.state = false;
+      this.data.date_debut.state = false;
+      this.data.date_fin.state = false;
+     }
    } else if (event.target.value === 'month') {
      this.option = 'month';
+     if (this.user.role === 'admin') {
+      this.data.trier_par = 'mois';
+      this.data.annee.state = false;
+      this.data.mois.state = true;
+      this.data.date_debut.state = false;
+      this.data.date_fin.state = false;
+     }
    } else if (event.target.value === 'between') {
      this.option = 'between';
+     if (this.user.role === 'admin') {
+      this.data.trier_par = 'intervalle';
+      this.data.annee.state = false;
+      this.data.mois.state = false;
+      this.data.date_debut.state = true;
+      this.data.date_fin.state = true;
+     }
    }
+ }
+
+ OnChangeCaissier(event) {
+   if (event.target.value !== 'Tous les caissiers' || event.target.value !== null) {
+    console.log("all not not is it");
+
+    this.data.caissier = event.target.value;
+    this.sales =  [];
+    this.GetRealSales();
+   } else {
+     console.log('is it all');
+     
+     this.data.caissier = 'all';
+     this.sales =  [];
+     this.GetRealSales();
+   }
+ }
+
+ GetCaisser() {
+   this.error.loadingCaissier = false;
+   this.salesService.GetCaisser().subscribe(
+     (data) => {
+       console.log(data);
+      this.caissiers = data;
+      this.caissier = 'Choisir ...';
+     }, (err) => {
+       console.log(err);
+      this.error.loadingCaissier = true;
+     }
+   )
+ }
+
+
+ GetRealSales() {
+   // { caissier: 'all | id', trier_par: 'annee | mois | intervalle', v}
+   this.loadingIndicator = false;
+   this.error.loadingSale = false;
+   this.warning.messageEmptySearch = false;
+  if (this.data.caissier === '' || this.data.caissier === null) {
+    
+    const send = {
+      caissier: 'all',
+      trier_par: this.data.trier_par
+    };
+    this.salesService.GetVentes(send).subscribe(
+      (data) => {
+        console.log(data);
+        this.sales = data;
+        if (this.sales.length === 0) {
+          this.warning.messageEmptySearch = true;
+        }
+        this.saleSelected = this.sales[0];
+        this.loadingIndicator = true;
+        this.error.loadingSale = false;
+      }, (err) => {
+        console.log(err);
+        this.loadingIndicator = true;
+        this.error.loadingSale = true;
+      }
+    );
+  } else {
+    if (this.data.trier_par === null) {
+      const send = {
+        caissier: this.data.caissier,
+        trier_par: this.data.trier_par
+      };
+      this.salesService.GetVentes(send).subscribe(
+        (data) => {
+          console.log(data);
+          this.sales = data;
+          if (this.sales.length === 0) {
+            this.warning.messageEmptySearch = true;
+          }
+          this.saleSelected = this.sales[0];
+          this.loadingIndicator = true;
+          this.error.loadingSale = false;
+
+        }, (err) => {
+          console.log(err);
+          this.loadingIndicator = true;
+          this.error.loadingSale = true;
+        }
+      );
+    } else if (this.data.trier_par === 'annee' && this.data.annee.state === true) {
+      const send = {
+        caissier: this.data.caissier,
+        trier_par: this.data.trier_par,
+        annee: this.year
+      };
+      console.log(send);
+      
+      this.salesService.GetVentes(send).subscribe(
+        (data) => {
+          console.log(data);
+          this.sales = data;
+          if (this.sales.length === 0) {
+            this.warning.messageEmptySearch = true;
+          }
+          this.saleSelected = this.sales[0];
+          this.loadingIndicator = true;
+          this.error.loadingSale = false;
+
+        }, (err) => {
+          console.log(err);
+          this.loadingIndicator = true;
+          this.error.loadingSale = true;
+        }
+      );
+    } else if (this.data.trier_par === 'mois' && this.data.mois.state === true) {
+      const send = {
+        caissier: this.data.caissier,
+        trier_par: this.data.trier_par,
+        mois: this.month
+      };
+      this.salesService.GetVentes(send).subscribe(
+        (data) => {
+          console.log(data);
+          this.sales = data;
+          if (this.sales.length === 0) {
+            this.warning.messageEmptySearch = true;
+          }
+          this.saleSelected = this.sales[0];
+          this.loadingIndicator = true;
+          this.error.loadingSale = false;
+
+        }, (err) => {
+          console.log(err);
+          this.loadingIndicator = true;
+          this.error.loadingSale = true;
+        }
+      );
+    } else if (this.data.trier_par === 'intervalle' && this.data.date_debut.state === true && this.data.date_fin.state === true) {
+      const send = {
+        caissier: this.data.caissier,
+        trier_par: this.data.trier_par,
+        date_debut: this.start_date,
+        date_fin: this.end_date
+      };
+      this.salesService.GetVentes(send).subscribe(
+        (data) => {
+          console.log(data);
+          this.sales = data;
+          if (this.sales.length === 0) {
+            this.warning.messageEmptySearch = true;
+          }
+          this.saleSelected = this.sales[0];
+          this.loadingIndicator = true;
+          this.error.loadingSale = false;
+
+        }, (err) => {
+          console.log(err);
+          this.loadingIndicator = true;
+          this.error.loadingSale = true;
+        }
+      );
+    }
+  } 
+    
  }
 
   GetSales() {
     const caissierInfo = JSON.parse(localStorage.getItem('caissier'));
-    this.salesService.GetSalesByCaisser(Number(caissierInfo.id)).subscribe(
+    this.salesService.GetSalesByCaisser().subscribe(
       (data) => {
         console.log(data);
         this.loadingIndicator = true;
@@ -71,6 +290,8 @@ export class SalesContentComponent implements OnInit {
     );
   }
 
+
+
  SelectedSale(object) {
    console.log(object);
    this.saleSelected = object;
@@ -80,7 +301,7 @@ export class SalesContentComponent implements OnInit {
    console.log(this.month);
    this.loadingIndicator = false;
    this.warning.messageEmptySearch = false;
-   const id = JSON.parse(localStorage.getItem('caissier')).id;
+   const id = this.caissier;
    this.salesService.GetSalesByMonth(id, this.month).subscribe(
      (data) => {
        console.log(data);
@@ -102,7 +323,7 @@ export class SalesContentComponent implements OnInit {
    console.log(this.year);
    this.loadingIndicator = false;
    this.warning.messageEmptySearch = false;
-   const id = Number(JSON.parse(localStorage.getItem('caissier')).id);
+   const id = Number(this.caissier);
    this.salesService.GetSalesByYear(id, this.year).subscribe(
      (data) => {
        console.log(data);
@@ -126,7 +347,7 @@ export class SalesContentComponent implements OnInit {
    this.loadingIndicator = false;
    this.warning.messageEmptySearch = false;
    let data = {
-     caissier: Number(JSON.parse(localStorage.getItem('caissier')).id),
+     caissier: Number(this.caissier),
      start_date: this.start_date,
      end_date: this.end_date
    };
@@ -154,7 +375,18 @@ export class SalesContentComponent implements OnInit {
    this.loadingIndicator = false;
    this.warning.messageEmptySearch = false;
    this.option = 'Choisir ...';
-   this.GetSales();
+   this.sales = [];
+   if (this.user.role !== 'admin') {
+    this.GetSales();
+   } else {
+     this.data.caissier = 'all';
+     this.data.trier_par = null;
+     this.data.mois.state = false;
+     this.data.annee.state = false;
+     this.data.date_debut.state = false;
+     this.data.date_fin.state = false;
+     this.GetRealSales();
+   }
  }
 
 

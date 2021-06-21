@@ -76,6 +76,7 @@ errors = {
           };
           localStorage.setItem('caissier', JSON.stringify(success.data));
           localStorage.setItem('word_token', JSON.stringify(dataToken));
+          localStorage.setItem('token', success.token);
           setTimeout( () => {
             this.success = true;
             // location.href = '/home';

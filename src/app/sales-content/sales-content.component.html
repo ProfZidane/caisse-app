@@ -7,6 +7,16 @@
       </i>
       <small class="ml-2" style="position: relative;bottom: 6px;">Recharger</small>
     </button>
+    <div class="input-group mb-1 mt-2" *ngIf="user && user.role === 'admin'">
+      <div class="input-group-prepend" >
+        <label class="input-group-text" style="border-radius: 0;" for="inputGroupSelect01">Caissier</label>
+      </div>
+      <select class="custom-select" id="inputGroupSelect01" *ngIf="caissiers"  name="caissier" [(ngModel)]="caissier" (change)="OnChangeCaissier($event)">
+        <option value="all" selected>Tous les caissiers</option>
+        <option *ngFor="let caissier of caissiers" [value]=caissier.id>{{ caissier.name }}</option>
+        
+      </select>
+    </div>
     <div class="input-group mb-3">
       <div class="input-group-prepend" >
         <label class="input-group-text" style="border-radius: 0;" for="inputGroupSelect01">Options de recherche</label>
@@ -16,6 +26,7 @@
         <option value="year">Par année</option>
         <option value="month">Par mois</option>
         <option value="between">Entre 2 dates</option>
+        
       </select>
     </div>
     <div class="input-group mb-3" *ngIf="option && option === 'year'">
@@ -27,7 +38,10 @@
         </span>
       </div>
       <input type="number" min="0" class="form-control" placeholder="Entrez une année" aria-label="Username" aria-describedby="basic-addon1" name="year" [(ngModel)]="year">
-      <button class="btn text-light" style="background-color: black;" (click)="SearchWithYear()">
+      <button class="btn text-light" style="background-color: black;" (click)="SearchWithYear()" *ngIf="user && user.role !== 'admin'">
+        Valider
+      </button>
+      <button class="btn text-light" style="background-color: black;" (click)="GetRealSales()" *ngIf="user && user.role === 'admin'">
         Valider
       </button>
     </div>
@@ -54,7 +68,10 @@
         <option value="11">Novembre</option>
         <option value="12">Décembre</option>
       </select>
-      <button class="btn text-light" style="background-color: black;" (click)="SearchWithMonth()">
+      <button class="btn text-light" style="background-color: black;" (click)="SearchWithMonth()" *ngIf="user && user.role !== 'admin'">
+        Valider
+      </button>
+      <button class="btn text-light" style="background-color: black;" (click)="GetRealSales()" *ngIf="user && user.role === 'admin'">
         Valider
       </button>
     </div>
@@ -66,11 +83,15 @@
         <input type="date" class="form-control" name="end_date" [(ngModel)]="end_date">
       </div>
       <div class="col-2">
-        <button class="btn text-light" style="background-color: black;" (click)="SearchBetweenDate()">
+        <button class="btn text-light" style="background-color: black;" (click)="SearchBetweenDate()" *ngIf="user && user.role !== 'admin'">
+          Valider
+        </button>
+        <button class="btn text-light" style="background-color: black;" (click)="GetRealSales()" *ngIf="user && user.role === 'admin'">
           Valider
         </button>
       </div>
     </div>
+   
 
     <!--<div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -87,6 +108,9 @@
 
       <div class="alert-alert-danger" *ngIf="error.loadingSale === true">
         Une erreur est survenue. Veuillez réessayez plus tard !
+      </div>
+      <div class="alert-alert-danger" *ngIf="error.loadingCaissier === true">
+        Une erreur est survenue lors du chargement des caissiers. Veuillez réessayez plus tard !
       </div>
 
       <div class="d-flex justify-content-center m-5" *ngIf="loadingIndicator === false">
@@ -111,7 +135,7 @@
             <p>{{ sale.order.created_at | date:'short':'UTC':'fr' }}</p>
           </div>
           <div class="col-md-4">
-            <p style="font-weight: 900;">{{ sale.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</p>
+            <p style="font-weight: 900;">{{ sale.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</p>
           </div>
         </div>
       </li>
@@ -191,7 +215,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
               <strong>{{ product.title }}</strong>
               <span>{{ product.price | currency:'Fcfa':'symbol':'4.2-2':'fr' }} x {{ product.quantity }}</span>
-              <span class="badge badge-pill" style="background-color: #ff817a;">{{ product.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
+              <span class="badge badge-pill" style="background-color: #ff817a;">{{ product.amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</span>
             </li>
             <!--<li class="list-group-item d-flex justify-content-between align-items-center no-bord">
               <strong>Sac à main</strong>
@@ -209,7 +233,7 @@
           <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
               <strong>Sous-total</strong>
-              <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.sub_total">{{ saleSelected.order.sub_total | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
+              <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.sub_total">{{ saleSelected.order.sub_total | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</span>
             </li>
           </ul>
         </li>
@@ -218,7 +242,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
               <strong>Remise</strong>
               <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.coupon === null">0 FCFA</span>
-              <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.coupon !== null">{{ saleSelected.coupon }} FCFA</span>
+              <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.coupon !== null">{{ saleSelected.order.coupon }} FCFA</span>
             </li>
           </ul>
         </li>
@@ -226,7 +250,7 @@
           <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center no-bord">
               <strong>Total</strong>
-              <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.total_amount">{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
+              <span class="badge badge-pill" style="background-color: #ff817a;" *ngIf="saleSelected.order.total_amount">{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</span>
             </li>
           </ul>
         </li>
@@ -234,17 +258,17 @@
             <ul class="list-group" *ngIf="saleSelected.order.payment_method">
               <li class="list-group-item d-flex justify-content-between align-items-center no-bord" *ngIf="saleSelected.order.payment_method === 'espece'">
                 Paiement en espèce
-                <span class="badge badge-pill" style="background-color: #ff817a;">{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
+                <span class="badge badge-pill" style="background-color: #ff817a;">{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center no-bord" *ngIf="saleSelected.order.payment_method === 'mobile-money'">
                 Paiement par mobile money
                 <span>NEANT</span>
-                <span class="badge badge-pill" style="background-color: #ff817a;" >{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
+                <span class="badge badge-pill" style="background-color: #ff817a;" >{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center no-bord" *ngIf="saleSelected.order.payment_method === 'carte' || saleSelected.order.payment_method === 'cheque'">
                 Paiement par carte/chèque
                 <span>Carte</span>
-                <span class="badge badge-pill" style="background-color: #ff817a;">{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }} FCFA</span>
+                <span class="badge badge-pill" style="background-color: #ff817a;">{{ saleSelected.order.total_amount | currency:'Fcfa':'symbol':'4.2-2':'fr' }}</span>
               </li>
           </ul>
         </li>

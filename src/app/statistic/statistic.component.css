@@ -1,0 +1,31 @@
+a,h5,small,input,button,p, h2, label, h1 {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p {
+  font-weight: 300;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border-radius: 0;
+}
+
+.bord {
+  border: solid;
+}
+
+button {
+  border-radius: 0;
+  background-color: #ff817a;
+  border-color: white;
+}
+
+.full-container {
+}
+
+
+

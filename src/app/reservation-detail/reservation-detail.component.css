@@ -2,6 +2,10 @@
   border: solid;
 }
 
+a,h5,small,input,button,p, table, label, li {
+  font-family: 'Quicksand', sans-serif;
+}
+
 .table {
   height: 600px;
   overflow-y: scroll;

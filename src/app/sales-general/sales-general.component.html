@@ -4,9 +4,10 @@
       <span class="sr-only">Loading...</span>
     </div>
   </div>
-  <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+  <table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" *ngIf="user">
     <thead>
       <tr>
+        <th *ngIf="user.role === 'admin'">Caissier</th>
         <th>NUM COMMANDE</th>
         <th>Date </th>
         <th>Nom & Prénoms Client</th>
@@ -19,6 +20,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let sale of sales">
+        <td *ngIf="user.role === 'admin' && sale.caissier !== null ">{{ sale.caissier.name}}</td>
+        <td *ngIf="user.role === 'admin' && sale.caissier === null " class="text-danger">NEANT</td>
         <td>{{sale.order.order_number }}</td>
         <td>{{ sale.order.created_at | date:'short':'UTC':'fr' }}</td>
         <td>{{ sale.client.name }}</td>

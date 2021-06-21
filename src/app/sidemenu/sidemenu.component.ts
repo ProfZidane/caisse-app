@@ -37,4 +37,12 @@ export class SidemenuComponent implements OnInit {
     this.route.navigateByUrl('/facture');
   }
 
+  goToInformation() {
+    this.route.navigateByUrl('/information');
+  }
+
+  goToStatistic() {
+    this.route.navigateByUrl('/statistic');
+  }
+
 }

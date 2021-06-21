@@ -23,6 +23,16 @@ visibility = true;
 cartFictious = [];
 clientFictious;
 totalFictious;
+cancel = {
+  product_id: '',
+  order_id: 0,
+  quantity: 1
+};
+state = false;
+error = {
+  state: false,
+  message: ''
+};
   constructor(private orderService: OrderService, private route: ActivatedRoute, private cartService: CartOperateService,
               private router: Router, private s: MatSnackBar) { }
 
@@ -32,6 +42,30 @@ totalFictious;
         this.id = params.get('id');
       })
     );
+    this.dtOptions = {
+      ordering: false,
+      language: {
+        search: 'Rechercher &nbsp;:',
+        lengthMenu:    'Afficher _MENU_ &eacute;l&eacute;ments',
+        info:           'Affichage de l\'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments',
+        infoEmpty:      'Affichage de l\'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments',
+        infoFiltered:   '(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)',
+        infoPostFix:    '',
+        loadingRecords: 'Chargement en cours...',
+        zeroRecords:    'Aucun &eacute;l&eacute;ment &agrave; afficher',
+        paginate: {
+          first:      'Premier',
+          previous:   'Pr&eacute;c&eacute;dent',
+          next:       'Suivant',
+          last:       'Dernier'
+      },
+      emptyTable:     'Aucune donnée disponible dans le tableau',
+      aria: {
+        sortAscending:  ": activer pour trier la colonne par ordre croissant",
+        sortDescending: ": activer pour trier la colonne par ordre décroissant"
+    }
+      }
+    };
     this.getDetail(this.id);
   }
 
@@ -102,8 +136,30 @@ totalFictious;
 
   }
 
-  retiredProduct() {
+  retiredProduct(id_product) {
+    this.cancel.product_id = id_product;
+    this.cancel.order_id = Number(this.id);
+  }
 
+  DoRetiredProduct() {
+    console.log(this.cancel);
+    this.state = true;
+    this.error.state = false;
+
+    this.orderService.cancelProduct(this.cancel).subscribe(
+      (success) => {
+        console.log(success);
+        this.state = false;
+        window.location.reload();
+      }, (err) => {
+        console.log(err);
+        this.state = false;
+        this.error.state = true;
+        if (err.status === 408) {
+          this.error.message = err.error.message;
+        }
+      }
+    )
   }
 
 }

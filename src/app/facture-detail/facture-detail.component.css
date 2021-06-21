@@ -8,7 +8,7 @@
   border: solid;
 }
 
-a,h5,small,input,button,p, li, table {
+a,h5,small,input,button,p, li, table, th, td {
   font-family: 'Quicksand', sans-serif;
 }
 

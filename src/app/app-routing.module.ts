@@ -23,6 +23,11 @@ import { ReservationDetailComponent } from './reservation-detail/reservation-det
 import { FactureManagementComponent } from './facture-management/facture-management.component';
 import { FactureDetailComponent } from './facture-detail/facture-detail.component';
 import { AuthGuard } from './guards/auth.guard';
+import { InformationComponent } from './information/information.component';
+import { StatisticComponent } from './statistic/statistic.component';
+import { EtatManagementComponent } from './etat-management/etat-management.component';
+import { RecapManagementComponent } from './recap-management/recap-management.component';
+import { RecapPeriodeManagementComponent } from './recap-periode-management/recap-periode-management.component';
 
 
 const routes: Routes = [
@@ -143,6 +148,31 @@ const routes: Routes = [
   {
     path: 'facture-detail/:id',
     component: FactureDetailComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'information',
+    component: InformationComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'statistic',
+    component: StatisticComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'etat-manage/:s/:dd/:df',
+    component: EtatManagementComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'daily-recap',
+    component: RecapManagementComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'periode-recap/:dd/:df',
+    component: RecapPeriodeManagementComponent,
     canActivate: [AuthGuard]
   }
 ];
